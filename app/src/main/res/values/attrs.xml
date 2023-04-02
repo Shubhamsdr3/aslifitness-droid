@@ -2,5 +2,9 @@
 <resources>
     <declare-styleable name="FitnessButton">
         <attr name="button_title" format="string" />
+        <attr name="button_state" format="enum">
+            <enum name="enable" value="1" />
+            <enum name="disable" value="0" />
+        </attr>
     </declare-styleable>
 </resources>

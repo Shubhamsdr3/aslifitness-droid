@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/set_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textAppearance="@style/TextLarge.Medium.Secondary"
+        android:text="SET" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textAppearance="@style/TextLarge.Medium.Secondary"
+        android:text="KG" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/reps_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textAppearance="@style/TextLarge.Medium.Secondary"
+        android:text="REPS" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ic_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textAppearance="@style/TextLarge.Medium.Secondary"
+        app:srcCompat="@drawable/ic_check_grey"
+        android:text="Done" />
+
+</LinearLayout>

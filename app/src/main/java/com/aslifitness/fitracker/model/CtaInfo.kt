@@ -10,4 +10,4 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class CtaInfo(val text: String? = null, @CtaActionType.Type val action: String? = null): Parcelable
+data class CtaInfo(val text: String? = null, val icon: String? = null, @CtaActionType.Type val action: String? = null): Parcelable

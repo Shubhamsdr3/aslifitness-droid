@@ -38,7 +38,7 @@ class WorkoutListWidget @JvmOverloads constructor(context: Context, attributeSet
         }
     }
 
-    override fun onItemClicked(item: Workout) {
+    override fun onItemClicked(position: Int, item: Workout) {
         callback?.onWorkoutSelected(item)
     }
 }

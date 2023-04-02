@@ -1,58 +1,66 @@
 package com.aslifitness.fitracker.addworkout
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.widget.NestedScrollView
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.aslifitness.fitracker.HomeActivity
 import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.databinding.FragmentAddWorkoutBinding
 import com.aslifitness.fitracker.detail.data.Workout
-import com.aslifitness.fitracker.model.AddWorkoutDto
-import com.aslifitness.fitracker.model.CtaInfo
-import com.aslifitness.fitracker.model.SetCountInfo
-import com.aslifitness.fitracker.model.WorkoutSetData
+import com.aslifitness.fitracker.model.addworkout.NewAddWorkout
+import com.aslifitness.fitracker.model.addworkout.WorkoutSetInfo
 import com.aslifitness.fitracker.network.ApiResponse
 import com.aslifitness.fitracker.network.NetworkState
-import com.aslifitness.fitracker.utils.Utility
+import com.aslifitness.fitracker.summary.data.WorkoutSummaryResponse
 import com.aslifitness.fitracker.utils.setTextWithVisibility
-import com.aslifitness.fitracker.widgets.AddWorkoutWidget
-import com.aslifitness.fitracker.widgets.AddWorkoutWidgetCallback
 import com.aslifitness.fitracker.widgets.ItemCardViewListener
 import com.aslifitness.fitracker.widgets.WorkoutHistoryCallback
+import com.aslifitness.fitracker.widgets.addworkout.AddNewWorkoutWidget
+import com.aslifitness.fitracker.widgets.addworkout.AddWorkoutWidgetCallback
 import com.aslifitness.fitracker.workoutlist.WorkoutListActivity
-import javax.inject.Inject
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * @author Shubham Pandey
  */
-class AddWorkoutFragment: Fragment(), ItemCardViewListener, CounterFragmentCallback, AddWorkoutWidgetCallback, WorkoutHistoryCallback, AddWorkoutDialogCallback {
+class AddWorkoutFragment: Fragment(), ItemCardViewListener,
+    CounterFragmentCallback, AddWorkoutWidgetCallback, WorkoutHistoryCallback, AddWorkoutDialogCallback {
 
-    private var name: String? = null
-    private var workout: Workout? = null
-    private var workoutSetData: WorkoutSetData? = null
+    private var workoutSetData: List<NewAddWorkout>? = null
     private lateinit var binding: FragmentAddWorkoutBinding
-
-    @Inject
-    lateinit var viewModel: AddWorkoutViewModel
+    private var callback: AddWorkoutFragmentCallback? = null
+    private var viewModel: AddWorkoutViewModel? = null
+    private val rect by lazy { Rect() }
 
     companion object {
         const val TAG = "AddWorkoutFragment"
-        private const val NAME = "name"
+        private const val NEW_WORKOUT = "new_workout"
 
-        fun newInstance(name: String?) = AddWorkoutFragment().apply {
-            arguments = bundleOf(Pair(NAME, name))
+        fun newInstance(newAddWorkout: List<NewAddWorkout>) = AddWorkoutFragment().apply {
+            arguments = bundleOf(Pair(NEW_WORKOUT, newAddWorkout))
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let { name = it.getString(NAME) }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (parentFragment != null && parentFragment is AddWorkoutFragmentCallback) {
+            this.callback = parentFragment as AddWorkoutFragmentCallback
+        } else if (context is AddWorkoutFragmentCallback) {
+            this.callback = context
+        } else {
+            throw IllegalStateException("Fragment must implement $context")
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -62,67 +70,85 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener, CounterFragmentCallb
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        extractBundle()
         setupView()
         setupViewModel()
     }
 
+    private fun extractBundle() {
+        arguments?.let { workoutSetData = it.getParcelableArrayList(NEW_WORKOUT) }
+    }
+
+    private fun configureNewWorkout(workoutList: Set<NewAddWorkout>?) {
+        if (workoutList.isNullOrEmpty()) return
+        workoutList.forEach {
+            val widget = AddNewWorkoutWidget(requireContext())
+            widget.setData(it, this)
+            binding.setContainer.addView(widget, getLayoutParamsWithMargins())
+            binding.setContainer.visibility = View.VISIBLE
+            binding.addWorkout.root.visibility = View.VISIBLE
+//            configureFloatingAction()
+        }
+    }
+
+    private fun configureFloatingAction() {
+        binding.setContainer.post {
+            if (!isViewVisible(binding.addWorkout.root)) {
+                binding.floatingButton.visibility = View.VISIBLE
+                binding.addWorkout.root.visibility = View.GONE
+            } else {
+                binding.floatingButton.visibility = View.GONE
+                binding.addWorkout.root.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun isViewVisible(view: View): Boolean {
+        val scrollBounds = Rect()
+        binding.scrollView.getDrawingRect(scrollBounds)
+        val top = view.y
+        val bottom = top + view.height
+        return scrollBounds.top < top && scrollBounds.bottom > bottom
+    }
+
     private fun setupView() {
-        binding.toolbar.title = name
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
-        binding.saveButton.setButtonText(requireContext().getString(R.string.done))
+        binding.toolbar.title = getString(R.string.log_workout)
+        binding.toolbar.setNavigationOnClickListener { callback?.onBackPressed() }
+        binding.floatingButton.setOnClickListener { activity?.onBackPressed() }
+        configureFinishButton()
+        configureAddCta()
+        configureScrollListener()
+    }
+
+    private fun configureScrollListener() {
+        binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+//            configureFloatingAction()
+        })
+    }
+
+    private fun configureFinishButton() {
+        binding.saveButton.setOnClickListener { viewModel?.postUserWorkouts() }
+    }
+
+    private fun configureAddCta() {
+        binding.addWorkout.root.background = ContextCompat.getDrawable(requireContext(), R.drawable.rect_primary_bg)
+        binding.addWorkout.itemTitle.setTextWithVisibility(requireContext().getString(R.string.add_exercise))
+        TextViewCompat.setTextAppearance(binding.addWorkout.itemTitle, R.style.TextBody_Medium_White)
+        binding.addWorkout.itemIcon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_add_24))
+        binding.addWorkout.itemIcon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.white))
+        binding.addWorkout.itemIcon.visibility = View.VISIBLE
+        binding.addWorkout.root.setOnClickListener { activity?.onBackPressed() }
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProvider(viewModelStore, AddWorkoutViewModelFactory())[AddWorkoutViewModel::class.java]
-        viewModel.fetchAddWorkoutDetail()
-        viewModel.fetchWorkoutSets()
-        viewModel.addWorkoutState.observe(viewLifecycleOwner) { onNetworkStateChanged(it) }
-        viewModel.addWorkoutViewState.observe(viewLifecycleOwner) { onViewStateChanged(it) }
-        viewModel.workoutSetListLiveData.observe(viewLifecycleOwner) { onWorkoutSetFetched(it) }
-        viewModel.saveWorkoutLiveData.observe(viewLifecycleOwner) { onSaveWorkoutStateChanged(it) }
-    }
-
-    private fun onSaveWorkoutStateChanged(state: NetworkState<WorkoutSetData>?) {
-        when(state) {
-            is NetworkState.Loading -> binding.saveButton.showLoader()
-            is NetworkState.Error -> binding.saveButton.hideLoader()
-            is NetworkState.Success -> onWorkoutSaved()
-            else -> {
-                // do nothing.
-            }
-        }
-    }
-
-    private fun onWorkoutSaved() {
-        binding.saveButton.hideLoader()
-        AddWorkoutDialog.newInstance().show(childFragmentManager, AddWorkoutDialog.TAG)
-    }
-
-    private fun onWorkoutSetFetched(state: NetworkState<List<WorkoutSetData>>?) {
-        when(state) {
-            is NetworkState.Loading -> showLoader()
-            is NetworkState.Error -> showError()
-            is NetworkState.Success -> handleWorkoutSaved(state.data)
-            else -> {
-                // do nothing
-            }
-        }
-    }
-
-    private fun handleWorkoutSaved(data: List<WorkoutSetData>?) {
-        if (!data.isNullOrEmpty()) {
-            for (idx in data.indices) {
-                val workoutSet = data[idx]
-                workoutSet.isExtended = false
-                val widget = AddWorkoutWidget(requireContext())
-                widget.setData(workoutSet, this)
-                binding.workoutHistory.addView(widget, getLayoutParamsWithMargins())
-            }
-        }
+        viewModel = ViewModelProvider(requireActivity(), AddWorkoutViewModelFactory())[AddWorkoutViewModel::class.java]
+        viewModel?.addWorkoutState?.observe(viewLifecycleOwner) { onNetworkStateChanged(it) }
+        viewModel?.addWorkoutViewState?.observe(viewLifecycleOwner) { onViewStateChanged(it) }
+        viewModel?.addedWorkoutList?.observe(viewLifecycleOwner) { configureNewWorkout(it) }
     }
 
     private fun getLayoutParamsWithMargins(): LinearLayout.LayoutParams {
-        val margin16Dp = requireContext().resources.getDimension(R.dimen.dimen_10dp).toInt()
+        val margin16Dp = requireContext().resources.getDimension(R.dimen.dimen_16dp).toInt()
         val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.setMargins(0, margin16Dp, 0, margin16Dp)
         return params
@@ -137,7 +163,7 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener, CounterFragmentCallb
         }
     }
 
-    private fun onNetworkStateChanged(state: NetworkState<ApiResponse<AddWorkoutDto>>?) {
+    private fun onNetworkStateChanged(state: NetworkState<ApiResponse<WorkoutSummaryResponse>>?) {
         when(state) {
             is NetworkState.Loading -> showLoader()
             is NetworkState.Error -> showError()
@@ -148,44 +174,9 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener, CounterFragmentCallb
         }
     }
 
-    private fun handleResponse(response: ApiResponse<AddWorkoutDto>?) {
+    private fun handleResponse(response: ApiResponse<WorkoutSummaryResponse>?) {
         binding.loader.visibility = View.GONE
-        response?.data?.run {
-            configureHeader()
-            configureWorkouts(setData)
-            configureCta(cta)
-//            saveUserData(setData)
-        }
-    }
-
-    private fun configureHeader() {
-        binding.historyHeader.setTextWithVisibility("Past workouts: ")
-    }
-
-    private fun saveUserData(data: WorkoutSetData?) {
-        data?.let { viewModel.saveInitial(it) }
-    }
-
-    private fun configureCta(cta: CtaInfo?) {
-        cta?.run {
-            binding.saveButton.setButtonText(text)
-            binding.saveButton.setOnClickListener { onSaveButtonClicked() }
-        }
-    }
-
-    private fun onSaveButtonClicked() {
-        workoutSetData?.let {
-            it.date = Utility.getCurrentTime()
-            viewModel.saveWorkout(it)
-        }
-    }
-
-    private fun configureWorkouts(workoutSetData: WorkoutSetData?) {
-        this.workoutSetData = workoutSetData
-        workoutSetData?.let {
-            binding.setView.setData(it, this)
-            binding.setView.visibility = View.VISIBLE
-        }
+        response?.data?.let { callback?.onWorkoutAdded(it) }
     }
 
     private fun openCounterDialog(index: Int, workout: Workout?, isNewSet: Boolean) {
@@ -196,36 +187,12 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener, CounterFragmentCallb
         }
     }
 
-    override fun onSubmitClicked(position: Int, count: Int, isNewSet: Boolean) {
-        workout?.run {
-            qtyInfo?.setCount = count
-            if (isNewSet && count > 0) {
-                binding.setView.onAddNewSetClicked(position, this)
-            } else {
-                qtyInfo?.let { binding.setView.setQuantity(position, it) }
-            }
-        }
-    }
-
-    override fun onPlusClicked(position: Int) {
-        this.workout = Workout("",  "Set-${position}", "", SetCountInfo(0))
-        this.workout?.let {
-            this.workoutSetData?.sets?.add(it)
-            viewModel.updateViewState(AddWorkoutState.AddNewSet(position, it))
-        }
-    }
-
-    override fun onItemClicked(position: Int, workout: Workout) {
-        this.workout = workout
-        openCounterDialog(position, workout, false)
-    }
-
     private fun showError() {
-        binding.loader.visibility = View.GONE
+        binding.saveButton.hideLoader()
     }
 
     private fun showLoader() {
-        binding.loader.visibility = View.VISIBLE
+        binding.saveButton.showLoader()
     }
 
     override fun onAddWorkoutClicked() {
@@ -234,6 +201,20 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener, CounterFragmentCallb
 
     override fun onNextExerciseClicked() {
         startActivity(Intent(activity, HomeActivity::class.java))
+    }
+
+    override fun onSetCompleted(setInfo: WorkoutSetInfo) {
+        setInfo.run {
+            if (!isDone && !message.isNullOrEmpty()) {
+                Snackbar.make(binding.snackBar, message!!, Snackbar.LENGTH_SHORT).show()
+            } else {
+                viewModel?.addSetToWorkout(setInfo)
+            }
+        }
+    }
+
+    override fun onSubmitClicked(position: Int, count: Int, isNewSet: Boolean) {
+        // do nothing
     }
 
     override fun onRightIconClicked(action: String?, actionUrl: String?) {

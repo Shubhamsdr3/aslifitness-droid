@@ -3,6 +3,7 @@
     <string name="greeting">Hello World !!</string>
     <string name="my_health">MyHealth</string>
     <string name="add_exercise">Add Exercise</string>
+    <string name="discard_workout">Discard Workout</string>
     <string name="story_posted_successfully">Story posted successfully</string>
     <string name="select_picture">Select picture</string>
     <string name="canceled_text">Canceled</string>
@@ -12,6 +13,7 @@
     <string name="select_workout">Select workout</string>
     <string name="search_workout">Search workout</string>
     <string name="done">Done</string>
+    <string name="finish">Finish</string>
     <string name="enter_your_mobile_number">Enter your mobile number</string>
     <string name="confirmation_code">We will send you confirmation code</string>
     <string name="next">Next</string>
@@ -21,4 +23,18 @@
     <string name="change">Change</string>
     <string name="otp_label">Enter the verification code here</string>
     <string name="phone_hint">+91 8763423443</string>
+    <string name="network_error">Unable to connect, please check your internet connection</string>
+    <string name="retry_text">Retry</string>
+    <string name="saturday">S</string>
+    <string name="sunday">S</string>
+    <string name="monday">M</string>
+    <string name="tuesday">T</string>
+    <string name="wednesday">W</string>
+    <string name="thursday">T</string>
+    <string name="friday">F</string>
+    <string name="log_workout">Log Workout</string>
+    <string name="duration">Duration</string>
+    <string name="volume">Volume</string>
+    <string name="search_exercise"><font size="14">Search exercise</font></string>
+    <string name="exercise_count">%1d Exercise</string>
 </resources>

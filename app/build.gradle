@@ -15,6 +15,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 ext {
     youtubeApiKey = keystoreProperties['youtubeApiKey']
+    googleMapKey = keystoreProperties['googleMapKey']
 }
 
 android {
@@ -28,6 +29,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "YOUTUBE_API_KEY", "${youtubeApiKey}"
+        buildConfigField "String", "MAP_API_KEY", "${googleMapKey}"
     }
 
     compileOptions {
@@ -57,7 +59,7 @@ android {
             buildConfigField "String", "BASE_URL", "\"http://192.168.1.8:3000/\""
         }
         mynetwork {
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.26:3000/\""
+            buildConfigField "String", "BASE_URL", "\"http://192.168.1.6:3000/\""
         }
         emulator {
             buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:3000/\""
@@ -67,6 +69,9 @@ android {
         }
         dev {
             buildConfigField "String", "BASE_URL", "\"https://run.mocky.io/v3/\""
+        }
+        hotspot {
+            buildConfigField "String", "BASE_URL", "\"192.168.50.145/\""
         }
     }
 }
@@ -178,6 +183,9 @@ dependencies {
 
     // lottie anim
     implementation "com.airbnb.android:lottie:3.6.0"
+
+    // calendar view
+//    implementation 'com.applandeo:material-calendar-view:1.7.0'
 }
 
 kapt {

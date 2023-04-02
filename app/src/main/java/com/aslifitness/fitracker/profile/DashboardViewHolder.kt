@@ -13,7 +13,7 @@ import com.aslifitness.fitracker.utils.setTextWithVisibility
 class DashboardViewHolder(private val binding: ItemDashboardViewBinding): RecyclerView.ViewHolder(binding.root) {
 
     fun bindData(item: WorkoutDto) {
-        binding.icWorkout.setImageWithPlaceholder(item.image, R.drawable.ic_workout)
+        binding.icWorkout.setImageWithPlaceholder(item.image, R.drawable.ic_dumble_new)
         binding.exerciseName.setTextWithVisibility(item.title)
     }
 }

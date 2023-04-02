@@ -7,7 +7,6 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.aslifitness.fitracker.databinding.ItemWorkoutListBinding
 import com.aslifitness.fitracker.detail.data.Workout
-import com.aslifitness.fitracker.home.WorkOutAdapterCallback
 import com.aslifitness.fitracker.utils.EMPTY
 
 /**
@@ -26,7 +25,7 @@ class WorkoutListAdapter(private val workoutList: List<Workout>, private val cal
         if (position != RecyclerView.NO_POSITION) {
             val item = filteredItems[position]
             holder.bindData(item)
-            holder.itemView.setOnClickListener { callback.onItemClicked(item) }
+            holder.itemView.setOnClickListener { callback.onItemClicked(position, item) }
         }
     }
 

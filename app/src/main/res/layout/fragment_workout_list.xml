@@ -2,56 +2,48 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/back_arrow"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:paddingVertical="@dimen/dimen_2dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="@dimen/dimen_16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="?attr/homeAsUpIndicator" />
-
-    <View
-        android:background="@drawable/bottom_up_shadow"
-        android:layout_height="5dp"
-        android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:srcCompat="@drawable/ic_arrow_back_24" />
 
     <com.aslifitness.fitracker.widgets.searchbar.FitnessSearchBar
-        android:hint="@string/search_workout"
         android:id="@+id/search_bar"
+        android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_16dp"
         android:layout_marginTop="@dimen/dimen_16dp"
-        android:layout_width="@dimen/dimen_0dp"
+        android:hint="@string/search_workout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/back_arrow" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/workout_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="All Exercises"
         android:layout_marginStart="@dimen/dimen_16dp"
-        android:textAppearance="@style/TextBody.Medium.Primary"
-        android:layout_marginTop="@dimen/dimen_12dp"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:textAppearance="@style/TextBody.Medium.Secondary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/search_bar"
+        tools:text="All Exercises" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_workouts"
+        android:layout_width="@dimen/dimen_0dp"
         android:layout_height="@dimen/dimen_0dp"
         android:layout_marginHorizontal="@dimen/dimen_16dp"
         android:layout_marginTop="@dimen/dimen_10dp"
-        android:layout_width="@dimen/dimen_0dp"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,15 +53,27 @@
 
     <ProgressBar
         android:id="@+id/loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:indeterminate="false"
         android:indeterminateTint="@color/divider"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
+
+    <com.aslifitness.fitracker.widgets.FitnessButton
+        android:id="@+id/submit_button"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_16dp"
+        android:layout_marginBottom="@dimen/dimen_16dp"
+        app:button_state="disable"
+        app:button_title="@string/exercise_count"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

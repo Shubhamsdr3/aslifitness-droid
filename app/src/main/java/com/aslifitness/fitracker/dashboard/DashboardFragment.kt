@@ -10,7 +10,7 @@ import com.aslifitness.fitracker.history.HistoryFragment
 import com.aslifitness.fitracker.home.HomeFragment
 import com.aslifitness.fitracker.home.HomePagerAdapter
 import com.aslifitness.fitracker.nutrition.NutritionFragment
-import com.aslifitness.fitracker.plan.UserPlanFragment
+import com.aslifitness.fitracker.plan.UserRoutineFragment
 import com.aslifitness.fitracker.profile.UserProfileFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -41,7 +41,7 @@ class DashboardFragment: Fragment() {
         fragmentList.add(HomeFragment.newInstance())
         fragmentList.add(HistoryFragment.newInstance())
         fragmentList.add(NutritionFragment.newInstance())
-        fragmentList.add(UserPlanFragment.newInstance())
+        fragmentList.add(UserRoutineFragment.newInstance())
         fragmentList.add(UserProfileFragment.newInstance())
         val homePagerAdapter = HomePagerAdapter(this, fragmentList)
         binding.viewPager.adapter = homePagerAdapter

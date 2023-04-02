@@ -2,6 +2,7 @@ package com.aslifitness.fitracker.addworkout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.aslifitness.fitracker.network.ApiHandler
 import java.lang.IllegalArgumentException
 
 /**
@@ -11,7 +12,7 @@ class AddWorkoutViewModelFactory: ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AddWorkoutViewModel::class.java)) {
-            return AddWorkoutViewModel() as T
+            return AddWorkoutViewModel(WorkoutRepository(ApiHandler.apiService)) as T
         }
         throw IllegalArgumentException("Wrong type viewmodel")
     }

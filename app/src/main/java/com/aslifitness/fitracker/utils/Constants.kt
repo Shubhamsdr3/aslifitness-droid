@@ -13,8 +13,10 @@ const val GET_USER_PROFILE = "d57aa30b-98cf-40aa-9989-e7edef741fc3"
 // intent
 const val INTENT_WORKOUT = "intent_workout"
 const val INTENT_NAME = "intent_name"
+const val INTENT_NEW_WORKOUT = "intent_new_workout"
 const val INTENT_DATA_NAME = "intent_data_name"
 const val INTENT_PHONE = "intent_phone"
+const val INTENT_WORKOUT_SUMMARY = "intent_workout_summary"
 
 const val EMPTY = ""
 
@@ -23,3 +25,7 @@ const val RIGHT_MARGIN = 16F
 const val MARGINS = LEFT_MARGIN + RIGHT_MARGIN
 const val FIVE_GUTTERS = 8 * 5
 const val ZERO = 0
+
+const val USER_ID = "userId"
+const val SET_DATA = "setData"
+const val CREATED_AT = "createdAt"

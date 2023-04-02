@@ -5,13 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aslifitness.fitracker.firebase.FirestoreUtil
-import com.aslifitness.fitracker.model.AddWorkoutDto
 import com.aslifitness.fitracker.model.UserDto
 import com.aslifitness.fitracker.model.WorkoutSetData
-import com.aslifitness.fitracker.network.ApiHandler
+import com.aslifitness.fitracker.model.addworkout.NewAddWorkout
+import com.aslifitness.fitracker.model.addworkout.NewAddWorkoutResponse
+import com.aslifitness.fitracker.model.addworkout.WorkoutSetInfo
 import com.aslifitness.fitracker.network.ApiResponse
 import com.aslifitness.fitracker.network.NetworkState
-import com.aslifitness.fitracker.network.performNetworkCall
+import com.aslifitness.fitracker.sharedprefs.UserStore
+import com.aslifitness.fitracker.summary.data.WorkoutSummaryResponse
+import com.aslifitness.fitracker.utils.CREATED_AT
+import com.aslifitness.fitracker.utils.SET_DATA
+import com.aslifitness.fitracker.utils.USER_ID
+import com.google.firebase.firestore.auth.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
@@ -23,26 +29,28 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class AddWorkoutViewModel @Inject constructor(): ViewModel() {
+class AddWorkoutViewModel @Inject constructor(private val repository: WorkoutRepository): ViewModel() {
 
-    private val addWorkoutMutableState = MutableLiveData<NetworkState<ApiResponse<AddWorkoutDto>>>()
-    val addWorkoutState: LiveData<NetworkState<ApiResponse<AddWorkoutDto>>> = addWorkoutMutableState
+    private val addWorkoutMutableState = MutableLiveData<NetworkState<ApiResponse<WorkoutSummaryResponse>>>()
+    val addWorkoutState: LiveData<NetworkState<ApiResponse<WorkoutSummaryResponse>>> = addWorkoutMutableState
 
     private val addWorkoutViewMutableState = MutableLiveData<AddWorkoutState>()
     val addWorkoutViewState: LiveData<AddWorkoutState> = addWorkoutViewMutableState
 
-    private val workoutSetListData = MutableLiveData<NetworkState<List<WorkoutSetData>>>()
-    val workoutSetListLiveData: LiveData<NetworkState<List<WorkoutSetData>>> = workoutSetListData
+    private val _addedWorkoutList = MutableLiveData<LinkedHashSet<NewAddWorkout>>()
+    val addedWorkoutList: LiveData<LinkedHashSet<NewAddWorkout>> = _addedWorkoutList
+    private val userId by lazy { UserStore.getUserId() }
 
-    private val saveWorkoutMutableLiveData = MutableLiveData<NetworkState<WorkoutSetData>>()
-    val saveWorkoutLiveData: LiveData<NetworkState<WorkoutSetData>> = saveWorkoutMutableLiveData
+    init {
+        _addedWorkoutList.value = LinkedHashSet()
+        UserStore.putUserId("pande_shubhm123") // Remove this.
+    }
 
-    fun fetchAddWorkoutDetail() {
+    fun postUserWorkouts() {
+        if (addedWorkoutList.value.isNullOrEmpty()) return
         addWorkoutMutableState.value = NetworkState.Loading
         viewModelScope.launch {
-            performNetworkCall {
-                ApiHandler.apiService.fetchAddWorkoutDetail()
-            }.catch {
+            repository.addNewWorkout(getRequestParams()).catch {
                 addWorkoutMutableState.value = NetworkState.Error(it)
             }.collect {
                 addWorkoutMutableState.value = it
@@ -50,54 +58,24 @@ class AddWorkoutViewModel @Inject constructor(): ViewModel() {
         }
     }
 
-    fun fetchWorkoutSets() {
-        viewModelScope.launch {
-            workoutSetListData.value = NetworkState.Loading
-            FirestoreUtil.getWorkoutSet()
-                .catch {
-                    workoutSetListData.value = NetworkState.Error(it)
-                }.collect {
-                    workoutSetListData.value = it
-                }
-        }
+    private fun getRequestParams(): Map<String, Any?> {
+        val requestParams = mutableMapOf<String, Any?>()
+        requestParams[USER_ID] = userId
+        requestParams[SET_DATA] = addedWorkoutList.value
+        requestParams[CREATED_AT] = System.currentTimeMillis()
+        return requestParams
     }
 
-    fun saveWorkout(workoutSet: WorkoutSetData) {
-        viewModelScope.launch {
-            saveWorkoutMutableLiveData.value = NetworkState.Loading
-            delay(1000)
-            FirestoreUtil.saveWorkoutHistory(workoutSet)
-                .catch {
-                    saveWorkoutMutableLiveData.value = NetworkState.Error(it)
-                }.collect {
-                    saveWorkoutMutableLiveData.value = it
-                }
-        }
+    fun addNewWorkout(newWorkoutList: List<NewAddWorkout>) {
+        _addedWorkoutList.value?.addAll(newWorkoutList)
+        this._addedWorkoutList.value = _addedWorkoutList.value
     }
 
-    fun updateViewState(viewState: AddWorkoutState) {
-        addWorkoutViewMutableState.value = viewState
-    }
-
-    fun saveInitial(workoutSetData: WorkoutSetData) {
-        viewModelScope.launch {
-            FirestoreUtil.saveInitialSet(workoutSetData)
-                .catch {
-
-                }.collect {
-
-                }
-        }
-    }
-
-    fun saveUser(userDto: UserDto) {
-        viewModelScope.launch {
-            FirestoreUtil.saveUser(userDto)
-                .catch {
-
-                }.collect {
-
-                }
+    fun addSetToWorkout(info: WorkoutSetInfo) {
+        _addedWorkoutList.value?.forEach {
+            if (it.workoutId == info.workoutId) {
+                it.sets?.add(info)
+            }
         }
     }
 }

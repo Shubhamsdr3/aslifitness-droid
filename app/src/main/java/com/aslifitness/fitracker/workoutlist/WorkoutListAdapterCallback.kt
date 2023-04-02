@@ -7,5 +7,5 @@ import com.aslifitness.fitracker.detail.data.Workout
  */
 interface WorkoutListAdapterCallback {
 
-    fun onItemClicked(item: Workout)
+    fun onItemClicked(position: Int, item: Workout)
 }

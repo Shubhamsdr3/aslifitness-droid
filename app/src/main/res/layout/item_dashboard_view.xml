@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_workout" />
+        app:srcCompat="@drawable/ic_dumble_new" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/exercise_name"
