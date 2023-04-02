@@ -2,18 +2,12 @@ package com.aslifitness.fitracker.addworkout
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.databinding.ActivityAddWorkoutBinding
 import com.aslifitness.fitracker.model.addworkout.NewAddWorkout
-import com.aslifitness.fitracker.summary.WorkoutSummaryActivity
 import com.aslifitness.fitracker.summary.data.WorkoutSummaryResponse
-import com.aslifitness.fitracker.utils.INTENT_NAME
 import com.aslifitness.fitracker.utils.INTENT_NEW_WORKOUT
 
 /**
