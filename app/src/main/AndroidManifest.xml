@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.aslifitness.fitracker">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:name=".FitApp"
+        android:usesCleartextTraffic="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Fitracker"
+        tools:targetApi="31">
+        <activity
+            android:exported="true"
+            android:name=".HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:exported="true"
+            android:name=".detail.WorkoutDetailActivity">
+        </activity>
+        <activity
+            android:exported="true"
+            android:name=".stories.ShortVideoActivity">
+        </activity>
+
+        <activity
+            android:name=".addworkout.AddWorkoutActivity"
+            android:exported="true">
+        </activity>
+
+        <activity android:name=".workoutlist.WorkoutListActivity"
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="*.aslifitness.com"
+                    android:path="/workoutlist"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".errorhandler.CrashActivity" />
+
+        <activity
+            android:windowSoftInputMode="adjustResize"
+            android:name=".auth.UserAuthActivity" />
+
+        <activity
+            android:windowSoftInputMode="adjustResize"
+            android:name=".auth.otpverification.OtpVerificationActivity" />
+
+        <activity
+            android:name=".uilib.ExampleActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+
+        </activity>
+        <activity android:name=".profile.UserProfileActivity" />
+    </application>
+
+</manifest>

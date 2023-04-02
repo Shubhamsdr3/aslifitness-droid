@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="card_elevation" format="float" type="dimen">4.0</item>
+    <item name="border_width" format="float" type="dimen">0.5</item>
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Fitracker</string>
+    <string name="greeting">Hello World !!</string>
+    <string name="my_health">MyHealth</string>
+    <string name="add_exercise">Add Exercise</string>
+    <string name="story_posted_successfully">Story posted successfully</string>
+    <string name="select_picture">Select picture</string>
+    <string name="canceled_text">Canceled</string>
+    <string name="camera_permission_request">Allow camera</string>
+    <string name="btn_ok">Okay</string>
+    <string name="skip">Skip</string>
+    <string name="select_workout">Select workout</string>
+    <string name="search_workout">Search workout</string>
+    <string name="done">Done</string>
+    <string name="enter_your_mobile_number">Enter your mobile number</string>
+    <string name="confirmation_code">We will send you confirmation code</string>
+    <string name="next">Next</string>
+    <string name="tnc_text">By creating passcode you agree with our Terms and Conditions and Privacy Policy</string>
+    <string name="otp_text">Enter code sent to your phone</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="change">Change</string>
+    <string name="otp_label">Enter the verification code here</string>
+    <string name="phone_hint">+91 8763423443</string>
+</resources>
