@@ -3,6 +3,9 @@ package com.aslifitness.fitracker.model.addworkout
 import android.os.Parcelable
 import androidx.annotation.Keep
 import com.aslifitness.fitracker.model.CtaInfo
+import com.aslifitness.fitracker.model.Reminder
+import com.aslifitness.fitracker.routine.data.RoutineInfo
+import com.aslifitness.fitracker.routine.data.UserRoutineDto
 import kotlinx.parcelize.Parcelize
 
 
@@ -11,18 +14,19 @@ import kotlinx.parcelize.Parcelize
 data class NewAddWorkoutResponse(
     val userId: String? = null,
     val setData: List<NewAddWorkout>? = null
-): Parcelable
+) : Parcelable
 
 @Keep
 @Parcelize
 data class NewAddWorkout(
-    val workoutId: Int,
+    val workoutId: Int? = null,
     val image: String? = null,
     val title: String? = null,
     val subTitle: String? = null,
-    val sets: MutableList<WorkoutSetInfo>? = null,
-    val addSetCta: CtaInfo? = null
-): Parcelable {
+    val routineInfo: RoutineInfo? = null,
+    var sets: List<WorkoutSetInfo>? = null,
+    val addSetCta: CtaInfo? = null,
+) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
         if (other !is NewAddWorkout) return false
@@ -32,7 +36,7 @@ data class NewAddWorkout(
     }
 
     override fun hashCode(): Int {
-        var result = workoutId
+        var result = workoutId ?: 0
         result = 31 * result + (image?.hashCode() ?: 0)
         result = 31 * result + (title?.hashCode() ?: 0)
         result = 31 * result + (subTitle?.hashCode() ?: 0)

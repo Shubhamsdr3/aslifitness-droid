@@ -2,7 +2,7 @@ package com.aslifitness.fitracker.widgets.calendar.data
 
 import android.os.Parcelable
 import androidx.annotation.Keep
-import com.aslifitness.fitracker.plan.data.Label
+import com.aslifitness.fitracker.routine.data.Label
 import kotlinx.parcelize.Parcelize
 
 /**

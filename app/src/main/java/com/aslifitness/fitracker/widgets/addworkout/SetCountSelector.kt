@@ -57,6 +57,7 @@ class SetCountSelector @JvmOverloads constructor(context: Context, attributeSet:
 
     private fun onPlusClicked() {
         ++setCount
+        binding.qtySelector.countText.text = setCount.toString()
         callback?.onPlusClicked()
     }
 }

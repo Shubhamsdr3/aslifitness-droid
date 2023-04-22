@@ -7,6 +7,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -18,6 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitHandler {
 
     companion object {
+
+        private const val cacheSize:Long = 10 * 1024 * 1024 // 10MB
 
         @JvmStatic
         val INSTANCE: Retrofit by lazy {
@@ -39,6 +42,7 @@ class RetrofitHandler {
             val logging = HttpLoggingInterceptor()
             val builder = OkHttpClient.Builder()
             builder.retryOnConnectionFailure(true)
+                .cache(FitApp.getAppContext()?.cacheDir?.let { Cache(it, cacheSize) })
             if (BuildConfig.DEBUG) {
                 logging.apply { logging.level = HttpLoggingInterceptor.Level.BODY }
                 builder.addInterceptor(logging)

@@ -1,4 +1,4 @@
-package com.aslifitness.fitracker.plan
+package com.aslifitness.fitracker.routine
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.aslifitness.fitracker.network.ApiResponse
 import com.aslifitness.fitracker.network.NetworkState
 import com.aslifitness.fitracker.network.performNetworkCall
-import com.aslifitness.fitracker.plan.data.UserRoutineResponse
+import com.aslifitness.fitracker.routine.data.UserCalendarResponse
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
@@ -19,8 +19,8 @@ class UserRoutineViewModel(private val repository: UserRoutineRepository): ViewM
     private var pageNumber = 1
     private var pageLimit = 3
 
-    private val _userRoutineViewState: MutableLiveData<NetworkState<ApiResponse<UserRoutineResponse>>> = MutableLiveData()
-    val userRoutineViewState: LiveData<NetworkState<ApiResponse<UserRoutineResponse>>> = _userRoutineViewState
+    private val _userRoutineViewState: MutableLiveData<NetworkState<ApiResponse<UserCalendarResponse>>> = MutableLiveData()
+    val userRoutineViewState: LiveData<NetworkState<ApiResponse<UserCalendarResponse>>> = _userRoutineViewState
 
     fun fetchUserRoutine(userId: String) {
         viewModelScope.launch {

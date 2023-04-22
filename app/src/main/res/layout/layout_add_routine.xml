@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dimen_16dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_workout"
+        android:layout_width="@dimen/dimen_52dp"
+        android:layout_height="@dimen/dimen_52dp"
+        android:background="@drawable/solid_circle_primary_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_dumble_new" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/workout_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_12dp"
+        android:textAppearance="@style/ExtraLarge.SemiBold.PrimaryInfo"
+        app:layout_constraintBottom_toBottomOf="@id/image_workout"
+        app:layout_constraintStart_toEndOf="@+id/image_workout"
+        app:layout_constraintTop_toTopOf="@+id/image_workout"
+        tools:text="Ab Scissors" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/reminder_title"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:text="@string/reminder"
+        android:textAppearance="@style/TextLarge.Medium.Primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_workout" />
+
+    <View
+        android:id="@+id/vertical_divider"
+        android:layout_width="@dimen/dimen_1dp"
+        android:layout_height="@dimen/dimen_0dp"
+        android:layout_marginVertical="@dimen/dimen_32dp"
+        android:layout_marginStart="@dimen/dimen_8dp"
+        android:background="@color/divider"
+        app:layout_constraintBottom_toTopOf="@+id/set_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reminder_title" />
+
+    <com.aslifitness.fitracker.widgets.TitleTextView
+        android:id="@+id/day_container"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vertical_divider"
+        app:layout_constraintTop_toBottomOf="@+id/reminder_title" />
+
+    <com.aslifitness.fitracker.widgets.TitleTextView
+        android:id="@+id/time_container"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vertical_divider"
+        app:layout_constraintTop_toBottomOf="@+id/day_container" />
+
+    <LinearLayout
+        android:id="@+id/repeat_parent"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vertical_divider"
+        app:layout_constraintTop_toBottomOf="@+id/time_container">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/repeat_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/repeat"
+            android:textAppearance="@style/TextLarge.Medium.Secondary" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/toggle_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="true"
+            android:theme="@style/ToggleButton" />
+
+    </LinearLayout>
+
+    <com.aslifitness.fitracker.widgets.TitleEditText
+        android:id="@+id/set_container"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/repeat_parent" />
+
+    <com.aslifitness.fitracker.widgets.TitleEditText
+        android:id="@+id/weight_container"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/set_container" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

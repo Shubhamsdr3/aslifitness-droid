@@ -3,13 +3,12 @@ package com.aslifitness.fitracker.widgets.calendar
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
-import com.aslifitness.fitracker.plan.data.DayRoutine
-import com.aslifitness.fitracker.plan.data.MonthRoutine
+import com.aslifitness.fitracker.routine.data.MonthCalendar
 
 /**
  * Created by shubhampandey
  */
-class CalendarPageAdapter(private val routine: MonthRoutine) : PagerAdapter() {
+class CalendarPageAdapter(private val routine: MonthCalendar) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = CalendarItemView(container.context)

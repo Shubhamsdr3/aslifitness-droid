@@ -10,7 +10,7 @@
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
+            app:destination="@id/vendorListFragment" />
         <action
             android:id="@+id/action_homeFragment_to_userPlanFragment"
             app:destination="@id/userPlanFragment" />
@@ -20,36 +20,27 @@
         <action
             android:id="@+id/action_homeFragment_to_userPlanFragment2"
             app:destination="@id/userPlanFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/historyFragment"
-        android:name="com.aslifitness.fitracker.history.HistoryFragment"
-        android:label="HistoryFragment" >
         <action
-            android:id="@+id/action_historyFragment_to_userPlanFragment"
-            app:destination="@id/userPlanFragment" />
-        <action
-            android:id="@+id/action_historyFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_historyFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            android:id="@+id/action_homeFragment_to_vendorListFragment"
+            app:destination="@id/vendorListFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/userPlanFragment"
-        android:name="com.aslifitness.fitracker.plan.UserRoutineFragment"
-        android:label="UserRoutineFragment" >
+        android:name="com.aslifitness.fitracker.routine.UserRoutineFragment"
+        android:label="UserPlanFragment" >
         <action
             android:id="@+id/action_userPlanFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_userPlanFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
+            app:destination="@id/vendorListFragment" />
         <action
             android:id="@+id/action_userPlanFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_userPlanFragment_to_vendorListFragment"
+            app:destination="@id/vendorListFragment" />
     </fragment>
 
     <fragment
@@ -61,7 +52,25 @@
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_profileFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
+            app:destination="@id/vendorListFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_vendorListFragment"
+            app:destination="@id/vendorListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/vendorListFragment"
+        android:name="com.aslifitness.fitracker.vendors.VendorListFragment"
+        android:label="VendorListFragment" >
+        <action
+            android:id="@+id/action_vendorListFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_vendorListFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_vendorListFragment_to_userPlanFragment"
+            app:destination="@id/userPlanFragment" />
     </fragment>
 
 </navigation>

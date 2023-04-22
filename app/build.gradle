@@ -181,6 +181,11 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:2.15.1"
     implementation "com.google.android.exoplayer:exoplayer-ui:2.15.1"
 
+    // room
+    implementation "androidx.room:room-runtime:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.1"
+
     // lottie anim
     implementation "com.airbnb.android:lottie:3.6.0"
 

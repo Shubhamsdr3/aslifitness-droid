@@ -6,4 +6,18 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="BottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetBackground</item>
+    </style>
+
+    <style name="bottomSheetBackground" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_top_corners</item>
+    </style>
+
+    <style name="ToggleButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/color_primary</item>
+        <item name="colorSwitchThumbNormal">@color/divider</item>
+        <item name="android:colorForeground">@color/color_tertiary</item>
+    </style>
+
 </resources>

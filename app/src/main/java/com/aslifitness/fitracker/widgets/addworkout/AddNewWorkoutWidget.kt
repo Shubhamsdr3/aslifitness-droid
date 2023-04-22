@@ -10,11 +10,7 @@ import com.aslifitness.fitracker.model.addworkout.NewAddWorkout
 import com.aslifitness.fitracker.model.addworkout.WorkoutSetInfo
 import com.aslifitness.fitracker.utils.setTextWithVisibility
 
-class AddNewWorkoutWidget @JvmOverloads constructor(
-    context: Context, attributesSet:
-    AttributeSet? = null,
-    defyStyle: Int = 0
-): ConstraintLayout(context, attributesSet, defyStyle), AddSetCallback, SetCountSelectorCallback {
+class AddNewWorkoutWidget @JvmOverloads constructor(context: Context, attributesSet: AttributeSet? = null, defyStyle: Int = 0): ConstraintLayout(context, attributesSet, defyStyle), AddSetCallback, SetCountSelectorCallback {
 
     private val binding = LayoutAddWorkoutWidgetBinding.inflate(LayoutInflater.from(context), this, true)
     private var setCount = 0
@@ -36,7 +32,6 @@ class AddNewWorkoutWidget @JvmOverloads constructor(
     private fun onAddButtonClicked() {
         if (newAddWorkout != null && !newAddWorkout?.sets.isNullOrEmpty()) {
             val defaultSet = newAddWorkout?.sets?.get(0)
-            defaultSet?.workoutId = newAddWorkout!!.workoutId
             val itemView = AddSetWidget(context)
             itemView.setData(defaultSet!!, setCount++, this)
             binding.setContainer.addView(itemView)
@@ -55,7 +50,9 @@ class AddNewWorkoutWidget @JvmOverloads constructor(
     }
 
     override fun onDoneClicked(setInfo: WorkoutSetInfo) {
-        callback?.onSetCompleted(setInfo)
+        if (newAddWorkout != null && newAddWorkout?.workoutId != null) {
+            callback?.onSetCompleted(newAddWorkout?.workoutId!!, setInfo)
+        }
     }
 
     override fun onPlusClicked() {

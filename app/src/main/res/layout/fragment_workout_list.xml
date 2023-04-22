@@ -3,17 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/back_arrow"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:padding="@dimen/dimen_16dp"
+        android:paddingVertical="@dimen/dimen_2dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_back_24" />
+        app:navigationIcon="@drawable/ic_arrow_back_24">
+
+        <com.aslifitness.fitracker.widgets.FitnessButton
+            android:id="@+id/create_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dimen_16dp"
+            app:button_state="enable"
+            app:button_title="@string/create"
+            app:srcCompat="@drawable/ic_add_box_24" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <com.aslifitness.fitracker.widgets.searchbar.FitnessSearchBar
         android:id="@+id/search_bar"
@@ -24,7 +39,7 @@
         android:hint="@string/search_workout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_arrow" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/workout_header"

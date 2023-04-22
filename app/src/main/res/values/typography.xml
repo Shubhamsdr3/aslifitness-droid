@@ -57,11 +57,15 @@
         <item name="android:textColor">@color/text_dark_primary</item>
     </style>
 
-    <style name="TextLarge.Regular.Secondary" parent="TextRegular">
+    <style name="TextLarge.Regular.Secondary">
         <item name="android:textColor">@color/text_dark_secondary</item>
     </style>
 
-    <style name="TextLarge.Regular.Tertiary" parent="TextRegular">
+    <style name="TextLarge.Regular.Success">
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="TextLarge.Regular.Tertiary">
         <item name="android:textColor">@color/text_dark_tertiary</item>
     </style>
 
@@ -89,7 +93,7 @@
         <item name="android:textColor">@color/text_dark_primary</item>
     </style>
 
-    <style name="TextLarge.Medium.Secondary" parent="TextMedium">
+    <style name="TextLarge.Medium.Secondary">
         <item name="android:textColor">@color/text_dark_secondary</item>
     </style>
 
@@ -98,7 +102,7 @@
     </style>
 
     <style name="TextBody.Regular" parent="TextRegular">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/dimen_14dp</item>
     </style>
 
     <style name="TextBody.Regular.Primary" parent="TextRegular">
@@ -113,7 +117,7 @@
         <item name="android:textColor">@color/text_dark_secondary</item>
     </style>
 
-    <style name="TextBody.Regular.Tertiary" parent="TextRegular">
+    <style name="TextBody.Regular.Tertiary">
         <item name="android:textColor">@color/text_dark_tertiary</item>
     </style>
 

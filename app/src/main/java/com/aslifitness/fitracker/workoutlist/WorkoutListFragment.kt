@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.addworkout.AddWorkoutViewModel
 import com.aslifitness.fitracker.addworkout.AddWorkoutViewModelFactory
+import com.aslifitness.fitracker.create.CreateNewWorkoutActivity
 import com.aslifitness.fitracker.databinding.FragmentWorkoutListBinding
 import com.aslifitness.fitracker.detail.data.Workout
 import com.aslifitness.fitracker.model.WorkoutListResponse
@@ -44,6 +45,8 @@ class WorkoutListFragment: Fragment(), WorkoutListAdapterCallback {
         fun newInstance(title: String?, focusSearch: Boolean?) = WorkoutListFragment().apply {
             arguments = bundleOf(Pair(TITLE, title), Pair(FOCUS_SEARCH, focusSearch))
         }
+
+        fun newInstance() = WorkoutListFragment()
     }
 
     override fun onAttach(context: Context) {
@@ -78,13 +81,14 @@ class WorkoutListFragment: Fragment(), WorkoutListAdapterCallback {
     }
 
     private fun setupInitialView() {
-        binding.backArrow.setOnClickListener { activity?.onBackPressed() }
         binding.searchBar.setLeftIcon(R.drawable.ic_search_24)
-        binding.searchBar.addOnTextChange(object : FitnessSearchCallback {
-            override fun onTextChanged(text: String) {
-                (binding.searchWorkouts.adapter as? WorkoutListAdapter)?.filter?.filter(text)
-            }
-        })
+        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.createButton.setOnClickListener { CreateNewWorkoutActivity.start(requireActivity()) }
+        setupSearchBar()
+        setupSubmitButton()
+    }
+
+    private fun setupSubmitButton() {
         binding.submitButton.setButtonText(requireContext().getString(R.string.exercise_count, 0))
         binding.submitButton.setOnClickListener {
             if (addedNewWorkout.isNotEmpty()) {
@@ -95,13 +99,29 @@ class WorkoutListFragment: Fragment(), WorkoutListAdapterCallback {
         }
     }
 
+    private fun setupSearchBar() {
+        binding.searchBar.setLeftIcon(R.drawable.ic_search_24)
+        binding.searchBar.addOnTextChange(object : FitnessSearchCallback {
+            override fun onTextChanged(text: String) {
+                (binding.searchWorkouts.adapter as? WorkoutListAdapter)?.filter?.filter(text)
+            }
+        })
+        binding.searchBar.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                v.background = ContextCompat.getDrawable(requireContext(), R.drawable.rect_primary_border)
+            } else {
+                v.background = ContextCompat.getDrawable(requireContext(), R.drawable.rect_grey_border)
+            }
+        }
+    }
+
     private fun getNewWorkout(workout: Workout): NewAddWorkout {
         return NewAddWorkout(
             workoutId = workout.workoutId,
             image = workout.image,
             title = workout.header,
             subTitle = workout.subHeader,
-            sets = workout.prevSets?.toMutableList(),
+            sets = workout.prevSets,
             addSetCta = workout.cta
         )
     }

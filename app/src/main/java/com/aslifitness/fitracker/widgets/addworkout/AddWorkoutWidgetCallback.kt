@@ -7,5 +7,5 @@ import com.aslifitness.fitracker.model.addworkout.WorkoutSetInfo
  */
 interface AddWorkoutWidgetCallback {
 
-    fun onSetCompleted(setInfo: WorkoutSetInfo)
+    fun onSetCompleted(workoutId: Int, setInfo: WorkoutSetInfo)
 }

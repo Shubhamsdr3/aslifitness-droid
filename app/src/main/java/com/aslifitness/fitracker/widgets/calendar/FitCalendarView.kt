@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.aslifitness.fitracker.databinding.LayoutFitCalendarBinding
-import com.aslifitness.fitracker.plan.data.MonthRoutine
+import com.aslifitness.fitracker.routine.data.MonthCalendar
 import java.util.Calendar
 
 /**
@@ -29,7 +29,7 @@ class FitCalendarView @JvmOverloads constructor(context: Context, attributeSet: 
         initCalendar()
     }
 
-    fun setData(monthlyRoutine: MonthRoutine) {
+    fun setData(monthlyRoutine: MonthCalendar) {
         configurePager(monthlyRoutine)
         configureScroll()
     }
@@ -48,7 +48,7 @@ class FitCalendarView @JvmOverloads constructor(context: Context, attributeSet: 
         }
     }
 
-    private fun configurePager(monthsRoutine: MonthRoutine) {
+    private fun configurePager(monthsRoutine: MonthCalendar) {
         binding.viewPager.adapter = CalendarPageAdapter(monthsRoutine)
         binding.viewPager.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

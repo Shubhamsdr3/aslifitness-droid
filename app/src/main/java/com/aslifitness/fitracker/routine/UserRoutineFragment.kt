@@ -1,4 +1,4 @@
-package com.aslifitness.fitracker.plan
+package com.aslifitness.fitracker.routine
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import com.aslifitness.fitracker.databinding.FragmentUserRoutineBinding
 import com.aslifitness.fitracker.network.ApiHandler
 import com.aslifitness.fitracker.network.ApiResponse
 import com.aslifitness.fitracker.network.NetworkState
-import com.aslifitness.fitracker.plan.data.MonthRoutine
-import com.aslifitness.fitracker.plan.data.UserRoutineResponse
+import com.aslifitness.fitracker.routine.data.MonthCalendar
+import com.aslifitness.fitracker.routine.data.UserCalendarResponse
 import java.util.*
 
 
@@ -48,7 +48,7 @@ class UserRoutineFragment: Fragment() {
         viewModel.userRoutineViewState.observe(viewLifecycleOwner) { onViewStateChanged(it) }
     }
 
-    private fun onViewStateChanged(state: NetworkState<ApiResponse<UserRoutineResponse>>?) {
+    private fun onViewStateChanged(state: NetworkState<ApiResponse<UserCalendarResponse>>?) {
         when(state) {
             is NetworkState.Loading -> showLoader()
             is NetworkState.Error -> showError()
@@ -59,7 +59,7 @@ class UserRoutineFragment: Fragment() {
         }
     }
 
-    private fun onSuccessResponse(data: ApiResponse<UserRoutineResponse>?) {
+    private fun onSuccessResponse(data: ApiResponse<UserCalendarResponse>?) {
         binding.routineLoader.visibility = View.GONE
         data?.data?.run {
 //            binding.currentDate.setTextWithVisibility(header)
@@ -68,7 +68,7 @@ class UserRoutineFragment: Fragment() {
         }
     }
 
-    private fun configurePageListener(prevMonths: List<MonthRoutine>?) {
+    private fun configurePageListener(prevMonths: List<MonthCalendar>?) {
         if (prevMonths.isNullOrEmpty()) return
         //FIXME: Shubham
 //        binding.calendarView.setOnPreviousPageChangeListener {
@@ -83,7 +83,7 @@ class UserRoutineFragment: Fragment() {
 //        }
     }
 
-    private fun configureCalendar(routine: MonthRoutine?) {
+    private fun configureCalendar(routine: MonthCalendar?) {
         routine?.let {
             binding.calendarView.setData(it)
             binding.calendarView.visibility = View.VISIBLE

@@ -35,6 +35,18 @@
     <string name="log_workout">Log Workout</string>
     <string name="duration">Duration</string>
     <string name="volume">Volume</string>
+    <string name="sets">Sets</string>
     <string name="search_exercise"><font size="14">Search exercise</font></string>
     <string name="exercise_count">%1d Exercise</string>
+    <string name="hint_morning_workout"><font size="16">eg: Morning workout</font></string>
+    <string name="save">Save</string>
+    <string name="routine_title">Routine title</string>
+    <string name="routine_substitle">Get started by adding an exercise to your routine.</string>
+    <string name="create">Create</string>
+    <string name="repeat">Repeat</string>
+    <string name="reminder">Reminder</string>
+    <string name="set_text">Set</string>
+    <string name="weight_hint">Weight(Kg)</string>
+    <string name="time_hint">Time</string>
+    <string name="day_hint">Day</string>
 </resources>

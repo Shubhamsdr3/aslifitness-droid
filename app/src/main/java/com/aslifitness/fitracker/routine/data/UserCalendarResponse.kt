@@ -1,4 +1,4 @@
-package com.aslifitness.fitracker.plan.data
+package com.aslifitness.fitracker.routine.data
 
 import android.os.Parcelable
 import androidx.annotation.Keep
@@ -10,10 +10,10 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class UserRoutineResponse(
+data class UserCalendarResponse(
     val header: String? = null,
     val subHeader: String? = null,
     val currentPage: Int = 1,
-    val currentMonth: MonthRoutine? = null,
-    val prevMonths: List<MonthRoutine>? = null,
+    val currentMonth: MonthCalendar? = null,
+    val prevMonths: List<MonthCalendar>? = null,
 ): Parcelable

@@ -10,7 +10,7 @@ import com.aslifitness.fitracker.history.HistoryFragment
 import com.aslifitness.fitracker.home.HomeFragment
 import com.aslifitness.fitracker.home.HomePagerAdapter
 import com.aslifitness.fitracker.nutrition.NutritionFragment
-import com.aslifitness.fitracker.plan.UserRoutineFragment
+import com.aslifitness.fitracker.routine.UserRoutineFragment
 import com.aslifitness.fitracker.profile.UserProfileFragment
 import com.google.android.material.tabs.TabLayoutMediator
 

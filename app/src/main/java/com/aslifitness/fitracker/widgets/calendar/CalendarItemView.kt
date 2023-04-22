@@ -3,7 +3,6 @@ package com.aslifitness.fitracker.widgets.calendar
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,9 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.databinding.ItemCalendarViewBinding
-import com.aslifitness.fitracker.plan.data.DayRoutine
-import com.aslifitness.fitracker.plan.data.MonthRoutine
+import com.aslifitness.fitracker.routine.data.DayRoutine
+import com.aslifitness.fitracker.routine.data.MonthCalendar
 import com.aslifitness.fitracker.widgets.calendar.data.CellInfo
-import java.time.LocalDate
 import java.util.*
 
 
@@ -53,7 +51,7 @@ class CalendarItemView @JvmOverloads constructor(context: Context, attributeSet:
     private val userButtonParams: LayoutParams? = null
 //    private var userRoutines = mutableListOf<CellInfo>()
 
-    fun setData(routineMonth: MonthRoutine) {
+    fun setData(routineMonth: MonthCalendar) {
         init(context)
         configureRoutines(routineMonth.routines)
     }

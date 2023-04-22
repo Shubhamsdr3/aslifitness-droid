@@ -85,8 +85,8 @@ class WorkoutListActivity: AppCompatActivity(), WorkoutFragmentCallback, AddWork
         }.commitAllowingStateLoss()
     }
 
-    override fun onWorkoutAdded(data: WorkoutSummaryResponse) {
-        WorkoutSummaryActivity.start(this, data)
+    override fun onWorkoutAdded(workoutSummary: WorkoutSummaryResponse) {
+        WorkoutSummaryActivity.start(this, workoutSummary)
         finish()
     }
 }

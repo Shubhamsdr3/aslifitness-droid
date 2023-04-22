@@ -1,4 +1,4 @@
-package com.aslifitness.fitracker.plan.data
+package com.aslifitness.fitracker.routine.data
 
 import android.os.Parcelable
 import androidx.annotation.Keep
@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class MonthRoutine(
+data class MonthCalendar(
     val month: Int? = null,
     val year: Int? = null,
     val numberOfDays: Int = 30,

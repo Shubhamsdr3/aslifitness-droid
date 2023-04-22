@@ -6,20 +6,20 @@
         android:icon="@drawable/ic_home_24"
         android:title="Home"/>
 
-    <item
-        android:id="@+id/historyFragment"
-        android:icon="@drawable/ic_grading_24"
-        android:title="History"/>
+<!--    <item-->
+<!--        android:id="@+id/vendorListFragment"-->
+<!--        android:icon="@drawable/ic_grading_24"-->
+<!--        android:title="Near by"/>-->
 
     <item
         android:id="@+id/dummy"
         android:icon="@android:color/transparent"
         android:title=""/>
 
-    <item
-        android:id="@+id/userPlanFragment"
-        android:icon="@drawable/ic_calendar_today_24"
-        android:title="Calendar"/>
+<!--    <item-->
+<!--        android:id="@+id/userPlanFragment"-->
+<!--        android:icon="@drawable/ic_calendar_today_24"-->
+<!--        android:title="Calendar"/>-->
 
     <item
         android:id="@+id/profileFragment"

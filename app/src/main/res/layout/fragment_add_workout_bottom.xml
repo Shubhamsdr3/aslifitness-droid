@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dimen_16dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextLarge.SemiBold.Primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Quick Start" />
+
+    <LinearLayout
+        android:id="@+id/workout_container"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:background="@drawable/rect_rounded_corner_border"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="@dimen/dimen_16dp"
+        app:layout_constraintEnd_toStartOf="@+id/routine_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/workout_image"
+            android:layout_width="@dimen/dimen_46dp"
+            android:layout_height="@dimen/dimen_46dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_dumble_new" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/workout_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextBody.Medium.Primary"
+            tools:text="New Routine" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/routine_container"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_32dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:background="@drawable/rect_rounded_corner_border"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/workout_container"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/routine_image"
+            android:layout_width="@dimen/dimen_46dp"
+            android:layout_height="@dimen/dimen_46dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_dumble_new" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/routine_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextBody.Medium.Primary"
+            tools:text="New Workout" />
+
+    </LinearLayout>
+
+    <com.aslifitness.fitracker.widgets.FitnessButton
+        android:id="@+id/history_button"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_24dp"
+        app:button_state="enable"
+        app:button_title="History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/routine_container" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

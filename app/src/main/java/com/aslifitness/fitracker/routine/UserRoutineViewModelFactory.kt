@@ -1,4 +1,4 @@
-package com.aslifitness.fitracker.plan
+package com.aslifitness.fitracker.routine
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

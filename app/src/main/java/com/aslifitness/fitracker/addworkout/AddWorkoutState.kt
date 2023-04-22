@@ -8,4 +8,8 @@ import com.aslifitness.fitracker.detail.data.Workout
 sealed class AddWorkoutState {
 
     data class AddNewSet(val position: Int, val workout: Workout) : AddWorkoutState()
+
+    data class UpdateWeight(val weight: Int) : AddWorkoutState()
+
+    data class UpdateSetCount(val setCount: Int): AddWorkoutState()
 }

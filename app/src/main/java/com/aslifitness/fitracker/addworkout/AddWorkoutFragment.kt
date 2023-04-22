@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,6 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener,
     private lateinit var binding: FragmentAddWorkoutBinding
     private var callback: AddWorkoutFragmentCallback? = null
     private var viewModel: AddWorkoutViewModel? = null
-    private val rect by lazy { Rect() }
 
     companion object {
         const val TAG = "AddWorkoutFragment"
@@ -87,7 +87,6 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener,
             binding.setContainer.addView(widget, getLayoutParamsWithMargins())
             binding.setContainer.visibility = View.VISIBLE
             binding.addWorkout.root.visibility = View.VISIBLE
-//            configureFloatingAction()
         }
     }
 
@@ -115,19 +114,29 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener,
         binding.toolbar.title = getString(R.string.log_workout)
         binding.toolbar.setNavigationOnClickListener { callback?.onBackPressed() }
         binding.floatingButton.setOnClickListener { activity?.onBackPressed() }
-        configureFinishButton()
+        configureHeader()
         configureAddCta()
+        configureFinishButton()
         configureScrollListener()
     }
 
+    private fun configureHeader() {
+//        binding.duration.keyText.setTextWithVisibility(getString(R.string.duration))
+//        binding.duration.valueText.setTextWithVisibility("00:00:00")
+        binding.volume.keyText.setTextWithVisibility(getString(R.string.volume))
+        binding.volume.valueText.setTextWithVisibility("0 kg")
+        binding.setCount.keyText.setTextWithVisibility(getString(R.string.sets))
+        binding.setCount.valueText.setTextWithVisibility("0")
+    }
+
     private fun configureScrollListener() {
-        binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, _, _, _ ->
 //            configureFloatingAction()
         })
     }
 
     private fun configureFinishButton() {
-        binding.saveButton.setOnClickListener { viewModel?.postUserWorkouts() }
+        binding.saveButton.setOnClickListener { viewModel?.postUserWorkouts(0L) }
     }
 
     private fun configureAddCta() {
@@ -147,6 +156,10 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener,
         viewModel?.addedWorkoutList?.observe(viewLifecycleOwner) { configureNewWorkout(it) }
     }
 
+    private fun updateWeight(weight: Int?) {
+        if (weight != null) { binding.volume.valueText.setTextWithVisibility("$weight kg") }
+    }
+
     private fun getLayoutParamsWithMargins(): LinearLayout.LayoutParams {
         val margin16Dp = requireContext().resources.getDimension(R.dimen.dimen_16dp).toInt()
         val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -157,16 +170,22 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener,
     private fun onViewStateChanged(state: AddWorkoutState?) {
         when(state) {
             is AddWorkoutState.AddNewSet -> openCounterDialog(state.position, state.workout, true)
+            is AddWorkoutState.UpdateSetCount -> updateSetCount(state.setCount)
+            is AddWorkoutState.UpdateWeight -> updateWeight(state.weight)
             else -> {
                 // do nothing
             }
         }
     }
 
+    private fun updateSetCount(count: Int) {
+        binding.setCount.valueText.setTextWithVisibility((count).toString())
+    }
+
     private fun onNetworkStateChanged(state: NetworkState<ApiResponse<WorkoutSummaryResponse>>?) {
         when(state) {
             is NetworkState.Loading -> showLoader()
-            is NetworkState.Error -> showError()
+            is NetworkState.Error -> showError(state.throwable)
             is NetworkState.Success -> handleResponse(state.data)
             else -> {
                 // do nothing
@@ -187,7 +206,17 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener,
         }
     }
 
-    private fun showError() {
+    override fun onSetCompleted(workoutId: Int, setInfo: WorkoutSetInfo) {
+        setInfo.run {
+            if (!isDone && !message.isNullOrEmpty()) {
+                Snackbar.make(binding.snackBar, message!!, Snackbar.LENGTH_SHORT).show()
+            } else {
+                viewModel?.addSetToWorkout(workoutId, setInfo)
+            }
+        }
+    }
+
+    private fun showError(throwable: Throwable?) {
         binding.saveButton.hideLoader()
     }
 
@@ -201,16 +230,6 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener,
 
     override fun onNextExerciseClicked() {
         startActivity(Intent(activity, HomeActivity::class.java))
-    }
-
-    override fun onSetCompleted(setInfo: WorkoutSetInfo) {
-        setInfo.run {
-            if (!isDone && !message.isNullOrEmpty()) {
-                Snackbar.make(binding.snackBar, message!!, Snackbar.LENGTH_SHORT).show()
-            } else {
-                viewModel?.addSetToWorkout(setInfo)
-            }
-        }
     }
 
     override fun onSubmitClicked(position: Int, count: Int, isNewSet: Boolean) {

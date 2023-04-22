@@ -1,4 +1,4 @@
-package com.aslifitness.fitracker.plan.data
+package com.aslifitness.fitracker.routine.data
 
 import android.os.Parcelable
 import androidx.annotation.Keep

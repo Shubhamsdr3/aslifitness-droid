@@ -20,7 +20,7 @@ class FitnessSearchBar @JvmOverloads constructor(context: Context, attributeSet:
 
     init {
         setupListener()
-        background = ContextCompat.getDrawable(context, R.drawable.border)
+        background = ContextCompat.getDrawable(context, R.drawable.rect_grey_border)
         setPadding(dimen10Dp, dimen10Dp, dimen10Dp, dimen10Dp)
         isFocusableInTouchMode = true
     }

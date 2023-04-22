@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class WorkoutSetInfo(var workoutId: Int, var weightInKg: Int = 0, var repsCount: Int = 0, var isDone: Boolean = false, var message: String? = null): Parcelable
+data class WorkoutSetInfo(var weightInKg: Int = 0, var repsCount: Int = 0, var isDone: Boolean = false, var message: String? = null): Parcelable

@@ -5,7 +5,8 @@ import com.aslifitness.fitracker.model.UserDto
 import com.aslifitness.fitracker.model.WorkoutListResponse
 import com.aslifitness.fitracker.model.WorkoutResponse
 import com.aslifitness.fitracker.model.profile.UserProfileResponse
-import com.aslifitness.fitracker.plan.data.UserRoutineResponse
+import com.aslifitness.fitracker.routine.data.UserCalendarResponse
+import com.aslifitness.fitracker.routine.data.UserRoutineDto
 import com.aslifitness.fitracker.summary.data.WorkoutSummaryResponse
 import com.aslifitness.fitracker.utils.*
 import com.aslifitness.fitracker.vendors.data.VendorsResponseDto
@@ -39,8 +40,12 @@ interface ApiService {
     suspend fun fetchVendorList(@Body params: Map<String, @JvmSuppressWildcards Any?>): Response<ApiResponse<VendorsResponseDto>>
 
     @GET("api/{userId}/routine")
-    suspend fun fetchUserRoutine(@Path("userId") userId: String, @Query("page_number") pageNumber: Int, @Query("page_limit") pageLimit: Int): Response<ApiResponse<UserRoutineResponse>>
+    suspend fun fetchUserRoutine(@Path("userId") userId: String, @Query("page_number") pageNumber: Int, @Query("page_limit") pageLimit: Int): Response<ApiResponse<UserCalendarResponse>>
 
     @GET("api/workout/summary/{id}")
     suspend fun getWorkoutSummary(@Path("id") id: String): Response<ApiResponse<WorkoutSummaryResponse>>
+
+    @POST("api/workout/addRoutine")
+    suspend fun addNewRoutine(@Body params: UserRoutineDto): Response<ApiResponse<UserRoutineDto>>
+
 }

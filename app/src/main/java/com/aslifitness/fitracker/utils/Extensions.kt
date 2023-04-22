@@ -103,3 +103,11 @@ fun View.addDivider(): View {
     view.layoutParams = layoutParams
     return view
 }
+
+fun CharSequence.parseInt(): Int {
+    return try {
+        this.toString().toInt()
+    } catch (ex: NumberFormatException) {
+        0
+    }
+}

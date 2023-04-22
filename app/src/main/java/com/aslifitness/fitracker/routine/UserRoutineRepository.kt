@@ -1,4 +1,4 @@
-package com.aslifitness.fitracker.plan
+package com.aslifitness.fitracker.routine
 
 import com.aslifitness.fitracker.network.ApiService
 

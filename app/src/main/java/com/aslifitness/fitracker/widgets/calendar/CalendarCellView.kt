@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.databinding.ItemCalendarCellBinding
-import com.aslifitness.fitracker.plan.data.Label
+import com.aslifitness.fitracker.routine.data.Label
 import com.aslifitness.fitracker.widgets.calendar.data.CellInfo
 
 /**

@@ -29,3 +29,4 @@ const val ZERO = 0
 const val USER_ID = "userId"
 const val SET_DATA = "setData"
 const val CREATED_AT = "createdAt"
+const val DURATION = "duration"

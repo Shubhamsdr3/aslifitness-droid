@@ -36,7 +36,8 @@
 
         <activity
             android:name=".addworkout.AddWorkoutActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
         </activity>
 
         <activity android:name=".workoutlist.WorkoutListActivity"
@@ -72,6 +73,9 @@
 
         </activity>
         <activity android:name=".profile.UserProfileActivity" />
+        <activity android:name=".summary.WorkoutSummaryActivity" />
+        <activity android:name=".routine.UserRoutineActivity" />
+        <activity android:name=".create.CreateNewWorkoutActivity" />
     </application>
 
 </manifest>
