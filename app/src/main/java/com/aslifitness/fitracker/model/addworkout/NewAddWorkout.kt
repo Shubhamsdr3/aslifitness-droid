@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 import com.aslifitness.fitracker.model.CtaInfo
 import com.aslifitness.fitracker.model.Reminder
 import com.aslifitness.fitracker.routine.data.RoutineInfo
+import com.aslifitness.fitracker.routine.data.RoutineWorkout
 import com.aslifitness.fitracker.routine.data.UserRoutineDto
 import kotlinx.parcelize.Parcelize
 
@@ -23,7 +24,7 @@ data class NewAddWorkout(
     val image: String? = null,
     val title: String? = null,
     val subTitle: String? = null,
-    val routineInfo: RoutineInfo? = null,
+    var routineInfo: RoutineInfo? = null,
     var sets: List<WorkoutSetInfo>? = null,
     val addSetCta: CtaInfo? = null,
 ) : Parcelable {
@@ -43,5 +44,14 @@ data class NewAddWorkout(
         result = 31 * result + (sets?.hashCode() ?: 0)
         result = 31 * result + (addSetCta?.hashCode() ?: 0)
         return result
+    }
+
+    fun getRoutineWorkout(): RoutineWorkout {
+        return RoutineWorkout(
+            workoutId = workoutId,
+            image = image,
+            title = title,
+            subTitle = subTitle
+        )
     }
 }

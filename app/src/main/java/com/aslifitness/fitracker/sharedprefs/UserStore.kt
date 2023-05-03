@@ -15,6 +15,7 @@ object UserStore {
     private const val USER_STORE = "user_store"
     private const val USER_ID = "user_id"
     private const val USER_DETAIL = "user_detail"
+    private const val FCM_TOKEN = "fcm_token"
 
     private val sharedPreferences = FitApp.getAppContext()?.getSharedPreferences(USER_STORE, Context.MODE_PRIVATE)
 
@@ -39,5 +40,15 @@ object UserStore {
         sharedPreferences?.run {
             edit().putString(USER_ID, Gson().toJson(userDto, type))
         }?.commit()
+    }
+
+    fun saveFCMToken(token: String) {
+        sharedPreferences?.run {
+            edit().putString(FCM_TOKEN, token)
+        }?.commit()
+    }
+
+    fun getFCMToken(): String {
+        return sharedPreferences?.getString(FCM_TOKEN, EMPTY) ?: EMPTY
     }
 }

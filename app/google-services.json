@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "88077997010-cjg7cn8h90f3ru72deau68p1k68sjue2.apps.googleusercontent.com",
+          "client_id": "88077997010-t5uphb6s722ii62fvnnprihmr4cg46og.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.aslifitness.fitracker",
-            "certificate_hash": "121f75c2b6f275681d0447f4ed515fa4579ec6b2"
+            "certificate_hash": "2143a60ceaac541b5c5224c45b9ae707af7b275c"
           }
         },
         {
@@ -28,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDN9_sJeiFnhOOqKY2dvihuqDXSXPZD3TM"
+          "current_key": "AIzaSyB-F0uSNWmPFZZqbu8b35P_eHPkd0l6EWc"
         }
       ],
       "services": {

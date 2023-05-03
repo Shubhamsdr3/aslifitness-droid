@@ -4,13 +4,16 @@ import com.aslifitness.fitracker.model.UserDto
 import com.aslifitness.fitracker.model.WorkoutDto
 import com.aslifitness.fitracker.model.WorkoutSetData
 import com.aslifitness.fitracker.network.NetworkState
+import com.aslifitness.fitracker.sharedprefs.UserStore
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 
 /**
@@ -28,6 +31,28 @@ object FirestoreUtil {
     private const val WORKOUT_SET_DOC = "workout_set"
     private const val WORKOUT_HISTORY = "history"
     private const val INITIAL_SET = "initial_set"
+    private const val FCM_TOKEN = "token"
+    private const val TIMESTAMP = "timestamp"
+
+    // collection
+    private const val COLLECTION_FCM_TOKEN = "fcmTokens"
+
+    private suspend fun saveFCMToken(token: String) {
+        val deviceToken = hashMapOf(
+            FCM_TOKEN to token,
+            TIMESTAMP to FieldValue.serverTimestamp(),
+        )
+        Firebase.firestore.collection(COLLECTION_FCM_TOKEN).document(currentUserId).set(deviceToken).await()
+    }
+
+    suspend fun getAndStoreRegToken(): String {
+        val token = Firebase.messaging.token.await()
+        if (UserStore.getFCMToken() != token) {
+            saveFCMToken(token)
+            UserStore.saveFCMToken(token)
+        }
+        return token
+    }
 
     fun getCurrentUser(): Flow<UserDto?> {
         return db.collection(USER_DOC)

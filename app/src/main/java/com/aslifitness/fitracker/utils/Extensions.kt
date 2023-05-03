@@ -1,5 +1,6 @@
 package com.aslifitness.fitracker.utils
 
+import android.content.Context
 import android.content.res.Resources
 import android.text.Editable
 import android.text.SpannableString
@@ -8,6 +9,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
@@ -23,6 +25,13 @@ import com.bumptech.glide.Glide
  * @author Shubham Pandey
  */
 
+fun Context.showShortToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.showLongToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
 
 fun AppCompatEditText.setTexInEditText(text: CharSequence?) {
     if (!text.isNullOrEmpty()) {

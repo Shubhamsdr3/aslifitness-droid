@@ -1,9 +1,7 @@
 package com.aslifitness.fitracker.db
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
+import com.aslifitness.fitracker.routine.data.UserRoutineDto
 
 /**
  * Created by shubhampandey
@@ -13,11 +11,11 @@ import androidx.room.Query
 interface RoutineDao {
 
     @Query("SELECT * FROM user_routine")
-    suspend fun fetchUserRoutine(): List<UserRoutine>
+    suspend fun fetchUserRoutine(): List<UserRoutineDto>
 
-    @Insert
-    suspend fun addRoutine(userRoutine: UserRoutine)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addRoutine(userRoutine: UserRoutineDto)
 
     @Delete
-    suspend fun deleteRoutine(userRoutine: UserRoutine)
+    suspend fun deleteRoutine(userRoutine: UserRoutineDto)
 }

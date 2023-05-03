@@ -49,4 +49,7 @@
     <string name="weight_hint">Weight(Kg)</string>
     <string name="time_hint">Time</string>
     <string name="day_hint">Day</string>
+
+    <string name="default_notification_channel_id">default</string>
+
 </resources>

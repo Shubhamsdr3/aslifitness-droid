@@ -4,6 +4,8 @@
     package="com.aslifitness.fitracker">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -76,6 +78,16 @@
         <activity android:name=".summary.WorkoutSummaryActivity" />
         <activity android:name=".routine.UserRoutineActivity" />
         <activity android:name=".create.CreateNewWorkoutActivity" />
+
+        <receiver android:name=".notification.ReminderReceiver" />
+
+        <service
+        android:name=".notification.FBNotificationService" android:exported="false">
+        <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
+    </service>
+
     </application>
 
 </manifest>

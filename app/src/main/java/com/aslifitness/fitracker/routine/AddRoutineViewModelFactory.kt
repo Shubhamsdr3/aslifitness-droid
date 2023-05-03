@@ -7,7 +7,7 @@ import com.aslifitness.fitracker.addworkout.WorkoutRepository
 /**
  * Created by shubhampandey
  */
-class AddRoutineViewModelFactory(private val repository: WorkoutRepository): ViewModelProvider.Factory {
+class AddRoutineViewModelFactory(private val repository: RoutineRepository): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AddRoutineViewModel::class.java)) {

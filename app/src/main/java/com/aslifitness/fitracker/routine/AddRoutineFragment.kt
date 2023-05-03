@@ -6,28 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.aslifitness.fitracker.R
-import com.aslifitness.fitracker.addworkout.WorkoutRepository
 import com.aslifitness.fitracker.databinding.FragmentAddRoutineBinding
-import com.aslifitness.fitracker.db.UserRoutine
+import com.aslifitness.fitracker.db.AppDatabase
 import com.aslifitness.fitracker.model.addworkout.NewAddWorkout
-import com.aslifitness.fitracker.model.addworkout.WorkoutSetInfo
 import com.aslifitness.fitracker.network.ApiHandler
-import com.aslifitness.fitracker.network.RetrofitHandler
+import com.aslifitness.fitracker.network.NetworkState
+import com.aslifitness.fitracker.notification.NotificationDto
+import com.aslifitness.fitracker.notification.NotificationUtil
+import com.aslifitness.fitracker.routine.data.RoutineWorkout
 import com.aslifitness.fitracker.routine.data.UserRoutineDto
 import com.aslifitness.fitracker.sharedprefs.UserStore
 import com.aslifitness.fitracker.utils.EMPTY
 import com.aslifitness.fitracker.widgets.AddRoutineWidget
-import com.aslifitness.fitracker.widgets.AddRoutineWidgetCallback
-import com.aslifitness.fitracker.widgets.AddWorkoutWidget
-import com.aslifitness.fitracker.widgets.addworkout.AddNewWorkoutWidget
-import com.aslifitness.fitracker.widgets.addworkout.AddWorkoutWidgetCallback
 import com.aslifitness.fitracker.workoutlist.WorkoutFragmentCallback
-import com.aslifitness.fitracker.workoutlist.WorkoutListFragment
-import com.google.firebase.firestore.auth.User
 
 /**
  * Created by shubhampandey
@@ -37,8 +31,8 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
     private lateinit var binding: FragmentAddRoutineBinding
     private var callback: AddRoutineFragmentCallback? = null
     private lateinit var viewModel: AddRoutineViewModel
-    private val routineWorkouts = mutableListOf<NewAddWorkout>()
-    private val userRoutine: UserRoutine by lazy { UserRoutine() }
+    private val routineWorkouts = mutableListOf<RoutineWorkout>()
+    private val notificationUtil by lazy { NotificationUtil(requireContext()) }
 
     companion object {
         const val TAG = "AddRoutineFragment"
@@ -67,8 +61,45 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
     }
 
     private fun initViewModel() {
-        val factory = AddRoutineViewModelFactory(WorkoutRepository(ApiHandler.apiService))
+        val factory = AddRoutineViewModelFactory(RoutineRepository(ApiHandler.apiService, AppDatabase.getInstance()))
         viewModel = ViewModelProvider(this, factory)[AddRoutineViewModel::class.java]
+        viewModel.userRoutineState.observe(viewLifecycleOwner) { onRoutineAddState(it) }
+    }
+
+    private fun onRoutineAddState(state: NetworkState<UserRoutineDto>?) {
+        when(state) {
+            is NetworkState.Loading -> showLoader()
+            is NetworkState.Error -> showError()
+            is NetworkState.Success -> handleSuccess(state.data)
+            else -> {
+                // do nothing
+            }
+        }
+    }
+
+    private fun handleSuccess(data: UserRoutineDto?) {
+        binding.saveButton.hideLoader()
+        data?.run {
+            if (!workouts.isNullOrEmpty()) {
+                workouts.forEach {
+                    val notificationDto = NotificationDto(
+                        title = it.title,
+                        message = it.subTitle,
+                        isScheduled = it.routineInfo?.reminder?.isRepeat,
+                        scheduledTime = it.routineInfo?.reminder?.time
+                    )
+                    notificationUtil.scheduleAlarm(notificationDto)
+                }
+            }
+        }
+    }
+
+    private fun showError() {
+        binding.saveButton.hideLoader()
+    }
+
+    private fun showLoader() {
+        binding.saveButton.showLoader()
     }
 
     private fun initView() {
@@ -99,12 +130,12 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
             title = workoutTitle.toString(),
             workouts = routineWorkouts
         )
-        viewModel.saveUserRoutine(userRoutineDto)
+        viewModel.saveRoutineToLocalDb(userRoutineDto)
     }
 
-    fun addWorkouts(workoutList: List<NewAddWorkout>) {
+    fun addWorkouts(workoutList: List<RoutineWorkout>) {
         routineWorkouts.addAll(workoutList)
-        workoutList.forEach {
+        routineWorkouts.forEach {
             val routineWidget = AddRoutineWidget(requireContext())
             routineWidget.setData(it)
             binding.workoutContainer.addView(routineWidget)

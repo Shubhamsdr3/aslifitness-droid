@@ -57,7 +57,8 @@ class UserRoutineActivity: AppCompatActivity(), AddRoutineFragmentCallback, Work
         }
         val fragment = supportFragmentManager.findFragmentByTag(AddRoutineFragment.TAG)
         if (fragment is AddRoutineFragment) {
-            fragment.addWorkouts(workoutList)
+            val routineWorkouts = workoutList.map { it.getRoutineWorkout() }
+            fragment.addWorkouts(routineWorkouts)
         }
     }
 }

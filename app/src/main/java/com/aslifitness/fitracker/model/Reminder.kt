@@ -10,4 +10,4 @@ import java.util.Date
  */
 @Keep
 @Parcelize
-data class Reminder(var day: String?, var time: Date? = null, var isRepeat: Boolean = true): Parcelable
+data class Reminder(var time: Long? = null, var isRepeat: Boolean = true): Parcelable
