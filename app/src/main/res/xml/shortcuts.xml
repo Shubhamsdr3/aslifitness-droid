@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="running"
+        android:shortcutShortLabel="@string/activity_running">
+        <capability-binding android:key="actions.intent.START_EXERCISE">
+            <parameter-binding
+                android:key="exercise.name"
+                android:value="@array/runningSynonyms"/>
+        </capability-binding>
+    </shortcut>
+
+    <capability android:name="actions.intent.START_EXERCISE">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.aslifitness.fitracker.unique"
+            android:targetClass="com.aslifitness.fitracker.assistant.FitMainActivity">
+            <parameter
+                android:name="exercise.name"
+                android:key="exerciseType"/>
+        </intent>
+    </capability>
+
+    <shortcut
+        android:shortcutId="running"
+        android:shortcutShortLabel="@string/activity_running">
+        <capability-binding android:key="actions.intent.STOP_EXERCISE">
+            <parameter-binding
+                android:key="exercise.name"
+                android:value="@array/runningSynonyms"/>
+        </capability-binding>
+    </shortcut>
+
+    <capability android:name="actions.intent.STOP_EXERCISE">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.aslifitness.fitracker.unique"
+            android:targetClass="com.aslifitness.fitracker.assistant.FitMainActivity">
+            <parameter
+                android:name="exercise.name"
+                android:key="stopExercise"/>
+        </intent>
+    </capability>
+
+    <shortcut
+        android:shortcutId="running"
+        android:shortcutShortLabel="@string/activity_running">
+        <capability-binding android:key="actions.intent.GET_EXERCISE_OBSERVATION">
+            <parameter-binding
+                android:key="exerciseObservation.aboutExercise.name"
+                android:value="@array/runningSynonyms"/>
+        </capability-binding>
+    </shortcut>
+
+</shortcuts>

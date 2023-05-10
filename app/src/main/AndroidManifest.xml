@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -19,14 +20,38 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitracker"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="android.app.shortcuts"
+            android:resource="@xml/shortcuts" />
+
         <activity
             android:exported="true"
-            android:name=".HomeActivity">
+            android:name=".HomeActivity"
+            android:launchMode="singleTask">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http"
+                    android:host="www.aslifitnessapp.com"
+                    android:pathPrefix="/fitnessHome" />
+
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+
         </activity>
+
         <activity
             android:exported="true"
             android:name=".detail.WorkoutDetailActivity">
@@ -74,19 +99,57 @@
 <!--            </intent-filter>-->
 
         </activity>
+
         <activity android:name=".profile.UserProfileActivity" />
         <activity android:name=".summary.WorkoutSummaryActivity" />
         <activity android:name=".routine.UserRoutineActivity" />
         <activity android:name=".create.CreateNewWorkoutActivity" />
 
+        <activity
+            android:name=".assistant.FitMainActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter
+                android:autoVerify="true"
+                tools:targetApi="m">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http"
+                    android:host="www.aslifitnessapp.com"
+                    android:pathPrefix="/fitMain" />
+
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+
         <receiver android:name=".notification.ReminderReceiver" />
 
+        <service android:name=".notification.FBNotificationService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <service
-        android:name=".notification.FBNotificationService" android:exported="false">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT" />
-        </intent-filter>
-    </service>
+            android:name=".assistant.tracking.FitTrackingService"
+            android:enabled="true"
+            android:exported="false" />
 
     </application>
 

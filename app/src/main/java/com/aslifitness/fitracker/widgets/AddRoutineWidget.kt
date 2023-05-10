@@ -82,7 +82,7 @@ class AddRoutineWidget @JvmOverloads constructor(context: Context, attributeSet:
 
     private fun setTime(hourOfDay: Int, minute: Int) {
         val currentData = Date()
-        if (isValidDate && (hourOfDay >= currentData.hours && minute >= currentData.minutes)) {
+        if (isValidDate || (hourOfDay >= currentData.hours && minute > currentData.minutes)) {
             val sdf = SimpleDateFormat(HOUR_MNT_PATTERN, Locale.getDefault())
             currentData.hours = hourOfDay
             currentData.minutes = minute
@@ -91,7 +91,7 @@ class AddRoutineWidget @JvmOverloads constructor(context: Context, attributeSet:
             scheduledTime.set(Calendar.MINUTE, minute)
             reminder.time = scheduledTime.timeInMillis
         } else {
-            Toast.makeText(context, "Can't reminder in past.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Can't set reminder in past.", Toast.LENGTH_SHORT).show()
         }
     }
 

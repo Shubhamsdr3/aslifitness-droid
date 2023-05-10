@@ -134,6 +134,7 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
     }
 
     fun addWorkouts(workoutList: List<RoutineWorkout>) {
+        routineWorkouts.clear()
         routineWorkouts.addAll(workoutList)
         routineWorkouts.forEach {
             val routineWidget = AddRoutineWidget(requireContext())

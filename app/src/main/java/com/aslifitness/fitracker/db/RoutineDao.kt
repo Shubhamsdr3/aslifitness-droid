@@ -2,6 +2,7 @@ package com.aslifitness.fitracker.db
 
 import androidx.room.*
 import com.aslifitness.fitracker.routine.data.UserRoutineDto
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by shubhampandey
@@ -11,7 +12,7 @@ import com.aslifitness.fitracker.routine.data.UserRoutineDto
 interface RoutineDao {
 
     @Query("SELECT * FROM user_routine")
-    suspend fun fetchUserRoutine(): List<UserRoutineDto>
+    fun fetchUserRoutine(): Flow<List<UserRoutineDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRoutine(userRoutine: UserRoutineDto)

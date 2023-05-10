@@ -2,7 +2,9 @@ package com.aslifitness.fitracker
 
 import android.Manifest
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.aslifitness.fitracker.addworkout.AddWorkoutActivity
 import com.aslifitness.fitracker.addworkout.AddWorkoutBottomSheet
 import com.aslifitness.fitracker.addworkout.WorkoutBottomSheetCallback
 import com.aslifitness.fitracker.databinding.ActivityHomeBinding
@@ -22,18 +25,22 @@ import com.aslifitness.fitracker.utils.EMPTY
 import com.aslifitness.fitracker.utils.showShortToast
 import com.aslifitness.fitracker.workoutlist.WorkoutListActivity
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
 
     private lateinit var binding: ActivityHomeBinding
-    private var isChecked = false
 
     companion object {
         private const val TAG = "FBNotificationService"
+        private const val SYMBOL_QUERY = "symbol"
+        private const val DEEPLINK_HOME = "/home"
+        private const val DEEPLINK_QUERY = "/query"
     }
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission(),) { isGranted: Boolean ->
@@ -51,6 +58,7 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
         setupBottomNavigation()
         configureLister()
         getFCMToken()
+        intent.handleIntent()
         FirebaseMessaging.getInstance().subscribeToTopic("routine-reminder")
             .addOnCompleteListener { task ->
                 showShortToast("Subscribed! You will get all discount offers notifications")
@@ -59,6 +67,32 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
                 }
             }
         askNotificationPermission()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.handleIntent()
+    }
+
+    private fun Intent.handleIntent() {
+        when(action) {
+            Intent.ACTION_VIEW -> handleDeepLink(data)
+        }
+    }
+
+    private fun handleDeepLink(data: Uri?) {
+        when (data?.path) {
+            DEEPLINK_HOME -> {
+                Snackbar.make(findViewById(android.R.id.content), R.string.welcome_message, Snackbar.LENGTH_SHORT).show()
+            }
+            DEEPLINK_QUERY -> {
+                val symbol = data.getQueryParameter(SYMBOL_QUERY).orEmpty()
+                val getQuoteIntent = Intent(this, AddWorkoutActivity::class.java).apply {
+                    putExtra(SYMBOL_QUERY, symbol.uppercase(Locale.getDefault()))
+                }
+                startActivity(getQuoteIntent)
+            }
+        }
     }
 
     private fun getFCMToken() {

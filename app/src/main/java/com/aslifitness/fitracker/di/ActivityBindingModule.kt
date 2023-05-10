@@ -15,8 +15,8 @@ import dagger.hilt.components.SingletonComponent
  * @author Shubham Pandey
  */
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector

@@ -22,7 +22,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.aslifitness.fitracker"
+        applicationId "com.aslifitness.fitracker.unique"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -190,11 +190,14 @@ dependencies {
     // lottie anim
     implementation "com.airbnb.android:lottie:3.6.0"
 
-    // workmanager
+    //workmanager
     implementation "androidx.work:work-runtime-ktx:2.8.1"
 
     // calendar view
 //    implementation 'com.applandeo:material-calendar-view:1.7.0'
+
+    // AppActions
+    implementation "com.google.assistant.appactions:widgets:0.0.1"
 }
 
 kapt {
