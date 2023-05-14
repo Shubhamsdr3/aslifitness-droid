@@ -22,7 +22,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.aslifitness.fitracker.unique"
+        applicationId "com.aslifitness.fitracker"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -59,7 +59,7 @@ android {
             buildConfigField "String", "BASE_URL", "\"http://192.168.1.8:3000/\""
         }
         mynetwork {
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.6:3000/\""
+            buildConfigField "String", "BASE_URL", "\"http://192.168.1.4:3000/\""
         }
         emulator {
             buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:3000/\""
@@ -198,6 +198,10 @@ dependencies {
 
     // AppActions
     implementation "com.google.assistant.appactions:widgets:0.0.1"
+
+    // shortcuts
+    implementation "androidx.core:core-google-shortcuts:1.1.0"
+
 }
 
 kapt {

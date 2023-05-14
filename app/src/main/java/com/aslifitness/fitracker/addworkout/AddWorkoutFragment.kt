@@ -24,6 +24,7 @@ import com.aslifitness.fitracker.model.addworkout.WorkoutSetInfo
 import com.aslifitness.fitracker.network.ApiResponse
 import com.aslifitness.fitracker.network.NetworkState
 import com.aslifitness.fitracker.summary.data.WorkoutSummaryResponse
+import com.aslifitness.fitracker.utils.setCircularImage
 import com.aslifitness.fitracker.utils.setTextWithVisibility
 import com.aslifitness.fitracker.widgets.ItemCardViewListener
 import com.aslifitness.fitracker.widgets.WorkoutHistoryCallback
@@ -79,15 +80,26 @@ class AddWorkoutFragment: Fragment(), ItemCardViewListener,
         arguments?.let { workoutSetData = it.getParcelableArrayList(NEW_WORKOUT) }
     }
 
-    private fun configureNewWorkout(workoutList: Set<NewAddWorkout>?) {
-        if (workoutList.isNullOrEmpty()) return
-        workoutList.forEach {
+    private fun configureNewWorkout(workoutList: List<NewAddWorkout>?) {
+        this.workoutSetData = workoutList
+        if (workoutSetData.isNullOrEmpty()) {
+            configureDefaultView()
+            return
+        }
+        workoutSetData?.forEach {
             val widget = AddNewWorkoutWidget(requireContext())
             widget.setData(it, this)
             binding.setContainer.addView(widget, getLayoutParamsWithMargins())
             binding.setContainer.visibility = View.VISIBLE
             binding.addWorkout.root.visibility = View.VISIBLE
         }
+    }
+
+    private fun configureDefaultView() {
+        binding.emptyWorkout.image.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_dumble_new))
+        binding.emptyWorkout.title.text = getString(R.string.get_started)
+        binding.emptyWorkout.subTitle.text = getString(R.string.add_workout_text)
+        binding.emptyWorkout.root.visibility = View.VISIBLE
     }
 
     private fun configureFloatingAction() {

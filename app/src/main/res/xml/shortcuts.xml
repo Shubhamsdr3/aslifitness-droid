@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <shortcut
         android:shortcutId="running"
@@ -43,14 +44,15 @@
         </intent>
     </capability>
 
-    <shortcut
-        android:shortcutId="running"
-        android:shortcutShortLabel="@string/activity_running">
-        <capability-binding android:key="actions.intent.GET_EXERCISE_OBSERVATION">
-            <parameter-binding
-                android:key="exerciseObservation.aboutExercise.name"
-                android:value="@array/runningSynonyms"/>
-        </capability-binding>
-    </shortcut>
+    <capability android:name="fitracker.intent.ADD_WORKOUT"
+        app:queryPatterns="@array/addWorkouts">
+        <intent>
+            <url-template android:value="http://www.aslifitnessapp.com/addWorkout{?exerciseName}" />
+            <parameter
+                android:name="exerciseName"
+                android:key="exerciseName"
+                android:mimeType="https://schema.org/Text" />
+        </intent>
+    </capability>
 
 </shortcuts>

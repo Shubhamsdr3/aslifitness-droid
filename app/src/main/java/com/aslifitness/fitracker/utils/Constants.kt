@@ -10,6 +10,9 @@ const val GET_ADD_WORKOUT = "599aacff-1bc5-40bc-95cb-5d65dd90a665"
 const val GET_WORKOUT_LIST = "1a385c74-6850-46c6-9771-bc726148a964"
 const val GET_USER_PROFILE = "d57aa30b-98cf-40aa-9989-e7edef741fc3"
 
+// deeplink
+const val ROUTINE_SUMMARY_DEEPLINK = "app.aslifitness.com/routineSummary"
+
 // intent
 const val INTENT_WORKOUT = "intent_workout"
 const val INTENT_NAME = "intent_name"

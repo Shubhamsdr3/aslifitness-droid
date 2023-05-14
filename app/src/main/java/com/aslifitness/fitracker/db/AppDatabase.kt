@@ -10,7 +10,7 @@ import com.aslifitness.fitracker.routine.data.UserRoutineDto
  */
 
 @Database(entities = [UserRoutineDto::class], version = 1)
-@TypeConverters(WorkoutConverter::class)
+@TypeConverters(RoutineConverter::class)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun routineDao(): RoutineDao

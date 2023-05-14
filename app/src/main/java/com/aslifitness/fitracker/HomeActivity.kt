@@ -4,6 +4,7 @@ import android.Manifest
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,11 +13,16 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aslifitness.fitracker.addworkout.AddWorkoutActivity
 import com.aslifitness.fitracker.addworkout.AddWorkoutBottomSheet
 import com.aslifitness.fitracker.addworkout.WorkoutBottomSheetCallback
+import com.aslifitness.fitracker.assistant.BiiIntents
+import com.aslifitness.fitracker.assistant.model.ShortcutInfo
 import com.aslifitness.fitracker.databinding.ActivityHomeBinding
 import com.aslifitness.fitracker.model.WorkoutDto
 import com.aslifitness.fitracker.model.addworkout.WorkoutBottomSheetInfo
@@ -35,6 +41,22 @@ import java.util.*
 class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
 
     private lateinit var binding: ActivityHomeBinding
+
+    private val shortCuts = mapOf(
+        "addWorkout" to ShortcutInfo(
+            shortLabel = "Add workout",
+            longLabel = "Add new workout",
+            parameterName = "workoutName",
+            intentAction = BiiIntents.ADD_WORKOUT_INTENT,
+            parameters = listOf("Add workout", "log workout")
+        ),
+        "addRoutine" to ShortcutInfo(
+            shortLabel = "Add routine",
+            longLabel = "Add new routine",
+            parameterName = "routineName",
+            intentAction = BiiIntents.ADD_ROUTINE_INTENT,
+            parameters = listOf("Add routine", "Add new routine")
+        ))
 
     companion object {
         private const val TAG = "FBNotificationService"
@@ -58,6 +80,7 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
         setupBottomNavigation()
         configureLister()
         getFCMToken()
+        configureShortcuts()
         intent.handleIntent()
         FirebaseMessaging.getInstance().subscribeToTopic("routine-reminder")
             .addOnCompleteListener { task ->
@@ -67,6 +90,20 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
                 }
             }
         askNotificationPermission()
+    }
+
+    private fun configureShortcuts() {
+        shortCuts.forEach {
+            val intent = Intent(it.value.intentAction)
+            val shortcutInfo = ShortcutInfoCompat.Builder(this, it.key)
+                .setIcon(IconCompat.createWithResource(this, R.drawable.ic_dumble_new))
+                .setShortLabel(it.value.shortLabel)
+                .setLongLabel(it.value.longLabel)
+                .addCapabilityBinding(BiiIntents.ADD_WORKOUT_INTENT, it.value.parameterName, it.value.parameters)
+                .setIntent(intent)
+                .build()
+            ShortcutManagerCompat.pushDynamicShortcut(this, shortcutInfo)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

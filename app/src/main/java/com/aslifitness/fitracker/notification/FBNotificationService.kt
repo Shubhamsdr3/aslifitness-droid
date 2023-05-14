@@ -16,8 +16,7 @@ class FBNotificationService: FirebaseMessagingService() {
 
     companion object {
         private const val TAG = "FBNotificationService"
-        const val NOTIFICATION_TITLE = "NOTIFICATION_TITLE"
-        const val NOTIFICATION_MESSAGE = "NOTIFICATION_MESSAGE"
+        const val NOTIFICATION_DATA = "NOTIFICATION_DATA"
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -28,7 +27,8 @@ class FBNotificationService: FirebaseMessagingService() {
                 title = remoteMessage.data["title"],
                 message = remoteMessage.data["message"],
                 isScheduled = remoteMessage.data["isScheduled"]?.toBoolean(),
-                scheduledTime = remoteMessage.data["scheduledTime"]?.toLong()
+                scheduledTime = remoteMessage.data["scheduledTime"]?.toLong(),
+                deeplinkUrl = remoteMessage.data["deeplinkUrl"]
             )
             configureNotification(notificationDto)
         }
@@ -40,7 +40,7 @@ class FBNotificationService: FirebaseMessagingService() {
                 if (notificationDto.isScheduled == true) {
                     NotificationUtil(it).scheduleAlarm(notificationDto)
                 } else {
-                    NotificationUtil(it).showNotification(notificationDto.title, notificationDto.message)
+                    NotificationUtil(it).showNotification(notificationDto)
                 }
             }
         }

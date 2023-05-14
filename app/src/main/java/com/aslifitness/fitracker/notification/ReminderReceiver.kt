@@ -4,8 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.aslifitness.fitracker.notification.FBNotificationService.Companion.NOTIFICATION_MESSAGE
-import com.aslifitness.fitracker.notification.FBNotificationService.Companion.NOTIFICATION_TITLE
+import com.aslifitness.fitracker.notification.FBNotificationService.Companion.NOTIFICATION_DATA
 
 
 /**
@@ -17,11 +16,8 @@ class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d("NotificationUtil", "Notification received...")
         intent.let {
-            val title = it.getStringExtra(NOTIFICATION_TITLE)
-            val message = it.getStringExtra(NOTIFICATION_MESSAGE)
-            if (!title.isNullOrEmpty() && !message.isNullOrEmpty()) {
-                NotificationUtil(context).showNotification(title, message)
-            }
+            val notificationData = intent.extras?.getParcelable<NotificationDto>(NOTIFICATION_DATA)
+            notificationData?.run { NotificationUtil(context).showNotification(this) }
         }
     }
 }

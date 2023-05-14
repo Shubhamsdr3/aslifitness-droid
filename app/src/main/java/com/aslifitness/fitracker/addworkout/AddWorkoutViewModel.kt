@@ -18,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import java.util.LinkedList
 import javax.inject.Inject
 
 /**
@@ -33,14 +34,14 @@ class AddWorkoutViewModel @Inject constructor(private val repository: WorkoutRep
     private val addWorkoutViewMutableState = MutableLiveData<AddWorkoutState>()
     val addWorkoutViewState: LiveData<AddWorkoutState> = addWorkoutViewMutableState
 
-    private val _addedWorkoutList = MutableLiveData<LinkedHashSet<NewAddWorkout>>()
-    val addedWorkoutList: LiveData<LinkedHashSet<NewAddWorkout>> = _addedWorkoutList
+    private val _addedWorkoutList = MutableLiveData<ArrayList<NewAddWorkout>>()
+    val addedWorkoutList: LiveData<ArrayList<NewAddWorkout>> = _addedWorkoutList
     private val doneWorkoutList = mutableMapOf<Int, MutableList<WorkoutSetInfo>>()
     private var totalWeight: Int = 0
     private val userId by lazy { UserStore.getUserId() }
 
     init {
-        _addedWorkoutList.value = LinkedHashSet()
+        _addedWorkoutList.value = ArrayList()
         UserStore.putUserId("pande_shubhm123") // Remove this.
     }
 

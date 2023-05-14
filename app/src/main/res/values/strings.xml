@@ -83,5 +83,7 @@
     <string name="stats_total_count">%1$d\nActivities</string>
     <string name="stats_tracking_distance">%1$dm</string>
     <string name="activity_unknown">Unknown</string>
+    <string name="get_started">Get started</string>
+    <string name="add_workout_text">Add an exercise to start workout</string>
 
 </resources>

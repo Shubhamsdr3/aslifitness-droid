@@ -19,6 +19,8 @@ object UserStore {
 
     private val sharedPreferences = FitApp.getAppContext()?.getSharedPreferences(USER_STORE, Context.MODE_PRIVATE)
 
+    fun isUserAuthenticated() = true //TODO: fix it/
+
     fun putUserId(userId: String) {
         sharedPreferences?.run {
             edit().putString(USER_ID, userId)

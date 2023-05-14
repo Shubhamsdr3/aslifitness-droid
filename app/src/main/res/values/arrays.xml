@@ -23,4 +23,9 @@
         <item>Cycle</item>
     </array>
 
+    <array name="addWorkouts">
+        <item>Add $workout</item>
+        <item>Log $workout</item>
+    </array>
+
 </resources>

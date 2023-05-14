@@ -14,5 +14,6 @@ data class NotificationDto(
     val title: String?,
     val message: String?,
     val isScheduled: Boolean?,
-    val scheduledTime: Long?
+    val scheduledTime: Long?,
+    val deeplinkUrl: String?
 ): Parcelable

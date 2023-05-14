@@ -40,8 +40,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="http"
-                    android:host="www.aslifitnessapp.com"
+                <data android:scheme="app"
+                    android:host="aslifitnessapp.com"
                     android:pathPrefix="/fitnessHome" />
 
             </intent-filter>
@@ -65,18 +65,36 @@
             android:name=".addworkout.AddWorkoutActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="aslifitness.actions.intent.ADD_WORKOUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="app"
+                    android:host="aslifitness.com"
+                    android:pathPrefix="/addWorkout" />
+
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+
         </activity>
 
         <activity android:name=".workoutlist.WorkoutListActivity"
             android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="*.aslifitness.com"
-                    android:path="/workoutlist"
-                    android:scheme="http" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data-->
+<!--                    android:host="*.aslifitness.com"-->
+<!--                    android:path="/workoutlist"-->
+<!--                    android:scheme="http" />-->
             </intent-filter>
         </activity>
 
@@ -102,7 +120,29 @@
 
         <activity android:name=".profile.UserProfileActivity" />
         <activity android:name=".summary.WorkoutSummaryActivity" />
-        <activity android:name=".routine.UserRoutineActivity" />
+
+        <activity
+            android:name=".routine.UserRoutineActivity"
+            android:exported="true">
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="aslifitness.actions.intent.ADD_WORKOUT" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="aslifitness.actions.intent.ADD_ROUTINE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:scheme="app"
+                    android:host="aslifitness.com"
+                    android:pathPrefix="/addRoutine" />
+
+            </intent-filter>
+
+        </activity>
+
         <activity android:name=".create.CreateNewWorkoutActivity" />
 
         <activity
@@ -110,10 +150,10 @@
             android:exported="true"
             android:launchMode="singleTask">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
 
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -124,18 +164,68 @@
                 tools:targetApi="m">
                 <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-                <data android:scheme="http"
-                    android:host="www.aslifitnessapp.com"
-                    android:pathPrefix="/fitMain" />
+<!--                <data android:scheme="http"-->
+<!--                    android:host="www.aslifitnessapp.com"-->
+<!--                    android:pathPrefix="/fitMain" />-->
 
             </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+        </activity>
+
+        <activity
+            android:name=".utils.NavigationActivity"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:parentActivityName=".HomeActivity">
+
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+
+                <data
+                    android:host="www.aslifitnessapp.com"
+                    android:pathPrefix="/navigation" />
+
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+
+        </activity>
+
+        <activity
+            android:name=".routine.summary.RoutineSummaryActivity"
+            android:exported="true">
+
+            <intent-filter android:autoVerify="true">
+
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="app"
+                    android:host="aslifitness.com"
+                    android:pathPrefix="/routineSummary" />
+
+            </intent-filter>
+
         </activity>
 
         <receiver android:name=".notification.ReminderReceiver" />

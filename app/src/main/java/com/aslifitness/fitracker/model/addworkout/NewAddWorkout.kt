@@ -2,6 +2,9 @@ package com.aslifitness.fitracker.model.addworkout
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.aslifitness.fitracker.model.CtaInfo
 import com.aslifitness.fitracker.model.Reminder
 import com.aslifitness.fitracker.routine.data.RoutineInfo
@@ -9,24 +12,32 @@ import com.aslifitness.fitracker.routine.data.RoutineWorkout
 import com.aslifitness.fitracker.routine.data.UserRoutineDto
 import kotlinx.parcelize.Parcelize
 
-
 @Keep
 @Parcelize
-data class NewAddWorkoutResponse(
-    val userId: String? = null,
-    val setData: List<NewAddWorkout>? = null
-) : Parcelable
-
-@Keep
-@Parcelize
+@Entity(tableName = "new_workout")
 data class NewAddWorkout(
-    val workoutId: Int? = null,
+
+    @PrimaryKey
+    val workoutId: Int = 0,
+
+    @ColumnInfo("image")
     val image: String? = null,
+
+    @ColumnInfo("title")
     val title: String? = null,
+
+    @ColumnInfo("subtitle")
     val subTitle: String? = null,
+
+    @ColumnInfo("routineInfo")
     var routineInfo: RoutineInfo? = null,
+
+    @ColumnInfo("setInfo")
     var sets: List<WorkoutSetInfo>? = null,
+
+    @ColumnInfo("addCta")
     val addSetCta: CtaInfo? = null,
+
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {

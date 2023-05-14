@@ -20,6 +20,7 @@ import com.aslifitness.fitracker.routine.data.RoutineWorkout
 import com.aslifitness.fitracker.routine.data.UserRoutineDto
 import com.aslifitness.fitracker.sharedprefs.UserStore
 import com.aslifitness.fitracker.utils.EMPTY
+import com.aslifitness.fitracker.utils.ROUTINE_SUMMARY_DEEPLINK
 import com.aslifitness.fitracker.widgets.AddRoutineWidget
 import com.aslifitness.fitracker.workoutlist.WorkoutFragmentCallback
 
@@ -36,7 +37,6 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
 
     companion object {
         const val TAG = "AddRoutineFragment"
-
         fun newInstance() = AddRoutineFragment()
     }
 
@@ -49,7 +49,7 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAddRoutineBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -86,7 +86,8 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
                         title = it.title,
                         message = it.subTitle,
                         isScheduled = it.routineInfo?.reminder?.isRepeat,
-                        scheduledTime = it.routineInfo?.reminder?.time
+                        scheduledTime = it.routineInfo?.reminder?.time,
+                        deeplinkUrl = ROUTINE_SUMMARY_DEEPLINK
                     )
                     notificationUtil.scheduleAlarm(notificationDto)
                 }

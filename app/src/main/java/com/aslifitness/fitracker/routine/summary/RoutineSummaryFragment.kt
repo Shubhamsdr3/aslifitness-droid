@@ -19,6 +19,8 @@ class RoutineSummaryFragment: Fragment() {
     lateinit var viewModel: RoutineSummaryViewModel
 
     companion object {
+        const val TAG = "RoutineSummaryFragment"
+
         fun newInstance() = RoutineSummaryFragment()
     }
 
