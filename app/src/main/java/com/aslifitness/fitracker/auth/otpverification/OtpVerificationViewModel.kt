@@ -1,5 +1,6 @@
 package com.aslifitness.fitracker.auth.otpverification
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.aslifitness.fitracker.model.UserDto
 import com.aslifitness.fitracker.network.ApiService
@@ -35,12 +36,23 @@ class OtpVerificationViewModel @Inject constructor(private val apiService: ApiSe
 
     fun saveUser(userDto: UserDto) {
         viewModelScope.launch {
-            performNetworkCall { apiService.saveUser(userDto) }
+            performNetworkCall { apiService.saveUser(getLayoutParams(userDto)) }
                 .catch {
                     otpMutableViewState.value = OtpVerificationViewState.ShowError(it)
                 }.collect {
                     otpMutableViewState.value = OtpVerificationViewState.OnUserSaved
                 }
         }
+    }
+
+    private fun getLayoutParams(userDto: UserDto): Map<String, Any?> {
+        val reqParams = mutableMapOf<String, Any?>()
+        reqParams["userId"] = userDto.userId
+        reqParams["name"] = userDto.name
+        reqParams["phoneNumber"] = userDto.phoneNumber
+        reqParams["age"] = userDto.age
+        reqParams["profileImage"] = userDto.profileImage
+        reqParams["weight"] = userDto.weight
+        return reqParams
     }
 }

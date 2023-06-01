@@ -10,7 +10,8 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class ShortcutInfo(
+data class FitShortcutInfo(
+    val shortCutId: String,
     val shortLabel: String,
     val longLabel: String,
     val parameterName: String,

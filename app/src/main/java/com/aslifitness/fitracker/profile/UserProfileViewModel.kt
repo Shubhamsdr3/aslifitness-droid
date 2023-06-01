@@ -1,5 +1,6 @@
 package com.aslifitness.fitracker.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,7 +28,7 @@ class UserProfileViewModel @Inject constructor(private val apiService: ApiServic
     fun fetchUserProfile(userId: String) {
         viewModelScope.launch {
             userProfileMutableState.value = NetworkState.Loading
-            performNetworkCall { apiService.getUserProfile() }
+            performNetworkCall { apiService.getUserProfile(userId) }
                 .catch {
                     userProfileMutableState.value = NetworkState.Error(it)
                 }.collect { response ->

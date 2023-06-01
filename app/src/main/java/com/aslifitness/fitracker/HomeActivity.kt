@@ -4,7 +4,6 @@ import android.Manifest
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,19 +14,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.graphics.drawable.IconCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aslifitness.fitracker.addworkout.AddWorkoutActivity
 import com.aslifitness.fitracker.addworkout.AddWorkoutBottomSheet
 import com.aslifitness.fitracker.addworkout.WorkoutBottomSheetCallback
 import com.aslifitness.fitracker.assistant.BiiIntents
-import com.aslifitness.fitracker.assistant.model.ShortcutInfo
+import com.aslifitness.fitracker.assistant.model.FitShortcutInfo
+import com.aslifitness.fitracker.auth.AppSignatureHashHelper
 import com.aslifitness.fitracker.databinding.ActivityHomeBinding
 import com.aslifitness.fitracker.model.WorkoutDto
 import com.aslifitness.fitracker.model.addworkout.WorkoutBottomSheetInfo
 import com.aslifitness.fitracker.routine.UserRoutineActivity
 import com.aslifitness.fitracker.utils.EMPTY
+import com.aslifitness.fitracker.utils.ShortCutsFactory
 import com.aslifitness.fitracker.utils.showShortToast
 import com.aslifitness.fitracker.workoutlist.WorkoutListActivity
 import com.google.android.gms.tasks.OnCompleteListener
@@ -42,21 +42,24 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
 
     private lateinit var binding: ActivityHomeBinding
 
-    private val shortCuts = mapOf(
-        "addWorkout" to ShortcutInfo(
-            shortLabel = "Add workout",
-            longLabel = "Add new workout",
-            parameterName = "workoutName",
-            intentAction = BiiIntents.ADD_WORKOUT_INTENT,
-            parameters = listOf("Add workout", "log workout")
+    private val shortCuts = listOf(
+         FitShortcutInfo(
+             shortLabel = "Add workout",
+             longLabel = "Add new workout",
+             parameterName = "workoutName",
+             intentAction = BiiIntents.ADD_WORKOUT_INTENT,
+             parameters = listOf("Add workout", "log workout"),
+             shortCutId = "addWorkout"
         ),
-        "addRoutine" to ShortcutInfo(
+        FitShortcutInfo(
             shortLabel = "Add routine",
             longLabel = "Add new routine",
             parameterName = "routineName",
             intentAction = BiiIntents.ADD_ROUTINE_INTENT,
-            parameters = listOf("Add routine", "Add new routine")
-        ))
+            parameters = listOf("Add routine", "Add new routine"),
+            shortCutId = "addRoutine"
+        )
+    )
 
     companion object {
         private const val TAG = "FBNotificationService"
@@ -93,17 +96,11 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
     }
 
     private fun configureShortcuts() {
-        shortCuts.forEach {
-            val intent = Intent(it.value.intentAction)
-            val shortcutInfo = ShortcutInfoCompat.Builder(this, it.key)
-                .setIcon(IconCompat.createWithResource(this, R.drawable.ic_dumble_new))
-                .setShortLabel(it.value.shortLabel)
-                .setLongLabel(it.value.longLabel)
-                .addCapabilityBinding(BiiIntents.ADD_WORKOUT_INTENT, it.value.parameterName, it.value.parameters)
-                .setIntent(intent)
-                .build()
-            ShortcutManagerCompat.pushDynamicShortcut(this, shortcutInfo)
-        }
+        val shortcutInfoList = mutableListOf<ShortcutInfoCompat>()
+        shortcutInfoList.add(ShortCutsFactory().createShortCuts<AddWorkoutActivity>(this, shortCuts[0]))
+        shortcutInfoList.add(ShortCutsFactory().createShortCuts<UserRoutineActivity>(this, shortCuts[1]))
+        ShortcutManagerCompat.setDynamicShortcuts(this, shortcutInfoList)
+        //TODO: add current routine shortcut too.
     }
 
     override fun onNewIntent(intent: Intent?) {

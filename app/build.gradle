@@ -59,7 +59,7 @@ android {
             buildConfigField "String", "BASE_URL", "\"http://192.168.1.8:3000/\""
         }
         mynetwork {
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.4:3000/\""
+            buildConfigField "String", "BASE_URL", "\"http://192.168.1.8:3000/\""
         }
         emulator {
             buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:3000/\""
@@ -156,10 +156,10 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:2.42"
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
 
-
     // google service auth
-    implementation 'com.google.android.gms:play-services-auth:20.4.0'
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:18.0.1'
+    implementation 'com.google.android.gms:play-services-identity:18.0.1'
 
     // firebase auth
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
@@ -201,6 +201,16 @@ dependencies {
 
     // shortcuts
     implementation "androidx.core:core-google-shortcuts:1.1.0"
+
+    // camerax
+    def camerax_version = "1.2.2"
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    implementation "androidx.camera:camera-video:${camerax_version}"
+
+    implementation "androidx.camera:camera-view:${camerax_version}"
+    implementation "androidx.camera:camera-extensions:${camerax_version}"
 
 }
 

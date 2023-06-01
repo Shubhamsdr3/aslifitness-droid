@@ -1,6 +1,7 @@
 package com.aslifitness.fitracker.auth.otpverification
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -14,6 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.aslifitness.fitracker.HomeActivity
 import com.aslifitness.fitracker.R
+import com.aslifitness.fitracker.auth.OTPReceiveListener
+import com.aslifitness.fitracker.auth.SMSReceiver
 import com.aslifitness.fitracker.databinding.FragmentOtpVerificationBinding
 import com.aslifitness.fitracker.firebase.FBAuthUtil
 import com.aslifitness.fitracker.model.UserDto
@@ -22,6 +25,9 @@ import com.aslifitness.fitracker.sharedprefs.UserStore
 import com.aslifitness.fitracker.utils.Utility
 import com.aslifitness.fitracker.utils.setTextWithVisibility
 import com.aslifitness.fitracker.utils.setUnderlineText
+import com.aslifitness.fitracker.widgets.auth.otpinput.OTPListener
+import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
@@ -31,7 +37,7 @@ import java.util.concurrent.TimeUnit
 /**
  * @author Shubham Pandey
  */
-class OtpVerificationFragment: Fragment() {
+class OtpVerificationFragment: Fragment(), OTPListener {
 
     private val viewModel: OtpVerificationViewModel by viewModels { OtpVerificationViewModelFactory(ApiHandler.apiService) }
 
@@ -39,6 +45,9 @@ class OtpVerificationFragment: Fragment() {
     private var phoneNumber: String? = null
     private var phoneVerificationId: String? = null
     private var resendToken: PhoneAuthProvider.ForceResendingToken? = null
+
+    private var intentFilter: IntentFilter? = null
+    private var smsReceiver: SMSReceiver? = null
 
     companion object {
         const val TAG = "OtpVerificationFragment"
@@ -59,6 +68,41 @@ class OtpVerificationFragment: Fragment() {
         extractExtras()
         configureView()
         setupObserver()
+        configureOTPVerification()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().registerReceiver(smsReceiver, intentFilter)
+    }
+
+    private fun configureOTPVerification() {
+        initSmaRetriever()
+        initBroadCast()
+    }
+
+    private fun initBroadCast() {
+        intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+        smsReceiver = SMSReceiver()
+        smsReceiver?.setOTPListener(object : OTPReceiveListener {
+            override fun onOTPReceived(otp: String?) {
+                if (!otp.isNullOrEmpty()) {
+                    binding.otpInput.setOTP(otp)
+                }
+            }
+        })
+    }
+
+    private fun initSmaRetriever() {
+        val client = SmsRetriever.getClient(requireActivity())
+        val task: Task<Void> = client.startSmsRetriever()
+        task.addOnSuccessListener {
+
+        }
+
+        task.addOnFailureListener {
+
+        }
     }
 
     private fun setupObserver() {
@@ -112,6 +156,7 @@ class OtpVerificationFragment: Fragment() {
         binding.changeText.setOnClickListener { activity?.onBackPressed() }
         binding.otpSubmit.setOnClickListener { onOtpSubmitClicked() }
         binding.resendTxt.setOnClickListener { verifyPhoneNumber() }
+        binding.otpInput.setCallback(this)
     }
 
     private fun onOtpSubmitClicked() {
@@ -160,11 +205,9 @@ class OtpVerificationFragment: Fragment() {
 
                 override fun onVerificationFailed(ex: FirebaseException) {
                     if (ex is FirebaseAuthInvalidCredentialsException) {
-                        // Invalid request
-                        Timber.e(ex)
+                        Timber.e(ex) // Invalid request
                     } else if (ex is FirebaseTooManyRequestsException) {
-                        // The SMS quota for the project has been exceeded
-                        Timber.e(ex)
+                        Timber.e(ex) // The SMS quota for the project has been exceeded
                     }
                 }
 
@@ -209,5 +252,19 @@ class OtpVerificationFragment: Fragment() {
         UserStore.putUserDetail(userDto)
         UserStore.putUserId(user.uid)
         viewModel.saveUser(userDto)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().unregisterReceiver(smsReceiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        smsReceiver = null
+    }
+
+    override fun onOTPComplete(otp: String) {
+        onOtpSubmitClicked()
     }
 }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RoutineDao {
 
-    @Query("SELECT * FROM user_routine")
+    @Query("SELECT * FROM user_routine ORDER BY created_at DESC")
     fun fetchUserRoutine(): Flow<List<UserRoutineDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

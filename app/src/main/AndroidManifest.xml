@@ -8,6 +8,11 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -127,10 +132,6 @@
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="aslifitness.actions.intent.ADD_WORKOUT" />
-            </intent-filter>
-
-            <intent-filter android:autoVerify="true">
                 <action android:name="aslifitness.actions.intent.ADD_ROUTINE" />
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -228,6 +229,9 @@
 
         </activity>
 
+        <activity android:name=".camera.CameraSuccessActivity" />
+        <activity android:name=".camera.CameraActivity" />
+
         <receiver android:name=".notification.ReminderReceiver" />
 
         <service android:name=".notification.FBNotificationService" android:exported="false">
@@ -241,6 +245,20 @@
             android:enabled="true"
             android:exported="false" />
 
+        <receiver android:name="com.google.assistant.appactions.widgets.pinappwidget.PinAppWidgetBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.assistant.appactions.widgets.COMPLETE_PIN_APP_WIDGET" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.assistant.appactions.widgets.pinappwidget.PinAppWidgetService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.assistant.appactions.widgets.PIN_APP_WIDGET" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

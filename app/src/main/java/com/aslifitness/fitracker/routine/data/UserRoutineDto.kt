@@ -27,6 +27,9 @@ data class UserRoutineDto(
     val title: String? = null,
 
     @ColumnInfo("workouts")
-    val workouts: List<RoutineWorkout>? = null
+    val workouts: List<RoutineWorkout>? = null,
+
+    @ColumnInfo("created_at")
+    val createdAt: Long?
 
 ): Parcelable

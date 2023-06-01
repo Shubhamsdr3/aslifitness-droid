@@ -2,57 +2,42 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <shortcut
-        android:shortcutId="running"
-        android:shortcutShortLabel="@string/activity_running">
-        <capability-binding android:key="actions.intent.START_EXERCISE">
-            <parameter-binding
-                android:key="exercise.name"
-                android:value="@array/runningSynonyms"/>
-        </capability-binding>
-    </shortcut>
-
-    <capability android:name="actions.intent.START_EXERCISE">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="com.aslifitness.fitracker.unique"
-            android:targetClass="com.aslifitness.fitracker.assistant.FitMainActivity">
-            <parameter
-                android:name="exercise.name"
-                android:key="exerciseType"/>
-        </intent>
-    </capability>
-
-    <shortcut
-        android:shortcutId="running"
-        android:shortcutShortLabel="@string/activity_running">
-        <capability-binding android:key="actions.intent.STOP_EXERCISE">
-            <parameter-binding
-                android:key="exercise.name"
-                android:value="@array/runningSynonyms"/>
-        </capability-binding>
-    </shortcut>
-
-    <capability android:name="actions.intent.STOP_EXERCISE">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="com.aslifitness.fitracker.unique"
-            android:targetClass="com.aslifitness.fitracker.assistant.FitMainActivity">
-            <parameter
-                android:name="exercise.name"
-                android:key="stopExercise"/>
-        </intent>
-    </capability>
-
-    <capability android:name="fitracker.intent.ADD_WORKOUT"
+    <capability android:name="aslifitness.actions.intent.ADD_WORKOUT"
         app:queryPatterns="@array/addWorkouts">
         <intent>
-            <url-template android:value="http://www.aslifitnessapp.com/addWorkout{?exerciseName}" />
+            <url-template android:value="http://www.aslifitnessapp.com/navigation?type=addWorkout{?exerciseName}" />
             <parameter
                 android:name="exerciseName"
                 android:key="exerciseName"
                 android:mimeType="https://schema.org/Text" />
         </intent>
+    </capability>
+
+    <capability android:name="aslifitness.actions.intent.ADD_ROUTINE"
+        app:queryPatterns="@array/addRoutines">
+        <intent>
+            <url-template android:value="http://www.aslifitnessapp.com/navigation?type=addRoutine{?exerciseName}" />
+            <parameter
+                android:name="routineName"
+                android:key="routineName"
+                android:mimeType="https://schema.org/Text" />
+        </intent>
+    </capability>
+
+    <capability android:name="actions.intent.GET_EXERCISE_OBSERVATION">
+        <app-widget
+            android:identifier="GET_EXERCISE_OBSERVATION_1"
+            android:targetPackage="com.aslifitness.fitracker"
+            android:targetClass="com.aslifitness.fitracker.assistant.widgets.StatsWidgetProvider">
+            <parameter
+                android:name="exerciseObservation.aboutExercise.name"
+                android:key="exercisename">
+            </parameter>
+
+            <extra
+                android:name="hasTts"
+                android:value="true"/>
+        </app-widget>
     </capability>
 
 </shortcuts>

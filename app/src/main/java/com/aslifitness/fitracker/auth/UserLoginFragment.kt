@@ -5,8 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.aslifitness.fitracker.databinding.FragmentUserLoginBinding
+import com.aslifitness.fitracker.widgets.auth.SignInListener
+import com.google.android.gms.auth.api.credentials.Credential
+import com.google.android.gms.auth.api.credentials.Credentials
+import com.google.android.gms.auth.api.credentials.HintRequest
+
 
 /**
  * @author Shubham Pandey
@@ -18,7 +26,20 @@ class UserLoginFragment : Fragment() {
 
     companion object {
         const val TAG = "UserLoginFragment"
+
         fun newInstance() = UserLoginFragment()
+    }
+
+    private val hintLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult? ->
+        if (result != null && result.data != null) {
+            val data = result.data
+            val credential = data?.getParcelableExtra<Credential>(Credential.EXTRA_KEY)
+            var phoneNum = credential?.id
+            if (!phoneNum.isNullOrEmpty() && phoneNum.contains("+91")){
+                phoneNum = phoneNum.replace("+91", "")
+                binding.loginCardview.setPhoneNumber(phoneNum)
+            }
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -40,17 +61,23 @@ class UserLoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListener()
+        requestPhoneNumberHint()
+    }
+
+    private fun requestPhoneNumberHint() {
+        val hintRequest = HintRequest.Builder()
+            .setPhoneNumberIdentifierSupported(true)
+            .build()
+        val intent = Credentials.getClient(requireActivity()).getHintPickerIntent(hintRequest)
+        val intentSenderRequest = IntentSenderRequest.Builder(intent.intentSender)
+        hintLauncher.launch(intentSenderRequest.build())
     }
 
     private fun setupListener() {
-        binding.loginLayout.submitButton.setOnClickListener { onSubmitClicked() }
-    }
-
-    private fun onSubmitClicked() {
-        val phoneText = binding.loginLayout.phoneNumber.text
-        if (!phoneText.isNullOrEmpty()) {
-            val phoneNumber = phoneText.toString()
-            callback?.onSubmitClicked(phoneNumber)
-        }
+        binding.loginCardview.setSigInCallback(object : SignInListener {
+            override fun onPhoneNumberEntered(phoneNumber: String) {
+                callback?.onSubmitClicked(phoneNumber)
+            }
+        })
     }
 }

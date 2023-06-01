@@ -7,6 +7,7 @@
     <string name="story_posted_successfully">Story posted successfully</string>
     <string name="select_picture">Select picture</string>
     <string name="canceled_text">Canceled</string>
+    <string name="cancel_text">Cancel</string>
     <string name="camera_permission_request">Allow camera</string>
     <string name="btn_ok">Okay</string>
     <string name="skip">Skip</string>
@@ -85,5 +86,9 @@
     <string name="activity_unknown">Unknown</string>
     <string name="get_started">Get started</string>
     <string name="add_workout_text">Add an exercise to start workout</string>
+    <string name="start_routine">Start routine</string>
+    <string name="take_photo">Take photo</string>
+    <string name="start_capture">Start capture</string>
+    <string name="stop_capture">Stop capture</string>
 
 </resources>

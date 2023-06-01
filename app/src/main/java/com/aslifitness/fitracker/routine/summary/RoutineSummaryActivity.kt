@@ -24,6 +24,7 @@ class RoutineSummaryActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRoutineSummaryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         loadFragment(savedInstanceState)
     }
 

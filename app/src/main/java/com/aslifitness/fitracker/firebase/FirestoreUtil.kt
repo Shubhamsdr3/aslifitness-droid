@@ -22,7 +22,7 @@ import timber.log.Timber
 object FirestoreUtil {
 
     private val db: FirebaseFirestore by lazy { Firebase.firestore }
-    private val currentUserId = "HWwjy02svXW2zy7WMioe"
+    private val currentUserId = UserStore.getUserId()
 
     private val currentUser: DocumentReference = db.document("user/$currentUserId")
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.aslifitness.fitracker.databinding.ActivityExampleBinding
-import com.aslifitness.fitracker.widgets.otpinput.OTPListener
+import com.aslifitness.fitracker.widgets.auth.otpinput.OTPListener
 
 /**
  * @author Shubham Pandey

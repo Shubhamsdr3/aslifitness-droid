@@ -30,11 +30,11 @@ interface ApiService {
     @GET("/api/workout/allWorkouts")
     suspend fun getWorkoutList(): Response<ApiResponse<WorkoutListResponse>>
 
-    @GET("/api/user/profile")
-    suspend fun getUserProfile(): Response<ApiResponse<UserProfileResponse>>
+    @GET("/api/user/{userId}/profile")
+    suspend fun getUserProfile(@Path("userId") userId: String): Response<ApiResponse<UserProfileResponse>>
 
     @POST("/api/user/save")
-    suspend fun saveUser(@Body userDto: UserDto): Response<ApiResponse<UserDto>>
+    suspend fun saveUser(@Body params: Map<String, @JvmSuppressWildcards Any?>): Response<ApiResponse<UserDto>>
 
     @POST("api/fitness-centers")
     suspend fun fetchVendorList(@Body params: Map<String, @JvmSuppressWildcards Any?>): Response<ApiResponse<VendorsResponseDto>>

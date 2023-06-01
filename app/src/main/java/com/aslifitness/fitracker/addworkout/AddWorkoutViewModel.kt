@@ -42,7 +42,6 @@ class AddWorkoutViewModel @Inject constructor(private val repository: WorkoutRep
 
     init {
         _addedWorkoutList.value = ArrayList()
-        UserStore.putUserId("pande_shubhm123") // Remove this.
     }
 
     fun postUserWorkouts(duration: Long) {

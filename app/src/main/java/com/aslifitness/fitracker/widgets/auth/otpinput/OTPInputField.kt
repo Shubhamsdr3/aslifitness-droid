@@ -1,4 +1,4 @@
-package com.aslifitness.fitracker.widgets.otpinput
+package com.aslifitness.fitracker.widgets.auth.otpinput
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -39,9 +39,7 @@ class OTPInputField @JvmOverloads constructor(context: Context, attributeSet: At
     private val filter: InputFilter
         get() = InputFilter { source, start, end, _, _, _ ->
             for (i in start until end) {
-                if (!Pattern.compile(PATTERN)
-                                .matcher(source[i].toString())
-                                .matches()) {
+                if (!Pattern.compile(PATTERN).matcher(source[i].toString()).matches()) {
                     return@InputFilter EMPTY
                 }
             }

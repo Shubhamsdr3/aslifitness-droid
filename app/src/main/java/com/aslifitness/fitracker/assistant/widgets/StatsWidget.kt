@@ -17,12 +17,8 @@ import java.util.concurrent.TimeUnit
  * Class that defines a Stats Widget which provides data on the last activity performed
  * or with a BII it provides the last activity performed of requested activity type
  */
-class StatsWidget(
-    private val context: Context,
-    private val appWidgetManager: AppWidgetManager,
-    private val appWidgetId: Int,
-    layout: Int,
-) {
+class StatsWidget(private val context: Context, private val appWidgetManager: AppWidgetManager, private val appWidgetId: Int, layout: Int) {
+
     private val views = RemoteViews(context.packageName, layout)
     private val repository = FitRepository.getInstance(context)
     private val hasBii: Boolean
@@ -37,10 +33,10 @@ class StatsWidget(
         val params = optionsBundle.getBundle(AppActionsWidgetExtension.EXTRA_APP_ACTIONS_PARAMS)
         if (params != null) {
             isFallbackIntent = params.isEmpty
-            if (isFallbackIntent) {
-                aboutExerciseName = context.resources.getString(R.string.activity_unknown)
+            aboutExerciseName = if (isFallbackIntent) {
+                context.resources.getString(R.string.activity_unknown)
             } else {
-                aboutExerciseName = params.get("aboutExerciseName") as String
+                params.get("aboutExerciseName") as String
             }
         } else {
             isFallbackIntent = false
@@ -56,10 +52,10 @@ class StatsWidget(
     fun updateAppWidget() {
         if (hasBii && !isFallbackIntent) {
             observeAndUpdateRequestedExercise()
-        } else observeAndUpdateLastExercise()
+        } else {
+            observeAndUpdateLastExercise()
+        }
     }
-
-
 
     /**
      * Sets title, duration and distance data to widget
@@ -191,7 +187,6 @@ class StatsWidget(
      */
     private fun observeAndUpdateLastExercise() {
         val activityData = repository.getLastActivities(1)
-
         activityData.observeOnce { activitiesStat ->
             if (activitiesStat.isNotEmpty()) {
                 formatDataAndSetWidget(activitiesStat[0])
@@ -202,6 +197,5 @@ class StatsWidget(
             }
         }
     }
-
 }
 

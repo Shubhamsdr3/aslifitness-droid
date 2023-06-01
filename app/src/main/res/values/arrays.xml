@@ -24,8 +24,12 @@
     </array>
 
     <array name="addWorkouts">
-        <item>Add $workout</item>
-        <item>Log $workout</item>
+        <item>Add workout $workout</item>
+        <item>Log workout $workout</item>
+    </array>
+
+    <array name="addRoutines">
+        <item>Add routine $routineName</item>
     </array>
 
 </resources>

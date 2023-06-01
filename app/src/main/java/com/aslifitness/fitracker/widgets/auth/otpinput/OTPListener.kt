@@ -1,4 +1,4 @@
-package com.aslifitness.fitracker.widgets.otpinput
+package com.aslifitness.fitracker.widgets.auth.otpinput
 
 /**
  * @author Shubham

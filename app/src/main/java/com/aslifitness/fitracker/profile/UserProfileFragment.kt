@@ -55,9 +55,7 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
 
     private fun setupViewModel() {
         val userId = UserStore.getUserId()
-//        if (userId.isNotEmpty()) {
-            viewModel.fetchUserProfile(userId)
-//        }
+        if (userId.isNotEmpty()) viewModel.fetchUserProfile(userId)
         viewModel.userProfileViewState.observe(viewLifecycleOwner) { onViewStateChanged(it) }
     }
 

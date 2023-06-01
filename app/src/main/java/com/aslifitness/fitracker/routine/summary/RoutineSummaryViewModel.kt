@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aslifitness.fitracker.model.MenuOption
 import com.aslifitness.fitracker.network.NetworkState
 import com.aslifitness.fitracker.routine.RoutineRepository
 import com.aslifitness.fitracker.routine.data.UserRoutineDto
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 class RoutineSummaryViewModel(private  val repository: RoutineRepository): ViewModel() {
 
     private val userRoutineSummaryLiveData = MutableLiveData<NetworkState<List<UserRoutineDto>>>()
-    private val userRoutineLiveData: LiveData<NetworkState<List<UserRoutineDto>>> = userRoutineSummaryLiveData
+    val userRoutineLiveData: LiveData<NetworkState<List<UserRoutineDto>>> = userRoutineSummaryLiveData
 
     fun fetchUserRoutine() {
         val userId = UserStore.getUserId()
@@ -29,5 +30,14 @@ class RoutineSummaryViewModel(private  val repository: RoutineRepository): ViewM
                     userRoutineSummaryLiveData.value = NetworkState.Success(it)
                 }
         }
+    }
+
+    fun getMenuOptions(): List<MenuOption> {
+        return listOf(
+            MenuOption("Share routine"),
+            MenuOption("Duplicate routine"),
+            MenuOption("Edit routine"),
+            MenuOption("Delete routine")
+        )
     }
 }

@@ -1,6 +1,7 @@
 package com.aslifitness.fitracker.routine
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.aslifitness.fitracker.notification.NotificationDto
 import com.aslifitness.fitracker.notification.NotificationUtil
 import com.aslifitness.fitracker.routine.data.RoutineWorkout
 import com.aslifitness.fitracker.routine.data.UserRoutineDto
+import com.aslifitness.fitracker.routine.summary.RoutineSummaryActivity
 import com.aslifitness.fitracker.sharedprefs.UserStore
 import com.aslifitness.fitracker.utils.EMPTY
 import com.aslifitness.fitracker.utils.ROUTINE_SUMMARY_DEEPLINK
@@ -79,19 +81,21 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
 
     private fun handleSuccess(data: UserRoutineDto?) {
         binding.saveButton.hideLoader()
-        data?.run {
-            if (!workouts.isNullOrEmpty()) {
-                workouts.forEach {
-                    val notificationDto = NotificationDto(
-                        title = it.title,
-                        message = it.subTitle,
-                        isScheduled = it.routineInfo?.reminder?.isRepeat,
-                        scheduledTime = it.routineInfo?.reminder?.time,
-                        deeplinkUrl = ROUTINE_SUMMARY_DEEPLINK
-                    )
-                    notificationUtil.scheduleAlarm(notificationDto)
-                }
-            }
+        data?.run { configureReminder(workouts) }
+        startActivity(Intent(activity, RoutineSummaryActivity::class.java))
+    }
+
+    private fun configureReminder(workouts: List<RoutineWorkout>?) {
+        if (workouts.isNullOrEmpty()) return
+        workouts.forEach {
+            val notificationDto = NotificationDto(
+                title = it.title,
+                message = it.subTitle,
+                isScheduled = it.routineInfo?.reminder?.isRepeat,
+                scheduledTime = it.routineInfo?.reminder?.time,
+                deeplinkUrl = ROUTINE_SUMMARY_DEEPLINK
+            )
+            notificationUtil.scheduleAlarm(notificationDto)
         }
     }
 
@@ -129,7 +133,8 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
         val userRoutineDto = UserRoutineDto(
             userId = UserStore.getUserId(),
             title = workoutTitle.toString(),
-            workouts = routineWorkouts
+            workouts = routineWorkouts,
+            createdAt = System.currentTimeMillis()
         )
         viewModel.saveRoutineToLocalDb(userRoutineDto)
     }
