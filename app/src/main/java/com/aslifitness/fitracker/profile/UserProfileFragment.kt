@@ -1,5 +1,6 @@
 package com.aslifitness.fitracker.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.aslifitness.fitracker.HomeActivity
 import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.databinding.FragmentUserProfileBinding
 import com.aslifitness.fitracker.detail.data.WorkoutHistory
@@ -23,6 +25,8 @@ import com.aslifitness.fitracker.utils.setImageWithPlaceholder
 import com.aslifitness.fitracker.utils.setTextWithVisibility
 import com.aslifitness.fitracker.widgets.SpaceItemDecoration
 import com.aslifitness.fitracker.widgets.WorkoutHistoryCallback
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 /**
  * @author Shubham Pandey
@@ -51,6 +55,14 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
     private fun setupToolbar() {
         binding.profileToolbar.title = UserStore.getUserDetail()?.name
         binding.profileToolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.signOut.setOnClickListener { Firebase.auth.signOut() }
+        Firebase.auth.addAuthStateListener {
+            if (it.currentUser != null) {
+                // signed in
+            } else {
+                startActivity(Intent(activity, HomeActivity::class.java))
+            }
+        }
     }
 
     private fun setupViewModel() {

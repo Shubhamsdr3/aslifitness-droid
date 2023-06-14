@@ -34,6 +34,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.util.*
 
 
@@ -85,14 +86,18 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
         getFCMToken()
         configureShortcuts()
         intent.handleIntent()
+        subscribeFCMTopic()
+        askNotificationPermission()
+    }
+
+    private fun subscribeFCMTopic() {
         FirebaseMessaging.getInstance().subscribeToTopic("routine-reminder")
             .addOnCompleteListener { task ->
-                showShortToast("Subscribed! You will get all discount offers notifications")
+                Timber.d(TAG,"Subscribed! You will get all discount offers notifications")
                 if (!task.isSuccessful) {
-                    showShortToast("Failed! Try again.")
+                    Timber.d("Failed! Try again.")
                 }
             }
-        askNotificationPermission()
     }
 
     private fun configureShortcuts() {
@@ -132,12 +137,11 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
     private fun getFCMToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                Timber.d(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
             val token = task.result
-            Log.d(TAG, "Firebase message token: $token")
-            Toast.makeText(this, "Firebase message token: $token", Toast.LENGTH_SHORT).show()
+            Timber.d(TAG, "Firebase message token: $token")
         })
     }
 

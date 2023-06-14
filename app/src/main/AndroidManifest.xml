@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
 
+    <!--android:networkSecurityConfig="@xml/network_security_config" />-->
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -105,9 +107,7 @@
 
         <activity android:name=".errorhandler.CrashActivity" />
 
-        <activity
-            android:windowSoftInputMode="adjustResize"
-            android:name=".auth.UserAuthActivity" />
+        <activity android:name=".auth.UserAuthActivity" />
 
         <activity
             android:windowSoftInputMode="adjustResize"
@@ -259,6 +259,19 @@
                 <action android:name="com.google.assistant.appactions.widgets.PIN_APP_WIDGET" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_dumble_new" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/color_primary" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.content.Context
 import com.aslifitness.fitracker.FitApp
 import com.aslifitness.fitracker.model.UserDto
 import com.aslifitness.fitracker.utils.EMPTY
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -19,7 +20,7 @@ object UserStore {
 
     private val sharedPreferences = FitApp.getAppContext()?.getSharedPreferences(USER_STORE, Context.MODE_PRIVATE)
 
-    fun isUserAuthenticated() = true //TODO: fix it/
+    fun isUserAuthenticated() = FirebaseAuth.getInstance().currentUser != null
 
     fun putUserId(userId: String) {
         sharedPreferences?.run {

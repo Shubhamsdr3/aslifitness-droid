@@ -11,6 +11,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -28,6 +29,14 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+
+//    private val certificatePinner = CertificatePinner.Builder()
+//        .add(
+//            "www.yourdomain.com",
+//            "sha256/ZCOF65ADBWPDK8P2V7+mqodtvbsTRR/D74FCU+CEEA="
+//        )
+//        .build()
 
     @Singleton
     @Provides
@@ -53,6 +62,7 @@ class NetworkModule {
         val logging = HttpLoggingInterceptor()
         val builder = OkHttpClient.Builder()
         builder.retryOnConnectionFailure(true)
+//            .certificatePinner(certificatePinner)
         if (BuildConfig.DEBUG) {
             logging.apply { logging.level = HttpLoggingInterceptor.Level.BODY }
             builder.addInterceptor(logging)

@@ -39,7 +39,7 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback {
     companion object {
         internal const val TAG = "HomeFragment"
         private const val SPAN_COUNT = 2
-        private const val PADDING = 32
+        private const val PADDING = 36
         fun newInstance() = HomeFragment()
     }
 
@@ -102,10 +102,14 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback {
             binding.workoutList.addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                     super.getItemOffsets(outRect, view, parent, state)
-                    if (parent.indexOfChild(view) in workoutList.count() - SPAN_COUNT..workoutList.count()) {
+                    val childIndex = parent.indexOfChild(view)
+                    if (childIndex in workoutList.count() - SPAN_COUNT..workoutList.count()) {
                         outRect.bottom = ZERO
                     } else {
                         outRect.bottom = PADDING
+                    }
+                    if (childIndex  % 2 == 0) {
+                        outRect.right = PADDING
                     }
                 }
             })

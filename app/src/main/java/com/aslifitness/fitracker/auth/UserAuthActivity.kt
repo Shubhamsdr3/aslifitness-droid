@@ -19,6 +19,7 @@ class UserAuthActivity: AppCompatActivity(), UserLoginFragmentCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityUserAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.authToolbar.setNavigationOnClickListener { onBackPressed() }
         loadFragment(savedInstanceState)
     }
 

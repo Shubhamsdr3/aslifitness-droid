@@ -17,7 +17,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_arrow_back_24" />
+            app:navigationIcon="@drawable/ic_arrow_back_24" >
+
+            <com.aslifitness.fitracker.widgets.FitnessButton
+                android:id="@+id/sign_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:button_title="Sign out"
+                app:button_state="enable"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/dimen_16dp" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ic_profile"
