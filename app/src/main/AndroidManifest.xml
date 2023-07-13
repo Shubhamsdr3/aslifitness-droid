@@ -19,11 +19,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_dumble_new"
         android:label="@string/app_name"
         android:name=".FitApp"
         android:usesCleartextTraffic="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_dumble_new"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitracker"
         tools:targetApi="31">
@@ -233,6 +233,19 @@
         <activity android:name=".camera.CameraActivity" />
 
         <receiver android:name=".notification.ReminderReceiver" />
+        <receiver android:name=".notification.DeviceRebootReceiver" android:exported="true">
+
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.ACTION_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.REBOOT" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+            </intent-filter>
+
+        </receiver>
 
         <service android:name=".notification.FBNotificationService" android:exported="false">
             <intent-filter>

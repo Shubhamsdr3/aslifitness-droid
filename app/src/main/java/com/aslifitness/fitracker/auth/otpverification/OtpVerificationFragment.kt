@@ -3,6 +3,7 @@ package com.aslifitness.fitracker.auth.otpverification
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -96,13 +97,8 @@ class OtpVerificationFragment: Fragment(), OTPListener {
     private fun initSmaRetriever() {
         val client = SmsRetriever.getClient(requireActivity())
         val task: Task<Void> = client.startSmsRetriever()
-        task.addOnSuccessListener {
-
-        }
-
-        task.addOnFailureListener {
-
-        }
+        task.addOnSuccessListener {}
+        task.addOnFailureListener {}
     }
 
     private fun setupObserver() {
@@ -205,9 +201,9 @@ class OtpVerificationFragment: Fragment(), OTPListener {
 
                 override fun onVerificationFailed(ex: FirebaseException) {
                     if (ex is FirebaseAuthInvalidCredentialsException) {
-                        Timber.e(ex) // Invalid request
+                        Timber.tag(TAG).e(ex.toString()) // Invalid request
                     } else if (ex is FirebaseTooManyRequestsException) {
-                        Timber.e(ex) // The SMS quota for the project has been exceeded
+                        Timber.tag(TAG).e(ex.toString()) // The SMS quota for the project has been exceeded
                     }
                 }
 

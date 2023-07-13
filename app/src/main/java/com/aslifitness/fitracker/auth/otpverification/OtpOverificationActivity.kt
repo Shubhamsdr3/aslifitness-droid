@@ -49,7 +49,7 @@ class OtpVerificationActivity: AppCompatActivity() {
         phoneNumber?.let {
             supportFragmentManager.beginTransaction().apply {
                 add(R.id.container, OtpVerificationFragment.newInstance(it))
-            }.commit()
+            }.commitAllowingStateLoss()
         }
     }
 }

@@ -9,14 +9,15 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import com.aslifitness.fitracker.FitApp
 import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.utils.NavigationActivity
-import timber.log.Timber
-import java.sql.Timestamp
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -29,7 +30,7 @@ class NotificationUtil(private val context: Context) {
     }
 
     fun showNotification(notificationData: NotificationDto) {
-        Timber.d(TAG, "The notification data: $notificationData")
+        Log.d(TAG, "The notification data: $notificationData")
         val intent = Intent(context, NavigationActivity::class.java)
         intent.data = Uri.parse(notificationData.deeplinkUrl)
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -63,17 +64,17 @@ class NotificationUtil(private val context: Context) {
     }
 
     fun scheduleAlarm(notificationDto: NotificationDto) {
-        Timber.d(TAG, "Scheduling notification...: ${notificationDto.scheduledTime}")
+        Log.d(TAG, "Scheduling notification...: ${notificationDto.scheduledTime}")
         FitApp.getAppContext()?.let { ctx ->
             val alarmMgr = ctx.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val bundle = Bundle().apply { putParcelable(FBNotificationService.NOTIFICATION_DATA, notificationDto) }
             val alarmIntent = Intent(ctx, ReminderReceiver::class.java).apply {
-                putExtra(FBNotificationService.NOTIFICATION_DATA, notificationDto)
+                putExtra(FBNotificationService.NOTIFICATION_DATA, bundle)
             }
-            Timber.d(TAG, "Scheduled time: ${notificationDto.scheduledTime}")
-            notificationDto.scheduledTime?.let {
-                val timeStamp = Timestamp(it)
-                val intent = PendingIntent.getBroadcast(ctx, it.toInt(), alarmIntent, PendingIntent.FLAG_ONE_SHOT)
-                alarmMgr.set(AlarmManager.RTC_WAKEUP, timeStamp.time, intent)
+            notificationDto.scheduledTime?.let { timeInMillis ->
+                Log.d(TAG, "Scheduled time: ${timeInMillis}")
+                val intent = PendingIntent.getBroadcast(ctx, timeInMillis.toInt(), alarmIntent, PendingIntent.FLAG_ONE_SHOT)
+                alarmMgr.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, intent)
             }
         }
     }

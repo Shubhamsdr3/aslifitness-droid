@@ -58,6 +58,7 @@ class AddWorkoutBottomSheet:  BottomSheetDialogFragment() {
     private fun setupListener() {
         binding.workoutContainer.setOnClickListener { callback?.onAddWorkoutClicked() }
         binding.routineContainer.setOnClickListener { callback?.onAddRoutineClicked() }
+        binding.historyButton.setOnClickListener { callback?.openHistoryClicked() }
     }
 
     private fun initView(workoutInfo: WorkoutBottomSheetInfo?) {

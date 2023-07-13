@@ -23,6 +23,7 @@ import com.aslifitness.fitracker.routine.summary.RoutineSummaryActivity
 import com.aslifitness.fitracker.sharedprefs.UserStore
 import com.aslifitness.fitracker.utils.EMPTY
 import com.aslifitness.fitracker.utils.ROUTINE_SUMMARY_DEEPLINK
+import com.aslifitness.fitracker.utils.Utility
 import com.aslifitness.fitracker.widgets.AddRoutineWidget
 import com.aslifitness.fitracker.workoutlist.WorkoutFragmentCallback
 
@@ -83,6 +84,7 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
         binding.saveButton.hideLoader()
         data?.run { configureReminder(workouts) }
         startActivity(Intent(activity, RoutineSummaryActivity::class.java))
+        activity?.finish()
     }
 
     private fun configureReminder(workouts: List<RoutineWorkout>?) {
@@ -113,6 +115,7 @@ class AddRoutineFragment : Fragment(), WorkoutFragmentCallback {
         binding.etTitle.setOnFocusChangeListener { v, _ ->
             if (v.hasFocus()) {
                 binding.etTitle.hint = EMPTY
+                Utility.showKeyboard(v)
             } else {
                 binding.etTitle.hint = getString(R.string.routine_title)
             }

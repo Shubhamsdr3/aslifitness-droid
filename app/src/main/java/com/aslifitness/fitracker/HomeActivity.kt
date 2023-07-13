@@ -26,6 +26,7 @@ import com.aslifitness.fitracker.databinding.ActivityHomeBinding
 import com.aslifitness.fitracker.model.WorkoutDto
 import com.aslifitness.fitracker.model.addworkout.WorkoutBottomSheetInfo
 import com.aslifitness.fitracker.routine.UserRoutineActivity
+import com.aslifitness.fitracker.routine.summary.RoutineSummaryActivity
 import com.aslifitness.fitracker.utils.EMPTY
 import com.aslifitness.fitracker.utils.ShortCutsFactory
 import com.aslifitness.fitracker.utils.showShortToast
@@ -137,11 +138,11 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
     private fun getFCMToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Timber.d(TAG, "Fetching FCM registration token failed", task.exception)
+                Log.d(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
             val token = task.result
-            Timber.d(TAG, "Firebase message token: $token")
+            Log.d(TAG, "Firebase message token: $token")
         })
     }
 
@@ -203,5 +204,9 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
 
     override fun onAddRoutineClicked() {
         UserRoutineActivity.start(this)
+    }
+
+    override fun openHistoryClicked() {
+        RoutineSummaryActivity.start(this)
     }
 }

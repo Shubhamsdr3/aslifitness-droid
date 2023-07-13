@@ -34,11 +34,6 @@ class FBNotificationService: FirebaseMessagingService() {
         }
     }
 
-    override fun onDeletedMessages() {
-        super.onDeletedMessages()
-
-    }
-
     private fun configureNotification(notificationDto: NotificationDto) {
         FitApp.getAppContext()?.let {
             if (!notificationDto.title.isNullOrEmpty() && !notificationDto.message.isNullOrEmpty()) {

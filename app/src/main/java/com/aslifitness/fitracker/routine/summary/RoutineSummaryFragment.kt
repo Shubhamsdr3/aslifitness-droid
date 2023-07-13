@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,19 +16,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.databinding.FragmentRoutineSummaryBinding
 import com.aslifitness.fitracker.db.AppDatabase
-import com.aslifitness.fitracker.model.MenuOption
+import com.aslifitness.fitracker.detail.data.Workout
+import com.aslifitness.fitracker.model.WorkoutSetData
 import com.aslifitness.fitracker.network.ApiHandler
 import com.aslifitness.fitracker.network.NetworkState
 import com.aslifitness.fitracker.routine.RoutineRepository
+import com.aslifitness.fitracker.routine.data.RoutineWorkout
 import com.aslifitness.fitracker.routine.data.UserRoutineDto
 import com.aslifitness.fitracker.utils.setTextWithVisibility
+import com.aslifitness.fitracker.widgets.AddWorkoutWidgetCallback
 import com.aslifitness.fitracker.widgets.MenuOptionBottomSheet
-import javax.inject.Inject
+
 
 /**
  * Created by shubhampandey
  */
-class RoutineSummaryFragment: Fragment(), RoutineAdapterCallback {
+class RoutineSummaryFragment: Fragment(), RoutineAdapterCallback, AddWorkoutWidgetCallback {
 
     private lateinit var binding: FragmentRoutineSummaryBinding
     private lateinit var viewModel: RoutineSummaryViewModel
@@ -44,17 +50,6 @@ class RoutineSummaryFragment: Fragment(), RoutineAdapterCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
-        setupListener()
-    }
-
-    private fun setupListener() {
-        binding.titleContainer.setOnClickListener {
-            if (binding.routines.isVisible) {
-                binding.routines.visibility = View.GONE
-            } else {
-                binding.routines.visibility = View.VISIBLE
-            }
-        }
     }
 
     private fun initViewModel() {
@@ -85,12 +80,12 @@ class RoutineSummaryFragment: Fragment(), RoutineAdapterCallback {
                 outRect.top = resources.getDimension(R.dimen.dimen_16dp).toInt()
             }
         })
+        binding.routines.visibility = View.VISIBLE
     }
 
     private fun configureAddedRoutine(routine: UserRoutineDto) {
-        routine.run {
-            binding.newRoutine.title.setTextWithVisibility(title)
-
+        binding.newRoutine.setData(routine) {
+            // do nothing
         }
     }
 
@@ -107,6 +102,14 @@ class RoutineSummaryFragment: Fragment(), RoutineAdapterCallback {
     }
 
     override fun onStartRoutineClicked() {
+
+    }
+
+    override fun onPlusClicked(position: Int) {
+
+    }
+
+    override fun onItemClicked(position: Int, workout: Workout) {
 
     }
 }

@@ -117,7 +117,7 @@ class WorkoutListFragment: Fragment(), WorkoutListAdapterCallback {
 
     private fun getNewWorkout(workout: Workout): NewAddWorkout {
         return NewAddWorkout(
-            workoutId = workout.workoutId,
+            workoutId = workout.workoutId ?: 0,
             image = workout.image,
             title = workout.header,
             subTitle = workout.subHeader,

@@ -22,7 +22,6 @@ class AddWorkoutActivity: AppCompatActivity(), AddWorkoutFragmentCallback {
 
     private lateinit var binding: ActivityAddWorkoutBinding
 
-
     companion object {
 
         @JvmStatic
