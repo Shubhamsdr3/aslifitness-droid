@@ -48,7 +48,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/dimen_16dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/routine_title"

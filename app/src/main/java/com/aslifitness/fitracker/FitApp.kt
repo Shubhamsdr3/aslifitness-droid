@@ -4,6 +4,9 @@ import android.app.Application
 import android.content.Context
 import com.aslifitness.fitracker.errorhandler.CrashActivity
 import com.aslifitness.fitracker.errorhandler.GlobalExceptionHandler
+import com.google.android.exoplayer2.database.ExoDatabaseProvider
+import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
+import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
@@ -30,7 +33,13 @@ class FitApp : Application() {
 
         @JvmStatic
         fun getAppContext() = contextWeakReference.get()
+
+        lateinit var cache: SimpleCache
     }
+
+    private val cacheSize: Long = 90 * 1024 * 1024
+    private lateinit var cacheEvictor: LeastRecentlyUsedCacheEvictor
+    private lateinit var exoplayerDatabaseProvider: ExoDatabaseProvider
 
     override fun onCreate() {
         super.onCreate()
@@ -40,6 +49,10 @@ class FitApp : Application() {
             plant(Timber.DebugTree())
         }
         init(applicationContext)
+
+        cacheEvictor = LeastRecentlyUsedCacheEvictor(cacheSize)
+        exoplayerDatabaseProvider = ExoDatabaseProvider(this)
+        cache = SimpleCache(cacheDir, cacheEvictor, exoplayerDatabaseProvider)
     }
 
     private fun initializeFirebaseAppCheck() {
