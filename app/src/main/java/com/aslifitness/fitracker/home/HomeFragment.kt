@@ -9,10 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.auth.UserAuthActivity
 import com.aslifitness.fitracker.databinding.FragmentHomeBinding
+import com.aslifitness.fitracker.db.AppDatabase
 import com.aslifitness.fitracker.firebase.FBAuthUtil
+import com.aslifitness.fitracker.model.QuoteInfo
 import com.aslifitness.fitracker.model.UserDto
 import com.aslifitness.fitracker.model.WorkoutDto
 import com.aslifitness.fitracker.model.WorkoutResponse
@@ -21,15 +25,16 @@ import com.aslifitness.fitracker.network.ApiResponse
 import com.aslifitness.fitracker.network.NetworkState
 import com.aslifitness.fitracker.profile.UserProfileActivity
 import com.aslifitness.fitracker.utils.ZERO
-import com.aslifitness.fitracker.utils.setImageWithVisibility
+import com.aslifitness.fitracker.utils.setImageWithPlaceholder
 import com.aslifitness.fitracker.utils.setTextWithVisibility
+import com.aslifitness.fitracker.widgets.QuoteWidgetCallback
 import com.aslifitness.fitracker.workoutlist.WorkoutListActivity
 import javax.inject.Inject
 
 /**
  * @author Shubham Pandey
  */
-class HomeFragment : Fragment(), WorkOutAdapterCallback {
+class HomeFragment : Fragment(), WorkOutAdapterCallback , QuoteWidgetCallback {
 
     private lateinit var binding: FragmentHomeBinding
 
@@ -55,6 +60,7 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback {
     }
 
     private fun setupView() {
+        binding.bottomText.text = getString(R.string.made_with_love)
         binding.profileImage.setOnClickListener {
             if (FBAuthUtil.isUserAuthenticated()) {
                 startActivity(Intent(requireActivity(), UserProfileActivity::class.java))
@@ -65,13 +71,34 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback {
     }
 
     private fun setupViewModel() {
-        val factory = HomeViewModelFactory(HomeRepository(ApiHandler.apiService))
+        val factory = HomeViewModelFactory(HomeRepository(ApiHandler.apiService, AppDatabase.getInstance().fitnessQuoteDao()))
         viewModel = ViewModelProvider(viewModelStore, factory)[HomeViewModel::class.java]
         viewModel.getWorkoutList()
+        viewModel.getFitnessQuotes()
+        viewModel.homeNetworkState.observe(viewLifecycleOwner) { onHomeNetworkStateChanged(it) }
         viewModel.homeViewState.observe(viewLifecycleOwner) { onHomeViewStateChanged(it) }
     }
 
-    private fun onHomeViewStateChanged(state: NetworkState<ApiResponse<WorkoutResponse>>) {
+    private fun onHomeViewStateChanged(state: HomeViewState?) {
+        when(state) {
+            is HomeViewState.ShowFitnessQuotes -> showFitnessQuotes(state.quotes)
+            else -> {
+                // do nothing
+            }
+        }
+    }
+
+    private fun showFitnessQuotes(quotes: List<QuoteInfo>) {
+        if (quotes.isNotEmpty()) {
+            binding.quotesList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.quotesList.adapter = FitQuotesAdapter(quotes, this)
+            binding.quotesList.visibility = View.VISIBLE
+        } else {
+            binding.quotesList.visibility = View.GONE
+        }
+    }
+
+    private fun onHomeNetworkStateChanged(state: NetworkState<ApiResponse<WorkoutResponse>>) {
         when(state) {
             is NetworkState.Loading -> showLoader()
             is NetworkState.Error -> hideLoader()
@@ -83,13 +110,24 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback {
         data?.data?.run {
             binding.greeting.setTextWithVisibility(header)
             binding.date.setTextWithVisibility(subHeader)
+            setupQuoteList(quotes)
             configureUser(userDto)
             configureWorkoutList(items)
         }
     }
 
+    private fun setupQuoteList(quotes: List<QuoteInfo>?) {
+        if (!quotes.isNullOrEmpty()) {
+            binding.quotesList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.quotesList.adapter = FitQuotesAdapter(quotes, this)
+            binding.quotesList.visibility = View.VISIBLE
+        } else {
+            binding.quotesList.visibility = View.GONE
+        }
+    }
+
     private fun configureUser(userDto: UserDto?) {
-        userDto?.run { binding.profileImage.setImageWithVisibility(profileImage) }
+        userDto?.run { binding.profileImage.setImageWithPlaceholder(profileImage, R.drawable.ic_dumble_new) }
     }
 
     private fun configureWorkoutList(workoutList: List<WorkoutDto>?) {
@@ -126,5 +164,13 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback {
 
     override fun onWorkoutSelected(workoutDto: WorkoutDto) {
         workoutDto.title?.let { WorkoutListActivity.start(requireContext(), it) }
+    }
+
+    override fun onLikeClicked(isLiked: Boolean, quoteId: Int) {
+        viewModel.updateLike(isLiked, quoteId)
+    }
+
+    override fun onShareClicked() {
+
     }
 }

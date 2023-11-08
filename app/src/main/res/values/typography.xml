@@ -257,6 +257,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="BodySmall.Medium.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="ExtraLarge.Regular.PrimaryInfo">
         <item name="android:textColor">@color/text_dark_primary</item>
     </style>
@@ -267,6 +271,14 @@
 
     <style name="ExtraLarge.SemiBold.PrimaryInfo" >
         <item name="android:textColor">@color/text_dark_primary</item>
+    </style>
+
+    <style name="ExtraLarge.SemiBold.SecondaryInfo" >
+        <item name="android:textColor">@color/text_dark_secondary</item>
+    </style>
+
+    <style name="ExtraLarge.SemiBold.TertiaryInfo" >
+        <item name="android:textColor">@color/text_dark_tertiary</item>
     </style>
 
     <style name="Heading1.Regular.PrimaryInfo">

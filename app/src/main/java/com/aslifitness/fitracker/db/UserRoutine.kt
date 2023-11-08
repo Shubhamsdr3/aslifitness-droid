@@ -36,5 +36,8 @@ data class UserRoutine(
     var monthOfYr: Int? = null,
 
     @ColumnInfo("year")
-    var year: Int? = null
+    var year: Int? = null,
+
+    @ColumnInfo("created_at")
+    var createdAt: Long? = null
 )

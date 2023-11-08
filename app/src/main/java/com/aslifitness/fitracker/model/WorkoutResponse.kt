@@ -2,6 +2,7 @@ package com.aslifitness.fitracker.model
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -12,5 +13,7 @@ import kotlinx.parcelize.Parcelize
 data class WorkoutResponse(
     val header: String? = null,
     val subHeader: String? = null,
-    val userDto: UserDto? = null,
-    val items: List<WorkoutDto>? = null): Parcelable
+    @SerializedName("user") val userDto: UserDto? = null,
+    val items: List<WorkoutDto>? = null,
+    val quotes: List<QuoteInfo>? = null
+): Parcelable

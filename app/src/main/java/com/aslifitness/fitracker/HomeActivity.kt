@@ -85,7 +85,7 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
         setupBottomNavigation()
         configureLister()
         getFCMToken()
-        configureShortcuts()
+//        configureShortcuts()
         intent.handleIntent()
         subscribeFCMTopic()
         askNotificationPermission()

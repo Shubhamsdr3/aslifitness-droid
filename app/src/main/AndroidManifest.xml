@@ -38,21 +38,21 @@
             android:name=".HomeActivity"
             android:launchMode="singleTask">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
-<!--            <intent-filter android:autoVerify="true">-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-<!--                <data android:scheme="app"-->
-<!--                    android:host="aslifitnessapp.com"-->
-<!--                    android:pathPrefix="/fitnessHome" />-->
+                <data android:scheme="app"
+                    android:host="aslifitnessapp.com"
+                    android:pathPrefix="/fitnessHome" />
 
-<!--            </intent-filter>-->
+            </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"
@@ -257,21 +257,21 @@
 
         <activity android:name=".videopreloading.FirstActivity" android:exported="true">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
 
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-                <data android:scheme="app"
-                    android:host="aslifitnessapp.com"
-                    android:pathPrefix="/fitnessHome" />
+<!--                <data android:scheme="app"-->
+<!--                    android:host="aslifitnessapp.com"-->
+<!--                    android:pathPrefix="/fitnessHome" />-->
 
-            </intent-filter>
+<!--            </intent-filter>-->
 
         </activity>
 

@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [AppModule::class, AuthBindingModule::class, NetworkModule::class, ActivityBindingModule::class, ProfileBindingModule::class]
+    modules = [AppModule::class, AuthBindingModule::class, NetworkModule::class, ActivityBindingModule::class, ProfileBindingModule::class, AppDatabaseModule::class]
 )
 interface AppComponent : AndroidInjector<FitApp> {
 

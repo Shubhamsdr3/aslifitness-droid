@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@color/background_color"
     android:fitsSystemWindows="true"
     android:overScrollMode="never">
 
@@ -17,7 +18,6 @@
             android:id="@+id/profile_image"
             android:layout_width="@dimen/dimen_42dp"
             android:layout_height="@dimen/dimen_42dp"
-            android:layout_marginTop="@dimen/dimen_12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/RoundedImageView"
@@ -55,6 +55,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/quotes_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/workout_list" />
+
         <ProgressBar
             android:id="@+id/loader"
             android:layout_width="wrap_content"
@@ -66,6 +75,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bottom_text"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_32dp"
+            android:textAppearance="@style/ExtraLarge.SemiBold.TertiaryInfo"
+            android:textSize="@dimen/dimen_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quotes_list"
+            tools:text="Made with ❤️ in India" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

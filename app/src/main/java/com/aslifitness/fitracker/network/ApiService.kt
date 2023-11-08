@@ -1,6 +1,8 @@
 package com.aslifitness.fitracker.network
 
 import com.aslifitness.fitracker.detail.data.WorkoutDetailResponse
+import com.aslifitness.fitracker.model.QuoteInfo
+import com.aslifitness.fitracker.model.QuoteResponse
 import com.aslifitness.fitracker.model.UserDto
 import com.aslifitness.fitracker.model.WorkoutListResponse
 import com.aslifitness.fitracker.model.WorkoutResponse
@@ -47,5 +49,8 @@ interface ApiService {
 
     @POST("api/workout/addRoutine")
     suspend fun addNewRoutine(@Body params: UserRoutineDto): Response<ApiResponse<UserRoutineDto>>
+
+    @GET("api/fitness-quotes")
+    suspend fun getFitnessQuote(): Response<ApiResponse<List<QuoteInfo>>>
 
 }

@@ -1,6 +1,6 @@
 package com.aslifitness.fitracker.home
 
-import com.aslifitness.fitracker.model.WorkoutResponse
+import com.aslifitness.fitracker.model.QuoteInfo
 
 /**
  * @author Shubham Pandey
@@ -13,5 +13,6 @@ sealed class HomeViewState {
 
     data class ShowError(val throwable: Throwable): HomeViewState()
 
-    data class ShowWorkoutList(val response: WorkoutResponse): HomeViewState()
+    data class ShowFitnessQuotes(val quotes: List<QuoteInfo>): HomeViewState()
+
 }
