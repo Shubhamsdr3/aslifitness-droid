@@ -122,6 +122,18 @@ fun CharSequence.parseInt(): Int {
     }
 }
 
+fun View.show() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.gone() {
+    this.visibility = View.GONE
+}
+
+fun View.hide() {
+    this.visibility = View.INVISIBLE
+}
+
 fun Long.formatFileSize(): String {
     val b = this.toDouble()
     val k = this / 1024.0

@@ -65,6 +65,10 @@
         <item name="android:textColor">@color/green</item>
     </style>
 
+    <style name="TextLarge.Medium.Success">
+        <item name="android:textColor">@color/green</item>
+    </style>
+
     <style name="TextLarge.Regular.Tertiary">
         <item name="android:textColor">@color/text_dark_tertiary</item>
     </style>
@@ -134,6 +138,10 @@
     </style>
 
     <style name="TextBody.Medium.Error">
+        <item name="android:textColor">@color/error</item>
+    </style>
+
+    <style name="TextLarge.Medium.Error">
         <item name="android:textColor">@color/error</item>
     </style>
 

@@ -20,4 +20,7 @@ class AppDatabaseModule {
     fun provideRoutineDao(appDatabase: AppDatabase) = appDatabase.routineDao()
     @Provides
     fun provideFitnessQuoteDao(appDatabase: AppDatabase) = appDatabase.fitnessQuoteDao()
+
+    @Provides
+    fun provideUserDao(appDatabase: AppDatabase) = appDatabase.userDao()
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.*
 import com.aslifitness.fitracker.FitApp
 import com.aslifitness.fitracker.model.QuoteInfo
+import com.aslifitness.fitracker.model.UserDto
 import com.aslifitness.fitracker.routine.data.UserRoutineDto
 import javax.inject.Singleton
 
@@ -11,7 +12,7 @@ import javax.inject.Singleton
  * Created by shubhampandey
  */
 
-@Database(entities = [UserRoutineDto::class, QuoteInfo::class], version = 1)
+@Database(entities = [UserRoutineDto::class, QuoteInfo::class, UserDto::class], version = 1)
 @TypeConverters(RoutineConverter::class)
 @Singleton
 abstract class AppDatabase: RoomDatabase() {
@@ -19,6 +20,8 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun routineDao(): RoutineDao
 
     abstract fun fitnessQuoteDao(): FitnessQuoteDao
+
+    abstract fun userDao(): UserDao
 
     companion object {
 

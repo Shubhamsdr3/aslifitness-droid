@@ -277,6 +277,11 @@
 
         <activity android:name=".videopreloading.VideoPlayerActivity" />
 
+        <activity
+            android:name=".onboarding.OnboardingActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTop" />
+
         <receiver android:name=".notification.ReminderReceiver" />
         <receiver android:name=".notification.DeviceRebootReceiver" android:exported="true">
 

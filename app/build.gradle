@@ -45,6 +45,10 @@ android {
         compose true
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
         kotlinCompilerVersion kotlin_version
@@ -60,13 +64,17 @@ android {
         }
     }
 
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+
     flavorDimensions "default"
     productFlavors {
         othernetwork {
             buildConfigField "String", "BASE_URL", "\"http://192.168.1.8:3000/\""
         }
         mynetwork {
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.9:3000/\""
+            buildConfigField "String", "BASE_URL", "\"http://192.168.1.6:3000/\""
         }
         emulator {
             buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:3000/\""
@@ -236,6 +244,12 @@ dependencies {
     implementation 'androidx.media3:media3-datasource-cronet:1.1.0'
     implementation 'androidx.media3:media3-datasource:1.1.0'
     implementation 'androidx.media3:media3-exoplayer:1.1.0'
+
+    // avatar generator
+    implementation 'com.github.amoskorir:avatarimagegenerator:1.5.0'
+
+    // databinding
+    implementation 'com.android.databinding:compiler:3.5.1'
 }
 
 kapt {

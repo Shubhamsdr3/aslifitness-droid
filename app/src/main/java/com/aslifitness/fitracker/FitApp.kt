@@ -4,12 +4,14 @@ import android.app.Application
 import android.content.Context
 import com.aslifitness.fitracker.errorhandler.CrashActivity
 import com.aslifitness.fitracker.errorhandler.GlobalExceptionHandler
+import com.aslifitness.fitracker.sharedprefs.UserStore
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.Forest.plant
@@ -44,7 +46,7 @@ class FitApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initializeFirebaseAppCheck()
-        GlobalExceptionHandler.initialize(this, CrashActivity::class.java)
+//        GlobalExceptionHandler.initialize(this, CrashActivity::class.java)
         if (BuildConfig.DEBUG) {
             plant(Timber.DebugTree())
         }

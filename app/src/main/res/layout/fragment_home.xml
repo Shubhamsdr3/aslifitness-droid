@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@color/background_color"
+    android:fillViewport="true"
     android:fitsSystemWindows="true"
     android:overScrollMode="never">
 
@@ -83,6 +83,7 @@
             android:layout_marginTop="@dimen/dimen_32dp"
             android:textAppearance="@style/ExtraLarge.SemiBold.TertiaryInfo"
             android:textSize="@dimen/dimen_24dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

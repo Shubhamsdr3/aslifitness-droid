@@ -103,5 +103,15 @@
     <string name="exo_download_removing">Download removing</string>
     <string name="exo_download_restarting">Download restarting</string>
     <string name="made_with_love">Made with ❤️ in India</string>
+    <string name="log_out">Log out</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="weight">Weight</string>
+    <string name="name_empty_msg">Name can\'t be empty</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="enter_your_age">Enter your age</string>
+    <string name="enter_your_weight">Enter your weight</string>
+    <string name="edit_txt">Edit</string>
+    <string name="phone_number">Phone number</string>
 
 </resources>

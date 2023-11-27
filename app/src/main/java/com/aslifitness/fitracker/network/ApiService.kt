@@ -38,6 +38,9 @@ interface ApiService {
     @POST("/api/user/save")
     suspend fun saveUser(@Body params: Map<String, @JvmSuppressWildcards Any?>): Response<ApiResponse<UserDto>>
 
+    @POST("/api/user/update")
+    suspend fun updateUserProfile(@Body params: Map<String, @JvmSuppressWildcards Any?>): Response<ApiResponse<UserDto>>
+
     @POST("api/fitness-centers")
     suspend fun fetchVendorList(@Body params: Map<String, @JvmSuppressWildcards Any?>): Response<ApiResponse<VendorsResponseDto>>
 

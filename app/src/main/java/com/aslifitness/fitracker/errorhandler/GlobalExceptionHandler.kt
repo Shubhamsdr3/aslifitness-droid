@@ -39,12 +39,12 @@ class GlobalExceptionHandler(
     }
 
     override fun uncaughtException(t: Thread, e: Throwable) {
-        try {
-            launchActivity(applicationContext, activityToBeLaunched, e)
-            exitProcess(0)
-        } catch (e: Exception) {
-            defaultHandler.uncaughtException(t, e)
-        }
+//        try {
+//            launchActivity(applicationContext, activityToBeLaunched, e)
+//            exitProcess(0)
+//        } catch (e: Exception) {
+//            defaultHandler.uncaughtException(t, e)
+//        }
     }
 
     private fun launchActivity(applicationContext: Context, activity: Class<*>, exception: Throwable) {

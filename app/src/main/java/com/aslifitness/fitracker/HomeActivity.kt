@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.aslifitness.fitracker.addworkout.AddWorkoutActivity
 import com.aslifitness.fitracker.addworkout.AddWorkoutBottomSheet
@@ -22,13 +23,17 @@ import com.aslifitness.fitracker.addworkout.WorkoutBottomSheetCallback
 import com.aslifitness.fitracker.assistant.BiiIntents
 import com.aslifitness.fitracker.assistant.model.FitShortcutInfo
 import com.aslifitness.fitracker.auth.AppSignatureHashHelper
+import com.aslifitness.fitracker.auth.UserLoginFragmentCallback
 import com.aslifitness.fitracker.databinding.ActivityHomeBinding
 import com.aslifitness.fitracker.model.WorkoutDto
 import com.aslifitness.fitracker.model.addworkout.WorkoutBottomSheetInfo
+import com.aslifitness.fitracker.onboarding.OnboardingActivity
+import com.aslifitness.fitracker.profile.UserProfileActivity
 import com.aslifitness.fitracker.routine.UserRoutineActivity
 import com.aslifitness.fitracker.routine.summary.RoutineSummaryActivity
 import com.aslifitness.fitracker.utils.EMPTY
 import com.aslifitness.fitracker.utils.ShortCutsFactory
+import com.aslifitness.fitracker.utils.gone
 import com.aslifitness.fitracker.utils.showShortToast
 import com.aslifitness.fitracker.workoutlist.WorkoutListActivity
 import com.google.android.gms.tasks.OnCompleteListener
@@ -40,7 +45,7 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
+class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback, UserLoginFragmentCallback {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -187,6 +192,13 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
     private fun setupBottomNavigation() {
         val navController = findNavController(R.id.nav_host_fragment)
         binding.bottomNav.setupWithNavController(navController)
+        binding.bottomNav.setOnNavigationItemSelectedListener {
+            if (it.itemId == R.id.profileFragment) {
+                binding.bottomNav.isSelected = true
+                startActivity(Intent(this, UserProfileActivity::class.java))
+            }
+            return@setOnNavigationItemSelectedListener true
+        }
     }
 
     private fun openWorkoutBottomSheet() {
@@ -208,5 +220,9 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback {
 
     override fun openHistoryClicked() {
         RoutineSummaryActivity.start(this)
+    }
+
+    override fun onSubmitClicked(phoneNumber: String) {
+        Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show()
     }
 }

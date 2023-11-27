@@ -89,7 +89,7 @@ class WorkoutListFragment: Fragment(), WorkoutListAdapterCallback {
     }
 
     private fun setupSubmitButton() {
-        binding.submitButton.setButtonText(requireContext().getString(R.string.exercise_count, 0))
+        binding.submitButton.setButtonTitle(requireContext().getString(R.string.exercise_count, 0))
         binding.submitButton.setOnClickListener {
             if (addedNewWorkout.isNotEmpty()) {
                 val newWorkoutList = addedNewWorkout.map { getNewWorkout(it) }
@@ -174,7 +174,7 @@ class WorkoutListFragment: Fragment(), WorkoutListAdapterCallback {
         } else {
             binding.submitButton.disableButton()
         }
-        binding.submitButton.setButtonText(requireContext().getString(R.string.exercise_count, addedNewWorkout.size))
+        binding.submitButton.setButtonTitle(requireContext().getString(R.string.exercise_count, addedNewWorkout.size))
     }
 
     private fun showError(throwable: Throwable) {

@@ -8,7 +8,10 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -46,6 +49,11 @@ class RetrofitHandler {
             if (BuildConfig.DEBUG) {
                 logging.apply { logging.level = HttpLoggingInterceptor.Level.BODY }
                 builder.addInterceptor(logging)
+                builder.addNetworkInterceptor(Interceptor { chain ->
+                    val requestBuilder: Request.Builder = chain.request().newBuilder()
+                    requestBuilder.header("Content-Type", "application/json")
+                    chain.proceed(requestBuilder.build())
+                })
                 FitApp.getAppContext()?.let {
                     val chuckerInterceptor = ChuckerInterceptor.Builder(it).build()
                     builder.addInterceptor(chuckerInterceptor)

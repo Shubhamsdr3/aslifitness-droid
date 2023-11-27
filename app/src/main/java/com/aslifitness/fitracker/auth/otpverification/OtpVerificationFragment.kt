@@ -3,7 +3,6 @@ package com.aslifitness.fitracker.auth.otpverification
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -13,15 +12,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.aslifitness.fitracker.HomeActivity
 import com.aslifitness.fitracker.R
 import com.aslifitness.fitracker.auth.OTPReceiveListener
 import com.aslifitness.fitracker.auth.SMSReceiver
 import com.aslifitness.fitracker.databinding.FragmentOtpVerificationBinding
+import com.aslifitness.fitracker.db.AppDatabase
 import com.aslifitness.fitracker.firebase.FBAuthUtil
 import com.aslifitness.fitracker.model.UserDto
 import com.aslifitness.fitracker.network.ApiHandler
+import com.aslifitness.fitracker.onboarding.OnboardingActivity
+import com.aslifitness.fitracker.profile.UserRepository
 import com.aslifitness.fitracker.sharedprefs.UserStore
 import com.aslifitness.fitracker.utils.Utility
 import com.aslifitness.fitracker.utils.setTextWithVisibility
@@ -31,7 +33,11 @@ import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.*
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -40,7 +46,9 @@ import java.util.concurrent.TimeUnit
  */
 class OtpVerificationFragment: Fragment(), OTPListener {
 
-    private val viewModel: OtpVerificationViewModel by viewModels { OtpVerificationViewModelFactory(ApiHandler.apiService) }
+    private lateinit var viewModel: OtpVerificationViewModel
+
+    private val userRepository by lazy { UserRepository(ApiHandler.apiService, AppDatabase.getInstance().userDao()) }
 
     private lateinit var binding: FragmentOtpVerificationBinding
     private var phoneNumber: String? = null
@@ -67,9 +75,14 @@ class OtpVerificationFragment: Fragment(), OTPListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         extractExtras()
+        initViewModel()
         configureView()
         setupObserver()
         configureOTPVerification()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(viewModelStore, OtpVerificationViewModelFactory(userRepository))[OtpVerificationViewModel::class.java]
     }
 
     override fun onResume() {
@@ -109,8 +122,8 @@ class OtpVerificationFragment: Fragment(), OTPListener {
         when(state) {
             is OtpVerificationViewState.ShowLoader -> showLoader()
             is OtpVerificationViewState.HideLoader -> hideLoader()
-            is OtpVerificationViewState.OnUserSaved -> onUserSaved()
             is OtpVerificationViewState.ShowKeyboard -> showKeyBoard()
+            is OtpVerificationViewState.OnUserSaved -> onUserSaved()
             else -> {
                 // do nothing
             }
@@ -119,7 +132,10 @@ class OtpVerificationFragment: Fragment(), OTPListener {
 
     private fun onUserSaved() {
         binding.otpSubmit.hideLoader()
-        startActivity(Intent(activity, HomeActivity::class.java))
+        val intent = Intent(activity, OnboardingActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        activity?.finish()
     }
 
     private fun hideLoader() {
@@ -240,13 +256,13 @@ class OtpVerificationFragment: Fragment(), OTPListener {
 
     private fun createUser(user: FirebaseUser) {
         val userDto = UserDto(
-            userId = user.uid,
+            id = user.uid,
             name = user.displayName,
             profileImage = user.photoUrl.toString(),
             phoneNumber = user.phoneNumber
         )
         UserStore.putUserDetail(userDto)
-        UserStore.putUserId(user.uid)
+        UserStore.putUId(user.uid)
         viewModel.saveUser(userDto)
     }
 

@@ -22,7 +22,7 @@ class FitnessButton @JvmOverloads constructor(context: Context, attrs: Attribute
         val buttonTitle = typedArray.getString(R.styleable.FitnessButton_button_title)
         val state = typedArray.getInt(R.styleable.FitnessButton_button_state, 0)
         configureButtonState(state)
-        setButtonText(buttonTitle)
+        setButtonTitle(buttonTitle)
         typedArray.recycle()
     }
 
@@ -55,7 +55,7 @@ class FitnessButton @JvmOverloads constructor(context: Context, attrs: Attribute
         enableButton()
     }
 
-    fun setButtonText(text: String?) {
+    fun setButtonTitle(text: String?) {
         binding.btnText.setTextWithVisibility(text)
     }
 }
