@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator">
 
-        <com.aslifitness.fitracker.widgets.FitnessButton
+        <com.aslifitness.fitrackers.widgets.FitnessButton
             android:id="@+id/save_button"
             android:layout_width="@dimen/dimen_80dp"
             android:layout_height="wrap_content"

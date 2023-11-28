@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Set-1" />
 
-    <com.aslifitness.fitracker.widgets.AddWorkoutItemView
+    <com.aslifitness.fitrackers.widgets.AddWorkoutItemView
         android:id="@+id/item_card"
         android:layout_height="wrap_content"
         android:layout_width="@dimen/dimen_0dp"

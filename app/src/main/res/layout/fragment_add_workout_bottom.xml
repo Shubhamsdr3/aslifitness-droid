@@ -84,7 +84,7 @@
 
     </LinearLayout>
 
-    <com.aslifitness.fitracker.widgets.FitnessButton
+    <com.aslifitness.fitrackers.widgets.FitnessButton
         android:id="@+id/history_button"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"

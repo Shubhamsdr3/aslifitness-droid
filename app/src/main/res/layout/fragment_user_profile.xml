@@ -90,7 +90,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_handle"
                 tools:visibility="visible" />
 
-            <com.aslifitness.fitracker.widgets.IconTitleTextView
+            <com.aslifitness.fitrackers.widgets.IconTitleTextView
                 android:id="@+id/user_name"
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/user_name"
                 tools:visibility="visible" />
 
-            <com.aslifitness.fitracker.widgets.IconTitleTextView
+            <com.aslifitness.fitrackers.widgets.IconTitleTextView
                 android:id="@+id/tv_phone"
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_phone"
                 tools:visibility="visible" />
 
-            <com.aslifitness.fitracker.widgets.IconTitleTextView
+            <com.aslifitness.fitrackers.widgets.IconTitleTextView
                 android:id="@+id/tv_age"
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
@@ -166,7 +166,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_age"
                 tools:visibility="visible" />
 
-            <com.aslifitness.fitracker.widgets.IconTitleTextView
+            <com.aslifitness.fitrackers.widgets.IconTitleTextView
                 android:id="@+id/tv_weight"
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
@@ -191,7 +191,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_weight"
                 tools:visibility="visible" />
 
-            <com.aslifitness.fitracker.widgets.IconTitleTextView
+            <com.aslifitness.fitrackers.widgets.IconTitleTextView
                 android:id="@+id/tv_signout"
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_signout"
                 tools:visibility="gone" />
 
-            <com.aslifitness.fitracker.widgets.WorkoutHistoryCardView
+            <com.aslifitness.fitrackers.widgets.WorkoutHistoryCardView
                 android:id="@+id/workout_history"
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"

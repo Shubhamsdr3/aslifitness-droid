@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toTopOf="@+id/otp_input"
         tools:text="Change" />
 
-    <com.aslifitness.fitracker.widgets.auth.otpinput.OTPInputField
+    <com.aslifitness.fitrackers.widgets.auth.otpinput.OTPInputField
         android:id="@+id/otp_input"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/not_receive_text" />
 
-    <com.aslifitness.fitracker.widgets.FitnessButton
+    <com.aslifitness.fitrackers.widgets.FitnessButton
         android:id="@+id/otp_submit"
         android:layout_height="wrap_content"
         android:layout_width="@dimen/dimen_0dp"

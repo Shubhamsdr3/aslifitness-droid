@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.aslifitness.fitracker.widgets.routine.RoutineItemWidget
+    <com.aslifitness.fitrackers.widgets.routine.RoutineItemWidget
         android:id="@+id/routine_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

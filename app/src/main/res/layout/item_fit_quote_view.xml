@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.aslifitness.fitracker.widgets.QuotesWidget
+    <com.aslifitness.fitrackers.widgets.QuotesWidget
         android:id="@+id/quote_widget"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"

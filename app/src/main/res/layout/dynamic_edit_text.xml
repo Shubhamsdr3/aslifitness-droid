@@ -6,7 +6,7 @@
     android:paddingEnd="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.aslifitness.fitracker.widgets.VerticalSeekBar
+    <com.aslifitness.fitrackers.widgets.VerticalSeekBar
         android:id="@+id/vertical_seekbar"
         android:layout_width="wrap_content"
         android:layout_height="300dp"

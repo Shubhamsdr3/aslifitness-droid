@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="User plan fragment" />
 
-    <com.aslifitness.fitracker.widgets.calendar.FitCalendarView
+    <com.aslifitness.fitrackers.widgets.calendar.FitCalendarView
         android:id="@+id/calendar_view"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"

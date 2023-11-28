@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/set_title" />
 
-    <com.aslifitness.fitracker.widgets.addworkout.SetCountSelector
+    <com.aslifitness.fitrackers.widgets.addworkout.SetCountSelector
         android:id="@+id/add_button"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"

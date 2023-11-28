@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back_24">
 
-        <com.aslifitness.fitracker.widgets.FitnessButton
+        <com.aslifitness.fitrackers.widgets.FitnessButton
             android:id="@+id/create_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <com.aslifitness.fitracker.widgets.searchbar.FitnessSearchBar
+    <com.aslifitness.fitrackers.widgets.searchbar.FitnessSearchBar
         android:id="@+id/search_bar"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <com.aslifitness.fitracker.widgets.FitnessButton
+    <com.aslifitness.fitrackers.widgets.FitnessButton
         android:id="@+id/submit_button"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"

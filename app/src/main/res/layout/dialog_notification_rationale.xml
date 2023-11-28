@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.aslifitness.fitracker.widgets.FitnessButton
+    <com.aslifitness.fitrackers.widgets.FitnessButton
         android:id="@+id/deny_button"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.aslifitness.fitracker.widgets.FitnessButton
+    <com.aslifitness.fitrackers.widgets.FitnessButton
         android:id="@+id/allow_button"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/dimen_16dp">
 
-    <com.aslifitness.fitracker.widgets.routine.RoutineItemWidget
+    <com.aslifitness.fitrackers.widgets.routine.RoutineItemWidget
         android:id="@+id/new_routine"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"

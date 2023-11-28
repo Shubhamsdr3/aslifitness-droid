@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <com.aslifitness.fitracker.widgets.auth.SignInCardView
+    <com.aslifitness.fitrackers.widgets.auth.SignInCardView
         android:id="@+id/login_cardview"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"

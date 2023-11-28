@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/dimen_8dp">
 
-        <com.aslifitness.fitracker.widgets.banners.FitBannerWidget
+        <com.aslifitness.fitrackers.widgets.banners.FitBannerWidget
             android:id="@+id/banners"
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="wrap_content"

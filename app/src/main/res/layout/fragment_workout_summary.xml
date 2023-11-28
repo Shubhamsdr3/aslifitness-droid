@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/header"
         tools:text="Today at 7: 15 pm" />
 
-    <com.aslifitness.fitracker.summary.SummaryCardView
+    <com.aslifitness.fitrackers.summary.SummaryCardView
         android:id="@+id/summary_card"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/date" />
 
-    <com.aslifitness.fitracker.widgets.FitnessButton
+    <com.aslifitness.fitrackers.widgets.FitnessButton
         android:id="@+id/done"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"

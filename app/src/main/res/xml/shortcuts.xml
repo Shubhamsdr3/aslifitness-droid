@@ -28,7 +28,7 @@
         <app-widget
             android:identifier="GET_EXERCISE_OBSERVATION_1"
             android:targetPackage="com.aslifitness.fitracker"
-            android:targetClass="com.aslifitness.fitracker.assistant.widgets.StatsWidgetProvider">
+            android:targetClass="com.aslifitness.fitrackers.assistant.widgets.StatsWidgetProvider">
             <parameter
                 android:name="exerciseObservation.aboutExercise.name"
                 android:key="exercisename">

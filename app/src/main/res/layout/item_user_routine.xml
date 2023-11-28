@@ -43,7 +43,7 @@
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
-        <com.aslifitness.fitracker.widgets.FitnessButton
+        <com.aslifitness.fitrackers.widgets.FitnessButton
             android:id="@+id/start_btn"
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="wrap_content"

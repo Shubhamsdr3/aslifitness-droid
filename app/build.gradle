@@ -22,7 +22,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.aslifitness.fitracker"
+        applicationId "com.aslifitness.fitrackers"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -86,7 +86,7 @@ android {
             buildConfigField "String", "BASE_URL", "\"192.168.50.145/\""
         }
         prod {
-            buildConfigField "String", "BASE_URL", "\"https://asli-fitness-389512.el.r.appspot.com/\""
+            buildConfigField "String", "BASE_URL", "\"https://asli-fitness-389512.el.r.appspot.com//\""
         }
     }
 }
@@ -250,6 +250,11 @@ dependencies {
 
     // databinding
     implementation 'com.android.databinding:compiler:3.5.1'
+
+    // play integrity
+    implementation 'com.google.android.play:integrity:1.3.0'
+
+    implementation 'androidx.browser:browser:1.2.0'
 }
 
 kapt {

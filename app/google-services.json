@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "88077997010",
-    "project_id": "fitracker-2b597",
-    "storage_bucket": "fitracker-2b597.appspot.com"
+    "project_number": "505975466311",
+    "project_id": "asli-fitness-389512",
+    "storage_bucket": "asli-fitness-389512.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:88077997010:android:52bf327a2dcfdcae31ee0b",
+        "mobilesdk_app_id": "1:505975466311:android:42049b40dbdd2e90814462",
         "android_client_info": {
-          "package_name": "com.aslifitness.fitracker"
+          "package_name": "com.aslifitness.fitrackers"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "88077997010-t5uphb6s722ii62fvnnprihmr4cg46og.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.aslifitness.fitracker",
-            "certificate_hash": "2143a60ceaac541b5c5224c45b9ae707af7b275c"
-          }
-        },
-        {
-          "client_id": "88077997010-47ct4aomch2cf15i9b0mucjbdig8ji8e.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB-F0uSNWmPFZZqbu8b35P_eHPkd0l6EWc"
+          "current_key": "AIzaSyC2u1gloMUR1xVXGbbbxNc2exdfT6QLAOE"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "88077997010-47ct4aomch2cf15i9b0mucjbdig8ji8e.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

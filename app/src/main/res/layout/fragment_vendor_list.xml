@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/border_color">
 
-    <com.aslifitness.fitracker.widgets.searchbar.FitnessSearchBar
+    <com.aslifitness.fitrackers.widgets.searchbar.FitnessSearchBar
         android:id="@+id/vendor_search"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
