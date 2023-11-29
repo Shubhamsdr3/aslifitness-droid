@@ -8,6 +8,7 @@ import com.aslifitness.fitrackers.model.QuoteInfo
 import com.aslifitness.fitrackers.model.WorkoutResponse
 import com.aslifitness.fitrackers.network.ApiResponse
 import com.aslifitness.fitrackers.network.NetworkState
+import com.aslifitness.fitrackers.sharedprefs.UserStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
     fun getWorkoutList() {
         viewModelScope.launch {
             _homeNetworkState.value = NetworkState.Loading
-            repository.fetchWorkoutList()
+            repository.fetchWorkoutList(UserStore.getUId())
                 .catch { error ->
                     _homeNetworkState.value = NetworkState.Error(error)
                 }.collect { response ->

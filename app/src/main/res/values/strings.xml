@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fitracker</string>
+    <string name="app_name">Fittracker</string>
     <string name="greeting">Hello World !!</string>
     <string name="my_health">MyHealth</string>
     <string name="add_exercise">Add Exercise</string>

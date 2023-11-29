@@ -34,7 +34,7 @@ class RoutineItemWidget @JvmOverloads constructor(context: Context, attributeSet
             itemBinding.iconWorkout.setCircularImage(it.image, R.drawable.ic_dumble_new)
             itemBinding.header.setTextWithVisibility(it.title)
             itemBinding.subHeader.setTextWithVisibility(it.subTitle)
-            binding.exerciseContainer.addView(binding.root)
+            binding.exerciseContainer.addView(itemBinding.root)
         }
     }
 }

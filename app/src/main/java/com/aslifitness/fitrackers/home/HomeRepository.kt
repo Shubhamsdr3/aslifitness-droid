@@ -16,8 +16,8 @@ import javax.inject.Inject
  */
 class HomeRepository @Inject constructor(private val apiService: ApiService, private val fitnessQuoteDao: FitnessQuoteDao) {
 
-    suspend fun fetchWorkoutList(): Flow<NetworkState<ApiResponse<WorkoutResponse>>> {
-        return performNetworkCall { apiService.fetchWorkouts() }
+    suspend fun fetchWorkoutList(userId: String): Flow<NetworkState<ApiResponse<WorkoutResponse>>> {
+        return performNetworkCall { apiService.fetchWorkouts(userId = userId) }
     }
 
     suspend fun fetchFitnessQuotes(): Flow<NetworkState<ApiResponse<List<QuoteInfo>>>> {

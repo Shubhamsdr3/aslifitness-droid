@@ -86,7 +86,7 @@ android {
             buildConfigField "String", "BASE_URL", "\"192.168.50.145/\""
         }
         prod {
-            buildConfigField "String", "BASE_URL", "\"https://asli-fitness-389512.el.r.appspot.com//\""
+            buildConfigField "String", "BASE_URL", "\"https://asli-fitness-389512.el.r.appspot.com/\""
         }
     }
 }

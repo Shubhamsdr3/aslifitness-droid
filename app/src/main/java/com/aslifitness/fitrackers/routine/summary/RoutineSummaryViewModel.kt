@@ -21,7 +21,6 @@ class RoutineSummaryViewModel(private  val repository: RoutineRepository): ViewM
     val userRoutineLiveData: LiveData<NetworkState<List<UserRoutineDto>>> = userRoutineSummaryLiveData
 
     fun fetchUserRoutine() {
-        val userId = UserStore.getUserId()
         viewModelScope.launch {
             repository.getUserRoutine()
                 .catch {

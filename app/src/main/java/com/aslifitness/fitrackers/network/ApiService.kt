@@ -19,8 +19,8 @@ import retrofit2.http.*
  */
 interface ApiService {
 
-    @GET("/api/home")
-    suspend fun fetchWorkouts(): Response<ApiResponse<WorkoutResponse>>
+    @GET("/api/home/{userId}")
+    suspend fun fetchWorkouts(@Path("userId") userId: String): Response<ApiResponse<WorkoutResponse>>
 
     @GET(GET_WORKOUT_DETAIL)
     suspend fun fetchWorkoutDetail(): Response<ApiResponse<WorkoutDetailResponse>>

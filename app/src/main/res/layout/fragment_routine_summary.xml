@@ -10,49 +10,40 @@
         android:id="@+id/new_routine"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/title_container"
-        android:layout_width="@dimen/dimen_0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_routine">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ic_drop_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@color/divider"
-            android:rotation="180"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_drop_down_24" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/routine_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_24dp"
+        android:text="My Routines(3)"
+        android:textAppearance="@style/TextLarge.Medium.Primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_routine" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/routine_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Routines(3)"
-            android:textAppearance="@style/TextBody.Regular.Secondary" />
-
-    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_see_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_24dp"
+        android:text="See all"
+        android:textAppearance="@style/TextLarge.Medium.Primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_routine" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/routines"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_16dp"
-        android:visibility="gone"
         android:overScrollMode="never"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_container"
+        app:layout_constraintTop_toBottomOf="@+id/routine_title"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
