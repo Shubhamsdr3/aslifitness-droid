@@ -1,6 +1,9 @@
 package com.aslifitness.fitrackers.widgets.auth
 
 import android.content.Context
+import android.text.Html
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -19,7 +22,16 @@ class SignInCardView @JvmOverloads constructor(context: Context, attributeSet: A
     private var phoneNumber: String? = null
 
     init {
+        setupView()
         setUpListener()
+    }
+
+    private fun setupView() {
+        binding.tncText.isClickable = true
+        binding.tncText.movementMethod = LinkMovementMethod.getInstance()
+//        val text = "<a href=\"https://myportfolio-6438d.web.app/\">By creating passcode you agree with our Terms and Conditions and Privacy Policy</a>"
+        val spanned: Spanned = Html.fromHtml(context.getString(com.aslifitness.fitrackers.R.string.tnc_text))
+        binding.tncText.setText(spanned)
     }
 
     fun setSigInCallback(callback: SignInListener) {
@@ -47,12 +59,10 @@ class SignInCardView @JvmOverloads constructor(context: Context, attributeSet: A
     }
 
     private fun verifyPhoneNumber(text: String) {
-        if (text.length > 10) {
-            phoneNumber = text.substring(text.length - 10, text.length).filter { !it.isWhitespace() }
-            callback?.onPhoneNumberEntered(phoneNumber!!)
+        phoneNumber = if (text.length > 10) {
+            text.substring(text.length - 10, text.length).filter { !it.isWhitespace() }
         } else {
-            phoneNumber = text.filter { !it.isWhitespace() }
-            callback?.onPhoneNumberEntered(phoneNumber!!)
+            text.filter { !it.isWhitespace() }
         }
     }
 }

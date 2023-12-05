@@ -22,7 +22,6 @@ class WorkoutSummaryFragment: Fragment() {
 
     private lateinit var binding: FragmentWorkoutSummaryBinding
     private lateinit var viewModel: WorkoutSummaryViewModel
-    private var workoutSummaryId = "1fwefghbnverger"
 
     companion object {
         const val TAG = "WorkoutSummaryFragment"
@@ -73,7 +72,7 @@ class WorkoutSummaryFragment: Fragment() {
 
     private fun configureWorkoutSummary(data: WorkoutSummaryResponse?) {
         binding.summaryLoader.visibility = View.GONE
-        data?.run {
+        data?.data?.run {
             binding.header.setTextWithVisibility(header)
             binding.date.setTextWithVisibility(subHeader)
             summary?.let { binding.summaryCard.setData(it) }

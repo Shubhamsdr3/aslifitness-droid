@@ -2,12 +2,14 @@ package com.aslifitness.fitrackers
 
 import android.app.Application
 import android.content.Context
+import com.aslifitness.fitrackers.sharedprefs.UserStore
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.Forest.plant
@@ -56,5 +58,12 @@ class FitApp : Application() {
     private fun initializeFirebaseAppCheck() {
         FirebaseApp.initializeApp(this)
         FirebaseAppCheck.getInstance().installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance())
+        FirebaseAuth.getInstance().addAuthStateListener {
+            if (it.currentUser != null) {
+                UserStore.setUserAuthenticated(true)
+            } else {
+                UserStore.setUserAuthenticated(false)
+            }
+        }
     }
 }

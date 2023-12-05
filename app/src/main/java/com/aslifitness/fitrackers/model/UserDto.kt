@@ -18,7 +18,7 @@ data class UserDto(
     val id: String,
     @SerializedName("userId") val userId: String? = null,
     val name: String? = null,
-    val profileImage: String? = null,
+    @SerializedName("profileImage") val profileImage: String? = null,
     val weight: String? = null,
     val age: String? = null,
     @SerializedName("phoneNumber") val phoneNumber: String? = null

@@ -39,6 +39,11 @@ class UserRepository(private val apiService: ApiService, private val userDao: Us
         apiService.updateUserProfile(mapOf(Pair("weight", weight), Pair("id", UserStore.getUId())))
     }
 
+    suspend fun updateUserProfile(userId: String, imageUrl: String?) {
+        userDao.updateUserProfile(userId = userId, imageUrl = imageUrl)
+        apiService.updateUserProfile(mapOf(Pair("profileImage", imageUrl), Pair("id", UserStore.getUId())))
+    }
+
     suspend fun getUserProfile(userId: String) = apiService.getUserProfile(userId)
 
     suspend fun saveUser(user: UserDto): Response<ApiResponse<UserDto>> {

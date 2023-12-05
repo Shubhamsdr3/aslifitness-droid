@@ -32,6 +32,9 @@ interface UserDao {
     @Query("UPDATE user SET weight=:weight WHERE userId=:userId")
     suspend fun updateUserWeight(userId: String, weight: Int)
 
+    @Query("UPDATE user SET profileImage=:imageUrl WHERE userId=:userId")
+    suspend fun updateUserProfile(userId: String, imageUrl: String?)
+
     @Query("DELETE FROM user")
     suspend fun deleteUser()
 }

@@ -1,14 +1,27 @@
 package com.aslifitness.fitrackers.profile
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.database.Cursor
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.aslifitness.fitrackers.R
 import com.aslifitness.fitrackers.auth.UserAuthActivity
 import com.aslifitness.fitrackers.databinding.FragmentUserProfileBinding
@@ -21,8 +34,11 @@ import com.aslifitness.fitrackers.model.profile.UserProfileResponse
 import com.aslifitness.fitrackers.network.ApiHandler
 import com.aslifitness.fitrackers.network.ApiResponse
 import com.aslifitness.fitrackers.network.NetworkState
+import com.aslifitness.fitrackers.profile.TakePictureActivity.Companion.PICTURE_URL
+import com.aslifitness.fitrackers.profile.uploadworker.FileUploadWorker
 import com.aslifitness.fitrackers.sharedprefs.UserStore
 import com.aslifitness.fitrackers.utils.DeeplinkResolver
+import com.aslifitness.fitrackers.utils.gone
 import com.aslifitness.fitrackers.utils.setTextWithVisibility
 import com.aslifitness.fitrackers.utils.show
 import com.aslifitness.fitrackers.widgets.SpaceItemDecoration
@@ -32,17 +48,91 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.api.GoogleApiClient
 import timber.log.Timber
+import java.io.File
 import java.util.Random
+
 
 /**
  * @author Shubham Pandey
  */
-class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryCallback, EditProfileBottomSheetCallback {
+class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryCallback,
+    EditProfileBottomSheetCallback, ChosePictureBottomSheetCallback {
 
     private lateinit var binding: FragmentUserProfileBinding
     private val userRepository by lazy { UserRepository(ApiHandler.apiService, AppDatabase.getInstance().userDao()) }
     private lateinit var viewModel: UserProfileViewModel
     private var userDto: UserDto? = null
+
+    private val chosePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUri = result.data?.data
+            Glide.with(this).clear(binding.icProfile)
+            binding.icProfile.setImageURI(imageUri)
+            uploadImage(imageUri)
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun uploadImage(imageUri: Uri?) {
+        if (imageUri == null) return
+        val picturePath = getImagePath(imageUri)
+        val fileName = "${UserStore.getUId()}.jpg"
+        val data = Data.Builder()
+            .putString(FileUploadWorker.IMAGE_PATH, picturePath)
+            .putString(FileUploadWorker.FILE_NAME, fileName)
+            .build()
+
+        val uploadWorkRequest: WorkRequest =
+            OneTimeWorkRequestBuilder<FileUploadWorker>()
+                .setInputData(data)
+                .build()
+        WorkManager.getInstance(requireContext()).apply {
+            getWorkInfoByIdLiveData(uploadWorkRequest.id)
+                .observe(viewLifecycleOwner) { workInfo ->
+                    if (workInfo != null) {
+                        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                            val downloadUrl = workInfo.outputData.getString(FileUploadWorker.DOWNLOAD_URL)
+                            viewModel.updateUserProfile(downloadUrl)
+                            binding.icProfile.alpha = 1f
+                            binding.circularProgress.gone()
+                        } else if (workInfo.state ==WorkInfo.State.RUNNING) {
+                            binding.icProfile.alpha = 0.5f
+                            val value = workInfo.progress.getInt(FileUploadWorker.PROGRESS, 0)
+                            binding.circularProgress.setProgress(value, true)
+                            binding.circularProgress.show()
+                        }
+                    }
+                }
+        }.enqueue(uploadWorkRequest)
+    }
+
+    private fun getImagePath(imageUri: Uri): String? {
+        var result: String? = null
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor? = activity?.contentResolver?.query(imageUri, proj, null, null, null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                val columnIndex: Int = cursor.getColumnIndexOrThrow(proj[0])
+                result = cursor.getString(columnIndex)
+            }
+            cursor.close()
+        }
+        return result
+    }
+
+    private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUrl = result.data?.getStringExtra(PICTURE_URL)
+            setUpProfilePicture(imageUrl)
+        }
+    }
+
+    private fun setUpProfilePicture(imageUrl: String?) {
+        Glide.with(this).clear(binding.icProfile)
+        val bitmap = BitmapFactory.decodeFile(imageUrl)
+        binding.icProfile.setImageBitmap(bitmap)
+        viewModel.updateUserProfile(imageUrl ?: "")
+    }
 
     private val googleApiClient: GoogleApiClient by lazy {
         GoogleApiClient.Builder(requireContext())
@@ -76,6 +166,10 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
 //        binding.tvEdit.setOnClickListener {
 //            startActivity(Intent(activity, OnboardingActivity::class.java))
 //        }
+
+        binding.icProfile.setOnClickListener {
+            ChosePictureBottomSheet.newInstance().show(childFragmentManager, ChosePictureBottomSheet.TAG)
+        }
     }
 
     override fun onStart() {
@@ -204,8 +298,8 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
         val firstCharacter = name?.substring(0, 1) ?: ""
         val image = AvatarGenerator.AvatarBuilder(requireContext())
             .setLabel(firstCharacter)
-            .setAvatarSize(240)
-            .setTextSize(60)
+            .setAvatarSize(260)
+            .setTextSize(64)
             .toSquare()
             .toCircle()
             .setBackgroundColor(color)
@@ -247,6 +341,17 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
 
     override fun onItemClicked(workoutDto: WorkoutDto) {
         DeeplinkResolver.resolve(requireActivity(), workoutDto.actionUrl)
+    }
+    override fun onCameraClicked() {
+        takePictureLauncher.launch(Intent(activity, TakePictureActivity::class.java))
+    }
+
+    override fun onGalleryClicked() {
+        Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
+        }.also {
+            chosePictureLauncher.launch(it)
+        }
     }
 
     override fun onDropDownClicked() {

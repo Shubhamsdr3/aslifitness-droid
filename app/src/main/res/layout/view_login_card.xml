@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:cardCornerRadius="@dimen/dimen_12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:padding="@dimen/dimen_16dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/header"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/enter_your_mobile_number"
             android:textAppearance="@style/TextLarge.Medium.Primary"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,8 +21,8 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/sub_header"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/confirmation_code"
             android:textAppearance="@style/TextBody.Medium.Tertiary"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,22 +30,22 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_phone_number"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/dimen_0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_16dp"
-            android:layout_width="@dimen/dimen_0dp"
-            app:prefixText="+91 "
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sub_header">
+            app:layout_constraintTop_toBottomOf="@+id/sub_header"
+            app:prefixText="+91 ">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/phone_number"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="Phone number"
                 android:inputType="phone"
-                android:maxLength="14" />
+                android:maxLength="10" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,19 +53,21 @@
             android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:button_title="@string/next"
             android:layout_marginTop="@dimen/dimen_32dp"
+            app:button_title="@string/next"
             app:layout_constraintTop_toBottomOf="@+id/et_phone_number" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tnc_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tnc_text"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:clickable="true"
+            android:linksClickable="true"
+            android:textColorLink="@color/primary_dark"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submit_button"
-            android:layout_marginTop="@dimen/dimen_16dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submit_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

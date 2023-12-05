@@ -7,8 +7,9 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
-    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
@@ -27,6 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitracker"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
 
         <meta-data
@@ -282,6 +284,8 @@
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTop" />
 
+        <activity android:name=".profile.TakePictureActivity" />
+
         <receiver android:name="com.aslifitness.fitrackers.notification.ReminderReceiver" />
         <receiver android:name="com.aslifitness.fitrackers.notification.DeviceRebootReceiver" android:exported="true">
 
@@ -345,6 +349,18 @@
         <service android:name="com.google.android.exoplayer2.scheduler.PlatformScheduler$PlatformSchedulerService"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="true"/>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.aslifitness.fitrackers.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+
+        </provider>
 
     </application>
 

@@ -53,17 +53,56 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ic_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dimen_140dp"
+                android:layout_height="@dimen/dimen_140dp"
                 android:layout_marginTop="@dimen/dimen_52dp"
                 android:visibility="@{showLoader ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_toolbar"
+                app:shapeAppearanceOverlay="@style/RoundedImageView"
                 app:srcCompat="@drawable/ic_user_circle_24"
+                app:strokeColor="@color/primary_dark"
+                app:strokeWidth="@dimen/dimen_1dp"
+                tools:alpha="0.2"
                 tools:visibility="visible" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/circular_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorColor="@color/primary_dark"
+                app:indicatorSize="@dimen/dimen_62dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ic_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ic_profile"
+                app:trackColor="@color/border_color"
+                tools:visibility="visible" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-28dp"
+                android:layout_marginEnd="@dimen/dimen_4dp"
+                android:clipToPadding="false"
+                android:visibility="@{showLoader ? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="@+id/ic_profile"
+                app:layout_constraintTop_toBottomOf="@+id/ic_profile">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dimen_32dp"
+                    android:layout_height="@dimen/dimen_32dp"
+                    android:scaleType="centerCrop"
+                    android:tint="@color/primary_dark"
+                    app:srcCompat="@drawable/icon_profile_pic_24" />
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_handle"

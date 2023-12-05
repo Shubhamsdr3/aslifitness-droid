@@ -21,6 +21,7 @@ import com.aslifitness.fitrackers.addworkout.AddWorkoutBottomSheet
 import com.aslifitness.fitrackers.addworkout.WorkoutBottomSheetCallback
 import com.aslifitness.fitrackers.assistant.BiiIntents
 import com.aslifitness.fitrackers.assistant.model.FitShortcutInfo
+import com.aslifitness.fitrackers.auth.UserAuthActivity
 import com.aslifitness.fitrackers.auth.UserLoginFragmentCallback
 import com.aslifitness.fitrackers.databinding.ActivityHomeBinding
 import com.aslifitness.fitrackers.model.WorkoutDto
@@ -28,6 +29,7 @@ import com.aslifitness.fitrackers.model.addworkout.WorkoutBottomSheetInfo
 import com.aslifitness.fitrackers.profile.UserProfileActivity
 import com.aslifitness.fitrackers.routine.UserRoutineActivity
 import com.aslifitness.fitrackers.routine.summary.RoutineSummaryActivity
+import com.aslifitness.fitrackers.sharedprefs.UserStore
 import com.aslifitness.fitrackers.utils.EMPTY
 import com.aslifitness.fitrackers.utils.ShortCutsFactory
 import com.aslifitness.fitrackers.workoutlist.WorkoutListActivity
@@ -198,23 +200,35 @@ class HomeActivity : AppCompatActivity(), WorkoutBottomSheetCallback, UserLoginF
 
     private fun openWorkoutBottomSheet() {
         val workoutInfo = WorkoutBottomSheetInfo(
-            "Quick Start",
-            WorkoutDto("New Workout"),
-            WorkoutDto("New Routine")
+            getString(R.string.quick_start),
+            WorkoutDto(getString(R.string.new_workout)),
+            WorkoutDto(getString(R.string.new_routine))
         )
         AddWorkoutBottomSheet.newInstance(workoutInfo).show(supportFragmentManager, AddWorkoutBottomSheet.TAG)
     }
 
     override fun onAddWorkoutClicked() {
-        WorkoutListActivity.start(this, EMPTY)
+        if (UserStore.isUserAuthenticated()) {
+            WorkoutListActivity.start(this, EMPTY)
+        } else {
+            startActivity(Intent(this, UserAuthActivity::class.java))
+        }
     }
 
     override fun onAddRoutineClicked() {
-        UserRoutineActivity.start(this)
+        if (UserStore.isUserAuthenticated()) {
+            UserRoutineActivity.start(this)
+        } else {
+            startActivity(Intent(this, UserAuthActivity::class.java))
+        }
     }
 
     override fun openHistoryClicked() {
-        RoutineSummaryActivity.start(this)
+        if (UserStore.isUserAuthenticated()) {
+            RoutineSummaryActivity.start(this)
+        } else {
+            startActivity(Intent(this, UserAuthActivity::class.java))
+        }
     }
 
     override fun onSubmitClicked(phoneNumber: String) {

@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkRequest
 import com.aslifitness.fitrackers.model.profile.UserProfileResponse
 import com.aslifitness.fitrackers.network.ApiResponse
 import com.aslifitness.fitrackers.network.NetworkState
 import com.aslifitness.fitrackers.network.performNetworkCall
+import com.aslifitness.fitrackers.profile.uploadworker.FileUploadWorker
 import com.aslifitness.fitrackers.sharedprefs.UserStore
 import com.google.android.gms.common.api.GoogleApiClient
 import kotlinx.coroutines.Dispatchers
@@ -75,6 +78,12 @@ class UserProfileViewModel (private val userRepository: UserRepository): ViewMod
     fun updateUserWeight(weight: Int) {
         viewModelScope.launch {
             userRepository.updateUserWeight(UserStore.getUId(), weight)
+        }
+    }
+
+    fun updateUserProfile(imageUrl: String?) {
+        viewModelScope.launch {
+            userRepository.updateUserProfile(UserStore.getUId(), imageUrl)
         }
     }
 }

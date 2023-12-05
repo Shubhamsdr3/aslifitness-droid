@@ -7,6 +7,7 @@ import com.aslifitness.fitrackers.utils.EMPTY
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -21,13 +22,20 @@ object UserStore {
     private const val USER_DETAIL = "user_detail"
     private const val FCM_TOKEN = "fcm_token"
     private const val IS_NEW_USER = "is_new_user"
+    private const val IS_USER_AUTHENTICATED = "is_user_authenticated"
     private const val UID = "uid"
 
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     private val sharedPreferences = FitApp.getAppContext()?.getSharedPreferences(USER_STORE, Context.MODE_PRIVATE)
 
-    fun isUserAuthenticated() = firebaseAuth.currentUser != null
+    fun isUserAuthenticated() = sharedPreferences?.getBoolean(IS_USER_AUTHENTICATED, false) ?: false
+
+    fun setUserAuthenticated(isAuthenticated: Boolean) {
+        sharedPreferences?.run {
+            edit().putBoolean(IS_USER_AUTHENTICATED, isAuthenticated)
+        }?.commit()
+    }
 
     fun putUserId(userId: String) {
         sharedPreferences?.run {

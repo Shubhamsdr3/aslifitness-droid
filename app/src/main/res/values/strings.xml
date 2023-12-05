@@ -18,7 +18,7 @@
     <string name="enter_your_mobile_number">Enter your mobile number</string>
     <string name="confirmation_code">We will send you confirmation code</string>
     <string name="next">Next</string>
-    <string name="tnc_text">By creating passcode you agree with our Terms and Conditions and Privacy Policy</string>
+    <string name="tnc_text">By continuing, you agree to our &lt;a href=https://myportfolio-6438d.web.app/>Terms of Use and Privacy Policy.&lt;/a></string>
     <string name="otp_text">Enter code sent to your phone</string>
     <string name="resend_otp">Resend OTP</string>
     <string name="change">Change</string>
@@ -113,5 +113,11 @@
     <string name="enter_your_weight">Enter your weight</string>
     <string name="edit_txt">Edit</string>
     <string name="phone_number">Phone number</string>
+    <string name="quick_start">Quick Start</string>
+    <string name="new_workout">New Workout</string>
+    <string name="new_routine">New Routine</string>
+    <string name="profile_photo">Profile photo</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
 
 </resources>

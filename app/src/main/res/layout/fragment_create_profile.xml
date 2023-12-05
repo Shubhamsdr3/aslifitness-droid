@@ -9,6 +9,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/profile_toolbar"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/profile_skip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/dimen_16dp"
+                android:text="@string/skip"
+                android:textAppearance="@style/TextLarge.Medium.Primary" />
+
+        </androidx.appcompat.widget.Toolbar>
+
         <View
             android:id="@+id/iv_cover"
             android:layout_width="match_parent"
@@ -16,7 +35,7 @@
             android:background="@color/color_tertiary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_toolbar" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_profile"
@@ -25,20 +44,26 @@
             android:layout_marginTop="@dimen/dimen_32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_toolbar"
             app:shapeAppearanceOverlay="@style/RoundedImageView"
             app:srcCompat="@drawable/ic_account_grey_24" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_add_pic"
-            android:layout_width="@dimen/dimen_52dp"
-            android:layout_height="@dimen/dimen_52dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:elevation="@dimen/dimen_2dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_add_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
-            app:layout_constraintEnd_toEndOf="@+id/iv_profile"
-            app:srcCompat="@drawable/icon_profile_pic_24" />
+            app:layout_constraintEnd_toEndOf="@+id/iv_profile">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_add_pic"
+                android:layout_width="@dimen/dimen_36dp"
+                android:layout_height="@dimen/dimen_36dp"
+                app:srcCompat="@drawable/icon_profile_pic_24" />
+
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_layout_id"
@@ -47,10 +72,10 @@
             android:layout_marginHorizontal="@dimen/dimen_16dp"
             android:layout_marginTop="@dimen/dimen_32dp"
             android:hint="User name"
-            app:placeholderText="@johndoe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_cover">
+            app:layout_constraintTop_toBottomOf="@+id/iv_cover"
+            app:placeholderText="@johndoe">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_input_id"
@@ -66,10 +91,10 @@
             android:layout_marginHorizontal="@dimen/dimen_16dp"
             android:layout_marginTop="@dimen/dimen_32dp"
             android:hint="@string/name"
-            app:placeholderText="John Doe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_layout_id">
+            app:layout_constraintTop_toBottomOf="@+id/et_layout_id"
+            app:placeholderText="John Doe">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_input_name"
@@ -85,10 +110,10 @@
             android:layout_marginHorizontal="@dimen/dimen_16dp"
             android:layout_marginTop="@dimen/dimen_32dp"
             android:hint="Age"
-            app:placeholderText="28"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_layout_name">
+            app:layout_constraintTop_toBottomOf="@+id/et_layout_name"
+            app:placeholderText="28">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_input_age"
@@ -105,10 +130,10 @@
             android:layout_marginHorizontal="@dimen/dimen_16dp"
             android:layout_marginTop="@dimen/dimen_32dp"
             android:hint="Weight"
-            app:placeholderText="52"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_layout_age">
+            app:layout_constraintTop_toBottomOf="@+id/et_layout_age"
+            app:placeholderText="52">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_input_weight"
