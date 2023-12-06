@@ -22,7 +22,7 @@ import timber.log.Timber
  * @author Shubham Pandey
  */
 
-class UserProfileViewModel (private val userRepository: UserRepository): ViewModel() {
+class UserProfileViewModel(private val userRepository: UserRepository): ViewModel() {
 
     private val userProfileNetworkMutableState: MutableLiveData<NetworkState<ApiResponse<UserProfileResponse>>> = MutableLiveData()
     val userProfileNetworkState: LiveData<NetworkState<ApiResponse<UserProfileResponse>>> = userProfileNetworkMutableState

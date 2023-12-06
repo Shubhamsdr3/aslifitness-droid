@@ -12,13 +12,13 @@
     <uses-feature android:name="android.hardware.camera.any" android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
 
     <!--android:networkSecurityConfig="@xml/network_security_config" />-->
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -201,9 +201,8 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
 
-                <data
-                    android:host="www.aslifitnessapp.com"
-                    android:pathPrefix="/navigation" />
+                <data android:host="www.aslifitnessapp.com"/>
+                <data android:pathPrefix="/navigation"/>
 
             </intent-filter>
 

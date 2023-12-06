@@ -119,5 +119,6 @@
     <string name="profile_photo">Profile photo</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="my_routine">"My routines(%d)"</string>
 
 </resources>

@@ -66,6 +66,7 @@ class RoutineSummaryFragment: Fragment(), RoutineAdapterCallback, AddWorkoutWidg
     private fun handleRoutineSuccess(data: List<UserRoutineDto>?) {
         if (data.isNullOrEmpty()) return
         configureAddedRoutine(data[0])
+        binding.routineTitle.text = getString(R.string.my_routine, data.size)
         binding.routines.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.routines.adapter = RoutineSummaryAdapter(data.subList(1, data.size), this)
         binding.routines.addItemDecoration(object : RecyclerView.ItemDecoration() {

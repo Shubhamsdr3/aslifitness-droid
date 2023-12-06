@@ -1,8 +1,10 @@
 package com.aslifitness.fitrackers.profile
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -13,7 +15,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -63,75 +68,20 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
     private lateinit var viewModel: UserProfileViewModel
     private var userDto: UserDto? = null
 
+    companion object {
+        const val TAG = "ProfileFragment"
+        private const val GALLERY_PERMISSION_CODE = 1995
+        fun newInstance() = UserProfileFragment()
+    }
+
     private val chosePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data
             Glide.with(this).clear(binding.icProfile)
             binding.icProfile.setImageURI(imageUri)
-            uploadImage(imageUri)
+            val picturePath = getImagePath(imageUri!!)
+            uploadImage(picturePath)
         }
-    }
-
-    @SuppressLint("NewApi")
-    private fun uploadImage(imageUri: Uri?) {
-        if (imageUri == null) return
-        val picturePath = getImagePath(imageUri)
-        val fileName = "${UserStore.getUId()}.jpg"
-        val data = Data.Builder()
-            .putString(FileUploadWorker.IMAGE_PATH, picturePath)
-            .putString(FileUploadWorker.FILE_NAME, fileName)
-            .build()
-
-        val uploadWorkRequest: WorkRequest =
-            OneTimeWorkRequestBuilder<FileUploadWorker>()
-                .setInputData(data)
-                .build()
-        WorkManager.getInstance(requireContext()).apply {
-            getWorkInfoByIdLiveData(uploadWorkRequest.id)
-                .observe(viewLifecycleOwner) { workInfo ->
-                    if (workInfo != null) {
-                        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                            val downloadUrl = workInfo.outputData.getString(FileUploadWorker.DOWNLOAD_URL)
-                            viewModel.updateUserProfile(downloadUrl)
-                            binding.icProfile.alpha = 1f
-                            binding.circularProgress.gone()
-                        } else if (workInfo.state ==WorkInfo.State.RUNNING) {
-                            binding.icProfile.alpha = 0.5f
-                            val value = workInfo.progress.getInt(FileUploadWorker.PROGRESS, 0)
-                            binding.circularProgress.setProgress(value, true)
-                            binding.circularProgress.show()
-                        }
-                    }
-                }
-        }.enqueue(uploadWorkRequest)
-    }
-
-    private fun getImagePath(imageUri: Uri): String? {
-        var result: String? = null
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor: Cursor? = activity?.contentResolver?.query(imageUri, proj, null, null, null)
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                val columnIndex: Int = cursor.getColumnIndexOrThrow(proj[0])
-                result = cursor.getString(columnIndex)
-            }
-            cursor.close()
-        }
-        return result
-    }
-
-    private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val imageUrl = result.data?.getStringExtra(PICTURE_URL)
-            setUpProfilePicture(imageUrl)
-        }
-    }
-
-    private fun setUpProfilePicture(imageUrl: String?) {
-        Glide.with(this).clear(binding.icProfile)
-        val bitmap = BitmapFactory.decodeFile(imageUrl)
-        binding.icProfile.setImageBitmap(bitmap)
-        viewModel.updateUserProfile(imageUrl ?: "")
     }
 
     private val googleApiClient: GoogleApiClient by lazy {
@@ -139,11 +89,6 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
             .enableAutoManage(requireActivity()) {}
             .addApi(Auth.GOOGLE_SIGN_IN_API)
             .build();
-    }
-
-    companion object {
-        const val TAG = "ProfileFragment"
-        fun newInstance() = UserProfileFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -211,6 +156,68 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
         }
     }
 
+    @SuppressLint("NewApi")
+    private fun uploadImage(imagePath: String?) {
+        if (imagePath == null) return
+        val fileName = "${UserStore.getUId()}.jpg"
+        val data = Data.Builder()
+            .putString(FileUploadWorker.IMAGE_PATH, imagePath)
+            .putString(FileUploadWorker.FILE_NAME, fileName)
+            .build()
+
+        val uploadWorkRequest =
+            OneTimeWorkRequestBuilder<FileUploadWorker>()
+                .setInputData(data)
+                .build()
+        WorkManager.getInstance(requireContext()).apply {
+            getWorkInfoByIdLiveData(uploadWorkRequest.id)
+                .observe(viewLifecycleOwner) { workInfo ->
+                    if (workInfo != null) {
+                        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                            val downloadUrl = workInfo.outputData.getString(FileUploadWorker.DOWNLOAD_URL)
+                            viewModel.updateUserProfile(downloadUrl)
+                            binding.icProfile.alpha = 1f
+                            binding.circularProgress.gone()
+                        } else if (workInfo.state ==WorkInfo.State.RUNNING) {
+                            binding.icProfile.alpha = 0.5f
+                            val value = workInfo.progress.getInt(FileUploadWorker.PROGRESS, 0)
+                            binding.circularProgress.setProgress(value, true)
+                            binding.circularProgress.show()
+                        }
+                    }
+                }
+        }.enqueue(uploadWorkRequest)
+    }
+
+    private fun getImagePath(imageUri: Uri): String? {
+        var result: String? = null
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor? = activity?.contentResolver?.query(imageUri, proj, null, null, null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                val columnIndex: Int = cursor.getColumnIndexOrThrow(proj[0])
+                result = cursor.getString(columnIndex)
+            }
+            cursor.close()
+        }
+        return result
+    }
+
+    private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUrl = result.data?.getStringExtra(PICTURE_URL)
+            uploadImage(imageUrl)
+            setUpProfilePicture(imageUrl)
+        }
+    }
+
+    private fun setUpProfilePicture(imageUrl: String?) {
+        Glide.with(this).clear(binding.icProfile)
+        val bitmap = BitmapFactory.decodeFile(imageUrl)
+        binding.icProfile.setImageBitmap(bitmap)
+        viewModel.updateUserProfile(imageUrl ?: "")
+    }
+
     private fun onUserLogout() {
         startActivity(Intent(activity, UserAuthActivity::class.java))
     }
@@ -239,7 +246,6 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
     private fun setVersionName() {
         val packageManager = requireActivity().packageManager
         try {
-            // Get the package information
             val packageInfo = packageManager.getPackageInfo(requireActivity().packageName, 0)
             val versionName = packageInfo.versionName
             val versionCode = packageInfo.versionCode
@@ -347,11 +353,37 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
     }
 
     override fun onGalleryClicked() {
+        openGallery()
+        if (isPermissionGranted()) {
+            openGallery()
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                GALLERY_PERMISSION_CODE
+            )
+        }
+    }
+
+    private fun openGallery() {
         Intent(Intent.ACTION_PICK).apply {
             type = "image/*"
         }.also {
             chosePictureLauncher.launch(it)
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == GALLERY_PERMISSION_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openGallery()
+        } else {
+            Toast.makeText(requireContext(), "Please grant the request...", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun isPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onDropDownClicked() {

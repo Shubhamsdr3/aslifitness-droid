@@ -23,8 +23,11 @@ class SummaryCardView @JvmOverloads constructor(context: Context, attributeSet: 
         data.run {
             binding.image.setCircularImage(image, R.drawable.ic_dumble_new)
             binding.title.setTextWithVisibility(title)
+            configureText(binding.duration.keyText, durationInfo?.key)
             configureText(binding.duration.valueText, durationInfo?.value)
+            configureText(binding.volume.keyText, durationInfo?.key)
             configureText(binding.volume.valueText, volumeInfo?.value)
+            configureText(binding.setCount.keyText, setInfo?.key)
             configureText(binding.setCount.valueText, setInfo?.value)
         }
     }
