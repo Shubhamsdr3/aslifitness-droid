@@ -142,7 +142,7 @@ class UserProfileFragment: Fragment(), DashboardAdapterCallback, WorkoutHistoryC
     private fun setupViewModel() {
         viewModel = ViewModelProvider(viewModelStore, ProfileViewModelFactory(userRepository))[UserProfileViewModel::class.java]
         val uId = UserStore.getUId()
-        if (uId.isNotEmpty()) viewModel.fetchUserProfile(uId)
+        if (!uId.isNullOrEmpty()) viewModel.fetchUserProfile(uId)
         viewModel.userProfileNetworkState.observe(viewLifecycleOwner) { onViewStateChanged(it) }
         viewModel.userProfileViewState.observe(viewLifecycleOwner) { onProfileViewStateChanged(it) }
     }

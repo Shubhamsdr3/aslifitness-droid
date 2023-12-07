@@ -17,11 +17,13 @@ data class VendorInfo(
     val userRatingTotal: String? = null
 ): Parcelable
 
+@Keep
 @Parcelize
 data class OpeningHours(
     val openNow: Boolean = false
 ): Parcelable
 
+@Keep
 @Parcelize
 data class PhotoInfo(
     val height: Int,

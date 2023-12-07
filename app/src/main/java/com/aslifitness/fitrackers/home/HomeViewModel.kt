@@ -2,12 +2,14 @@ package com.aslifitness.fitrackers.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aslifitness.fitrackers.model.QuoteInfo
 import com.aslifitness.fitrackers.model.WorkoutResponse
 import com.aslifitness.fitrackers.network.ApiResponse
 import com.aslifitness.fitrackers.network.NetworkState
+import com.aslifitness.fitrackers.routine.data.UserCalendarResponse
 import com.aslifitness.fitrackers.sharedprefs.UserStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -26,6 +28,9 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
 
     private val homeViewMutableState: MutableLiveData<HomeViewState> = MutableLiveData()
     val homeViewState: LiveData<HomeViewState> = homeViewMutableState
+
+    private val homeRoutineMutableState: MutableLiveData<HomeViewState> = MutableLiveData()
+    val homeRoutineViewState: LiveData<HomeViewState> = homeRoutineMutableState
 
     fun getWorkoutList() {
         viewModelScope.launch {
@@ -77,13 +82,39 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
         }
     }
 
+    fun fetchRoutineType(type: String) {
+        viewModelScope.launch {
+            homeRoutineMutableState.value = HomeViewState.ShowLoader
+            repository.fetchRoutineType(userId = UserStore.getUId(), type = type)
+                .catch {
+                    homeRoutineMutableState.value = HomeViewState.ShowError(it)
+                }.collect {
+                    handleRoutineResponse(it)
+                }
+        }
+    }
+
+    private fun handleRoutineResponse(state: NetworkState<ApiResponse<UserCalendarResponse>>) {
+        when(state) {
+            is NetworkState.Success -> showUserRoutine(state.data)
+            is NetworkState.Error ->  {}
+            is NetworkState.Loading -> {}
+        }
+    }
+
+    private fun showUserRoutine(data: ApiResponse<UserCalendarResponse>?) {
+        data?.data?.let {
+            homeRoutineMutableState.value = HomeViewState.ShowUserRoutine(it)
+        }
+    }
+
     fun getWorkoutListFromFB() {
         viewModelScope.launch {
             _homeNetworkState.value = NetworkState.Loading
             repository.fetchWorkoutListFromFB()
                 .catch { error ->
                     _homeNetworkState.value =  NetworkState.Error(error)
-                }.collect { response ->
+                }.collect {
 //                    _homeViewState.value = response
                 }
         }

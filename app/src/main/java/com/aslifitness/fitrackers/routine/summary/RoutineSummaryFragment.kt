@@ -84,11 +84,11 @@ class RoutineSummaryFragment: Fragment(), RoutineAdapterCallback, AddWorkoutWidg
     }
 
     private fun showError(throwable: Throwable) {
-
+        // do nothing
     }
 
     private fun showLoader() {
-
+        // do nothing.
     }
 
     override fun onOptionMenuClicked() {
@@ -96,14 +96,14 @@ class RoutineSummaryFragment: Fragment(), RoutineAdapterCallback, AddWorkoutWidg
     }
 
     override fun onStartRoutineClicked() {
-
+        // do nothing
     }
 
     override fun onPlusClicked(position: Int) {
-
+        // do nothing
     }
 
     override fun onItemClicked(position: Int, workout: Workout) {
-
+        // do nothing
     }
 }

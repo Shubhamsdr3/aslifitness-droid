@@ -1,6 +1,7 @@
 package com.aslifitness.fitrackers.model
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,6 +10,7 @@ import kotlinx.parcelize.Parcelize
 /**
  * Created by shubhampandey
  */
+@Keep
 @Parcelize
 @Entity(tableName = "fitness_quote")
 data class QuoteInfo(

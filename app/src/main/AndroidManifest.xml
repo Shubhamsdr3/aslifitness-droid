@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.aslifitness.fitrackers">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
     <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
@@ -36,9 +37,9 @@
             android:resource="@xml/shortcuts" />
 
         <activity
-            android:exported="true"
-            android:name="com.aslifitness.fitrackers.HomeActivity"
-            android:launchMode="singleTask">
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.Fitracker"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,10 +48,36 @@
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="app"
+                <data
+                    android:scheme="app"
+                    android:host="aslifitnessapp.com"
+                    android:pathPrefix="/splash" />
+
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:name="com.aslifitness.fitrackers.HomeActivity"
+            android:launchMode="singleTask">
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="app"
                     android:host="aslifitnessapp.com"
                     android:pathPrefix="/fitnessHome" />
 
@@ -64,12 +91,11 @@
 
         <activity
             android:exported="true"
-            android:name="com.aslifitness.fitrackers.detail.WorkoutDetailActivity">
-        </activity>
+            android:name="com.aslifitness.fitrackers.detail.WorkoutDetailActivity" />
+
         <activity
             android:exported="true"
-            android:name="com.aslifitness.fitrackers.stories.ShortVideoActivity">
-        </activity>
+            android:name="com.aslifitness.fitrackers.stories.ShortVideoActivity" />
 
         <activity
             android:name="com.aslifitness.fitrackers.addworkout.AddWorkoutActivity"
@@ -79,6 +105,7 @@
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="aslifitness.actions.intent.ADD_WORKOUT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -95,16 +122,17 @@
 
         </activity>
 
-        <activity android:name="com.aslifitness.fitrackers.workoutlist.WorkoutListActivity"
+        <activity
+            android:name="com.aslifitness.fitrackers.workoutlist.WorkoutListActivity"
             android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
-<!--                <data-->
-<!--                    android:host="*.aslifitness.com"-->
-<!--                    android:path="/workoutlist"-->
-<!--                    android:scheme="http" />-->
+                <!--                <category android:name="android.intent.category.DEFAULT" />-->
+                <!--                <category android:name="android.intent.category.BROWSABLE" />-->
+                <!--                <data-->
+                <!--                    android:host="*.aslifitness.com"-->
+                <!--                    android:path="/workoutlist"-->
+                <!--                    android:scheme="http" />-->
             </intent-filter>
         </activity>
 
@@ -119,10 +147,10 @@
         <activity
             android:name="com.aslifitness.fitrackers.uilib.ExampleActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
 
         </activity>
 
@@ -130,12 +158,14 @@
         <activity android:name="com.aslifitness.fitrackers.summary.WorkoutSummaryActivity" />
 
         <activity
+            android:exported="true"
             android:name="com.aslifitness.fitrackers.routine.UserRoutineActivity"
-            android:exported="true">
+            android:windowSoftInputMode="adjustResize">
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="aslifitness.actions.intent.ADD_ROUTINE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
@@ -154,10 +184,10 @@
             android:exported="true"
             android:launchMode="singleTask">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
 
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -168,12 +198,12 @@
                 tools:targetApi="m">
                 <action android:name="android.intent.action.VIEW" />
 
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+                <!--                <category android:name="android.intent.category.DEFAULT" />-->
+                <!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-<!--                <data android:scheme="http"-->
-<!--                    android:host="www.aslifitnessapp.com"-->
-<!--                    android:pathPrefix="/fitMain" />-->
+                <!--                <data android:scheme="http"-->
+                <!--                    android:host="www.aslifitnessapp.com"-->
+                <!--                    android:pathPrefix="/fitMain" />-->
 
             </intent-filter>
 
@@ -188,27 +218,37 @@
             android:exported="true"
             android:parentActivityName="com.aslifitness.fitrackers.HomeActivity">
 
+            <tools:validation testUrl="https://myportfolio-6438d.web.app/navigation" />
+
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-            <intent-filter android:autoVerify="true">
-
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-
-                <data android:host="www.aslifitnessapp.com"/>
-                <data android:pathPrefix="/navigation"/>
-
             </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:host="myportfolio-6438d.web.app" />
+                <data android:pathPrefix="/navigation" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <data android:host="myportfolio-6438d.web.app" />
+                <data android:pathPrefix="/navigation" />
+            </intent-filter>
 
         </activity>
 
@@ -219,6 +259,7 @@
             <intent-filter android:autoVerify="true">
 
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -234,45 +275,49 @@
         <activity android:name="com.aslifitness.fitrackers.camera.CameraSuccessActivity" />
         <activity android:name="com.aslifitness.fitrackers.camera.CameraActivity" />
 
-        <activity android:name="com.aslifitness.fitrackers.filedownloader.MainActivity" android:exported="true">
+        <activity
+            android:name="com.aslifitness.fitrackers.filedownloader.MainActivity"
+            android:exported="true">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
 
-<!--            <intent-filter android:autoVerify="true">-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+            <!--            <intent-filter android:autoVerify="true">-->
+            <!--                <action android:name="android.intent.action.VIEW" />-->
+            <!--                <category android:name="android.intent.category.DEFAULT" />-->
+            <!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-<!--                <data android:scheme="app"-->
-<!--                    android:host="aslifitnessapp.com"-->
-<!--                    android:pathPrefix="/fitnessHome" />-->
+            <!--                <data android:scheme="app"-->
+            <!--                    android:host="aslifitnessapp.com"-->
+            <!--                    android:pathPrefix="/fitnessHome" />-->
 
-<!--            </intent-filter>-->
+            <!--            </intent-filter>-->
 
         </activity>
         <activity android:name="com.aslifitness.fitrackers.filedownloader.OfflineVideoActivity" />
         <activity android:name="com.aslifitness.fitrackers.filedownloader.MediaPlayerActivity" />
 
-        <activity android:name="com.aslifitness.fitrackers.videopreloading.FirstActivity" android:exported="true">
+        <activity
+            android:name="com.aslifitness.fitrackers.videopreloading.FirstActivity"
+            android:exported="true">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
 
-<!--            <intent-filter android:autoVerify="true">-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+            <!--            <intent-filter android:autoVerify="true">-->
+            <!--                <action android:name="android.intent.action.VIEW" />-->
+            <!--                <category android:name="android.intent.category.DEFAULT" />-->
+            <!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-<!--                <data android:scheme="app"-->
-<!--                    android:host="aslifitnessapp.com"-->
-<!--                    android:pathPrefix="/fitnessHome" />-->
+            <!--                <data android:scheme="app"-->
+            <!--                    android:host="aslifitnessapp.com"-->
+            <!--                    android:pathPrefix="/fitnessHome" />-->
 
-<!--            </intent-filter>-->
+            <!--            </intent-filter>-->
 
         </activity>
 
@@ -286,10 +331,13 @@
         <activity android:name=".profile.TakePictureActivity" />
 
         <receiver android:name="com.aslifitness.fitrackers.notification.ReminderReceiver" />
-        <receiver android:name="com.aslifitness.fitrackers.notification.DeviceRebootReceiver" android:exported="true">
+        <receiver
+            android:name="com.aslifitness.fitrackers.notification.DeviceRebootReceiver"
+            android:exported="true">
 
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.ACTION_BOOT_COMPLETED" />
                 <action android:name="android.intent.action.REBOOT" />
@@ -300,7 +348,9 @@
 
         </receiver>
 
-        <service android:name="com.aslifitness.fitrackers.notification.FBNotificationService" android:exported="false">
+        <service
+            android:name="com.aslifitness.fitrackers.notification.FBNotificationService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -311,7 +361,8 @@
             android:enabled="true"
             android:exported="false" />
 
-        <receiver android:name="com.google.assistant.appactions.widgets.pinappwidget.PinAppWidgetBroadcastReceiver"
+        <receiver
+            android:name="com.google.assistant.appactions.widgets.pinappwidget.PinAppWidgetBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.assistant.appactions.widgets.COMPLETE_PIN_APP_WIDGET" />
@@ -338,16 +389,19 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <service android:name="com.aslifitness.fitrackers.filedownloader.MediaDownloadService" android:exported="false">
+        <service
+            android:name="com.aslifitness.fitrackers.filedownloader.MediaDownloadService"
+            android:exported="false">
             <!-- This is needed for Scheduler -->
             <intent-filter>
-                <action android:name="com.google.android.exoplayer.downloadService.action.RESTART"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.google.android.exoplayer.downloadService.action.RESTART" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service android:name="com.google.android.exoplayer2.scheduler.PlatformScheduler$PlatformSchedulerService"
+        <service
+            android:name="com.google.android.exoplayer2.scheduler.PlatformScheduler$PlatformSchedulerService"
             android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="true"/>
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

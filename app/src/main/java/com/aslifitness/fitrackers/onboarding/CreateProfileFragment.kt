@@ -27,7 +27,7 @@ class CreateProfileFragment: Fragment() {
 
     private lateinit var viewModel: CreateProfileViewModel
 
-    private val updatedDetails = mutableMapOf<String, String>()
+    private val updatedDetails = mutableMapOf<String, String?>()
 
     companion object {
 

@@ -90,7 +90,7 @@
     </style>
 
     <style name="TextLarge.Medium" parent="TextMedium">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/dimen_16sp</item>
     </style>
 
     <style name="TextLarge.Medium.Primary">
@@ -157,7 +157,7 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="TextBody.SemiBold.Primary" parent="TextSemiBold">
+    <style name="TextBody.SemiBold.Primary">
         <item name="android:textColor">@color/text_dark_primary</item>
     </style>
 

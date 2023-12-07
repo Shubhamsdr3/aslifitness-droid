@@ -8,6 +8,6 @@ import kotlinx.parcelize.Parcelize
  * @author Shubham Pandey
  */
 
-@Parcelize
 @Keep
+@Parcelize
 data class WorkoutDto(val title: String? = null, val image: String? = null, val actionUrl: String? = null): Parcelable

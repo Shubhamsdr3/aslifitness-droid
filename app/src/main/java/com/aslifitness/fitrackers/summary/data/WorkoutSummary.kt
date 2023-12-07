@@ -9,8 +9,8 @@ import kotlinx.parcelize.Parcelize
  * Created by shubhampandey
  */
 
-@Parcelize
 @Keep
+@Parcelize
 data class WorkoutSummary(
     val image: String? = null,
     val header: String? = null,

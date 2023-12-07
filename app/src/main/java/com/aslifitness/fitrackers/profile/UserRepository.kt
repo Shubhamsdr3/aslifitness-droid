@@ -16,7 +16,7 @@ class UserRepository(private val apiService: ApiService, private val userDao: Us
         userDao.addUser(user)
     }
 
-    suspend fun updateUserProfile(userDetails: Map<String, String>): Response<ApiResponse<UserDto>> {
+    suspend fun updateUserProfile(userDetails: Map<String, String?>): Response<ApiResponse<UserDto>> {
         return apiService.updateUserProfile(userDetails)
     }
 

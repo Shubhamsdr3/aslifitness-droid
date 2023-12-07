@@ -7,16 +7,15 @@ import kotlinx.parcelize.Parcelize
 /**
  * Created by shubhampandey
  */
-
-@Parcelize
 @Keep
+@Parcelize
 data class WorkoutSummaryResponse(
     val workoutId: String? = null,
     val data: WorkoutSummaryData? = null
 ): Parcelable
 
-@Parcelize
 @Keep
+@Parcelize
 data class WorkoutSummaryData(
     val header: String? = null,
     val subHeader: String? = null,

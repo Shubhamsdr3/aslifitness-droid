@@ -20,7 +20,7 @@ import retrofit2.http.*
 interface ApiService {
 
     @GET("/api/home")
-    suspend fun fetchWorkouts(@Query("uid") uid: String): Response<ApiResponse<WorkoutResponse>>
+    suspend fun fetchWorkouts(@Query("uid") uid: String?): Response<ApiResponse<WorkoutResponse>>
 
     @GET(GET_WORKOUT_DETAIL)
     suspend fun fetchWorkoutDetail(): Response<ApiResponse<WorkoutDetailResponse>>
@@ -42,6 +42,9 @@ interface ApiService {
 
     @POST("api/fitness-centers")
     suspend fun fetchVendorList(@Body params: Map<String, @JvmSuppressWildcards Any?>): Response<ApiResponse<VendorsResponseDto>>
+
+    @GET("api/{userId}/routine")
+    suspend fun fetchUserRoutineType(@Path("userId") userId: String?, @Query("routineType") routineType: String?): Response<ApiResponse<UserCalendarResponse>>
 
     @GET("api/{userId}/routine")
     suspend fun fetchUserRoutine(@Path("userId") userId: String, @Query("page_number") pageNumber: Int, @Query("page_limit") pageLimit: Int): Response<ApiResponse<UserCalendarResponse>>

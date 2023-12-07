@@ -1,14 +1,19 @@
 package com.aslifitness.fitrackers.db
 
+import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created by shubhampandey
  */
 
 @Entity(tableName = "user_routine")
+@Keep
+@Parcelize
 data class UserRoutine(
 
     @PrimaryKey
@@ -40,4 +45,4 @@ data class UserRoutine(
 
     @ColumnInfo("created_at")
     var createdAt: Long? = null
-)
+): Parcelable

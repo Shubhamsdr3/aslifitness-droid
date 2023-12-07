@@ -7,7 +7,6 @@ import kotlinx.parcelize.Parcelize
 /**
  * @author Shubham Pandey
  */
-
-@Parcelize
 @Keep
+@Parcelize
 data class SetCountInfo(var setCount: Int = 0): Parcelable

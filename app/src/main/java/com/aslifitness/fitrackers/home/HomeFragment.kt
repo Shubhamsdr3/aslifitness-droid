@@ -1,21 +1,20 @@
 package com.aslifitness.fitrackers.home
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aslifitness.fitrackers.R
 import com.aslifitness.fitrackers.auth.UserAuthActivity
 import com.aslifitness.fitrackers.databinding.FragmentHomeBinding
 import com.aslifitness.fitrackers.db.AppDatabase
-import com.aslifitness.fitrackers.firebase.FBAuthUtil
+import com.aslifitness.fitrackers.home.data.DurationFilterType
 import com.aslifitness.fitrackers.model.QuoteInfo
 import com.aslifitness.fitrackers.model.UserDto
 import com.aslifitness.fitrackers.model.WorkoutDto
@@ -24,7 +23,11 @@ import com.aslifitness.fitrackers.network.ApiHandler
 import com.aslifitness.fitrackers.network.ApiResponse
 import com.aslifitness.fitrackers.network.NetworkState
 import com.aslifitness.fitrackers.profile.UserProfileActivity
-import com.aslifitness.fitrackers.utils.ZERO
+import com.aslifitness.fitrackers.routine.data.UserCalendarResponse
+import com.aslifitness.fitrackers.routine.data.UserRoutineDto
+import com.aslifitness.fitrackers.sharedprefs.UserStore
+import com.aslifitness.fitrackers.summary.SummaryCardViewListener
+import com.aslifitness.fitrackers.summary.data.WorkoutSummary
 import com.aslifitness.fitrackers.utils.setImageWithPlaceholder
 import com.aslifitness.fitrackers.utils.setTextWithVisibility
 import com.aslifitness.fitrackers.widgets.QuoteWidgetCallback
@@ -34,17 +37,20 @@ import javax.inject.Inject
 /**
  * @author Shubham Pandey
  */
-class HomeFragment : Fragment(), WorkOutAdapterCallback , QuoteWidgetCallback {
+class HomeFragment : Fragment(), QuoteWidgetCallback, SummaryCardViewListener, DurationFilterBottomSheetCallback {
 
     private lateinit var binding: FragmentHomeBinding
+
+    private var workoutList: List<WorkoutDto>? = null
 
     @Inject
     lateinit var viewModel: HomeViewModel
 
+    private var currentSelectedDuration: Int = 0
+
     companion object {
         internal const val TAG = "HomeFragment"
-        private const val SPAN_COUNT = 2
-        private const val PADDING = 36
+
         fun newInstance() = HomeFragment()
     }
 
@@ -57,12 +63,19 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback , QuoteWidgetCallback {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         setupViewModel()
+        setupListener()
+    }
+
+    private fun setupListener() {
+        binding.durationFilter.setOnClickListener {
+            DurationFilterBottomSheet.newInstance(currentSelectedDuration).show(childFragmentManager, DurationFilterBottomSheet.TAG)
+        }
     }
 
     private fun setupView() {
         binding.bottomText.text = getString(R.string.made_with_love)
         binding.profileImage.setOnClickListener {
-            if (FBAuthUtil.isUserAuthenticated()) {
+            if (UserStore.isUserAuthenticated()) {
                 startActivity(Intent(requireActivity(), UserProfileActivity::class.java))
             } else {
                 startActivity(Intent(requireActivity(), UserAuthActivity::class.java))
@@ -75,8 +88,25 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback , QuoteWidgetCallback {
         viewModel = ViewModelProvider(viewModelStore, factory)[HomeViewModel::class.java]
         viewModel.getWorkoutList()
         viewModel.getFitnessQuotes()
+        viewModel.fetchRoutineType(DurationFilterType.WEEK.type)
         viewModel.homeNetworkState.observe(viewLifecycleOwner) { onHomeNetworkStateChanged(it) }
         viewModel.homeViewState.observe(viewLifecycleOwner) { onHomeViewStateChanged(it) }
+        viewModel.homeRoutineViewState.observe(viewLifecycleOwner) { onHomeRoutineStateChanged(it) }
+    }
+
+    private fun onHomeRoutineStateChanged(state: HomeViewState?) {
+        when(state) {
+            is HomeViewState.ShowUserRoutine -> showUserRoutine(state.userRoutine)
+            else -> {
+                // do nothing
+            }
+        }
+    }
+
+    private fun showUserRoutine(userRoutine: UserCalendarResponse) {
+        userRoutine.currentMonth?.let {
+            binding.workoutCalendar.setData(it)
+        }
     }
 
     private fun onHomeViewStateChanged(state: HomeViewState?) {
@@ -110,9 +140,33 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback , QuoteWidgetCallback {
         data?.data?.run {
             binding.greeting.setTextWithVisibility(header)
             binding.date.setTextWithVisibility(subHeader)
+            configureWorkoutSummary(workoutSummary)
+            configureRoutineSummary(routineSummary)
             setupQuoteList(quotes)
             configureUser(userDto)
             configureWorkoutList(items)
+        }
+    }
+
+    private fun configureRoutineSummary(routineSummary: UserRoutineDto?) {
+        binding.workoutRoutine.setOnClickListener {
+
+        }
+        routineSummary?.let {
+            binding.workoutRoutine.setData(it) {}
+        }
+    }
+
+    private fun configureWorkoutSummary(workoutSummary: WorkoutSummary?) {
+        binding.workoutSummary.setOnClickListener {
+            if (!workoutList.isNullOrEmpty()) {
+                WorkoutsBottomSheet.newInstance(workoutList!!).show(childFragmentManager, WorkoutsBottomSheet.TAG)
+            }
+        }
+        workoutSummary?.let {
+            binding.workoutSummary.setData(it)
+            binding.workoutSummary.setSummaryViewListener(this@HomeFragment)
+
         }
     }
 
@@ -131,46 +185,49 @@ class HomeFragment : Fragment(), WorkOutAdapterCallback , QuoteWidgetCallback {
     }
 
     private fun configureWorkoutList(workoutList: List<WorkoutDto>?) {
+        this.workoutList = workoutList
         hideLoader()
-        if (!workoutList.isNullOrEmpty()) {
-            val gridLayoutManager = GridLayoutManager(requireContext(), SPAN_COUNT, RecyclerView.VERTICAL, false)
-            binding.workoutList.layoutManager = gridLayoutManager
-            val workoutAdapter = WorkoutListAdapter(workoutList, this)
-            binding.workoutList.adapter = workoutAdapter
-            binding.workoutList.addItemDecoration(object : RecyclerView.ItemDecoration() {
-                override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                    super.getItemOffsets(outRect, view, parent, state)
-                    val childIndex = parent.indexOfChild(view)
-                    if (childIndex in workoutList.count() - SPAN_COUNT..workoutList.count()) {
-                        outRect.bottom = ZERO
-                    } else {
-                        outRect.bottom = PADDING
-                    }
-                    if (childIndex  % 2 == 0) {
-                        outRect.right = PADDING
-                    }
-                }
-            })
-        }
     }
 
     private fun hideLoader() {
-        binding.loader.visibility = View.GONE
+        binding.showLoader = false
+        binding.executePendingBindings()
     }
 
     private fun showLoader() {
-        binding.loader.visibility = View.VISIBLE
-    }
-
-    override fun onWorkoutSelected(workoutDto: WorkoutDto) {
-        workoutDto.title?.let { WorkoutListActivity.start(requireContext(), it) }
+        binding.showLoader = true
+        binding.executePendingBindings()
     }
 
     override fun onLikeClicked(isLiked: Boolean, quoteId: Int) {
         viewModel.updateLike(isLiked, quoteId)
     }
 
-    override fun onShareClicked() {
+    override fun onDurationFilterClicked(selected: Int) {
+        this.currentSelectedDuration = selected
+        when(selected) {
+            DurationFilterType.WEEK.code -> {
+                binding.durationFilter.text = getString(R.string.this_week)
+            }
+            DurationFilterType.MONTH.code -> {
+                binding.durationFilter.text = getString(R.string.this_month)
+            }
+            DurationFilterType.YEAR.code -> {
+                binding.durationFilter.text = getString(R.string.this_year)
+            }
+        }
+    }
 
+    override fun onSummaryCardClicked() {
+
+    }
+
+    override fun onAddWorkoutClicked() {
+//        if (workoutList.isNullOrEmpty()) return
+//        WorkoutsBottomSheet.newInstance(workoutList!!)
+    }
+
+    override fun onShareClicked() {
+        // do nothing
     }
 }

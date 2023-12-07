@@ -8,6 +8,8 @@ import com.aslifitness.fitrackers.network.ApiResponse
 import com.aslifitness.fitrackers.network.ApiService
 import com.aslifitness.fitrackers.network.NetworkState
 import com.aslifitness.fitrackers.network.performNetworkCall
+import com.aslifitness.fitrackers.routine.data.UserCalendarResponse
+import com.aslifitness.fitrackers.routine.data.UserRoutineDto
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -16,8 +18,12 @@ import javax.inject.Inject
  */
 class HomeRepository @Inject constructor(private val apiService: ApiService, private val fitnessQuoteDao: FitnessQuoteDao) {
 
-    suspend fun fetchWorkoutList(userId: String): Flow<NetworkState<ApiResponse<WorkoutResponse>>> {
+    suspend fun fetchWorkoutList(userId: String?): Flow<NetworkState<ApiResponse<WorkoutResponse>>> {
         return performNetworkCall { apiService.fetchWorkouts(uid = userId) }
+    }
+
+    suspend fun fetchRoutineType(userId: String?, type: String): Flow<NetworkState<ApiResponse<UserCalendarResponse>>> {
+        return performNetworkCall { apiService.fetchUserRoutineType(userId, type) }
     }
 
     suspend fun fetchFitnessQuotes(): Flow<NetworkState<ApiResponse<List<QuoteInfo>>>> {

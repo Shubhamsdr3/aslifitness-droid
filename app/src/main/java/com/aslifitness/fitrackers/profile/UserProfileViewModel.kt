@@ -29,6 +29,7 @@ class UserProfileViewModel(private val userRepository: UserRepository): ViewMode
 
     private val userProfileViewMutableState: MutableLiveData<UserProfileViewState> = MutableLiveData()
     val userProfileViewState: LiveData<UserProfileViewState> = userProfileViewMutableState
+    private val uid: String? by lazy { UserStore.getUId() }
 
     fun fetchUserProfile(uid: String) {
         viewModelScope.launch {
@@ -45,8 +46,10 @@ class UserProfileViewModel(private val userRepository: UserRepository): ViewMode
     fun showUserDetail() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val user = userRepository.getUserDetail(uid = UserStore.getUId())
-                userProfileViewMutableState.postValue(UserProfileViewState.ShowUserDetail(user))
+                if (!uid.isNullOrEmpty()) {
+                    val user = userRepository.getUserDetail(uid = uid!!)
+                    userProfileViewMutableState.postValue(UserProfileViewState.ShowUserDetail(user))
+                }
             } catch (ex: Exception) {
                 Timber.d(ex)
             }
@@ -56,7 +59,7 @@ class UserProfileViewModel(private val userRepository: UserRepository): ViewMode
     fun signOut(apiClient: GoogleApiClient) {
         UserStore.signOut(apiClient) {
             viewModelScope.launch(Dispatchers.IO) {
-                UserStore.putUId("")
+                UserStore.putUId(null)
                 userRepository.deleteUser()
                 userProfileViewMutableState.postValue(UserProfileViewState.OnUserLogout)
             }
@@ -71,19 +74,25 @@ class UserProfileViewModel(private val userRepository: UserRepository): ViewMode
 
     fun updateUserAge(age: Int) {
         viewModelScope.launch {
-            userRepository.updateUserAge(UserStore.getUId(), age)
+            if (!uid.isNullOrEmpty()) {
+                userRepository.updateUserAge(uid!!, age)
+            }
         }
     }
 
     fun updateUserWeight(weight: Int) {
         viewModelScope.launch {
-            userRepository.updateUserWeight(UserStore.getUId(), weight)
+            if (!uid.isNullOrEmpty()) {
+                userRepository.updateUserWeight(uid!!, weight)
+            }
         }
     }
 
     fun updateUserProfile(imageUrl: String?) {
         viewModelScope.launch {
-            userRepository.updateUserProfile(UserStore.getUId(), imageUrl)
+            if (!uid.isNullOrEmpty()) {
+                userRepository.updateUserProfile(uid!!, imageUrl)
+            }
         }
     }
 }

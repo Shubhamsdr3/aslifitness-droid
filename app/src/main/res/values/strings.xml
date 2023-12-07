@@ -120,5 +120,10 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="my_routine">"My routines(%d)"</string>
+    <string name="no_workout_text">You have not added your today\'s workout.</string>
+    <string name="workout_title">What are you up to today?</string>
+    <string name="this_week">This week</string>
+    <string name="this_month">This month</string>
+    <string name="this_year">This year</string>
 
 </resources>

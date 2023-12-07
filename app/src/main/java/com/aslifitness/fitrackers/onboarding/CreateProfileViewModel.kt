@@ -19,7 +19,7 @@ class CreateProfileViewModel(private val userRepository: UserRepository) : ViewM
 
     private val createProfileNetworkMutableState: MutableLiveData<NetworkState<ApiResponse<UserDto>>> = MutableLiveData()
     val createUserProfileNetworkState = createProfileNetworkMutableState
-    fun updateUserProfile(updatedDetails: Map<String, String>) {
+    fun updateUserProfile(updatedDetails: Map<String, String?>) {
         viewModelScope.launch {
             createProfileNetworkMutableState.value = NetworkState.Loading
             performNetworkCall {

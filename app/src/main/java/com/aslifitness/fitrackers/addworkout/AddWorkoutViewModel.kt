@@ -37,7 +37,7 @@ class AddWorkoutViewModel @Inject constructor(private val repository: WorkoutRep
     val addedWorkoutList: LiveData<ArrayList<NewAddWorkout>> = _addedWorkoutList
     private val doneWorkoutList = mutableMapOf<Int, MutableList<WorkoutSetInfo>>()
     private var totalWeight: Int = 0
-    private val userId by lazy { UserStore.getUId() }
+    private val userId: String? by lazy { UserStore.getUId() }
 
     init {
         _addedWorkoutList.value = ArrayList()

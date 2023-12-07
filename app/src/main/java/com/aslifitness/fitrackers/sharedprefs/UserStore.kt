@@ -47,9 +47,9 @@ object UserStore {
         return sharedPreferences?.getString(USER_ID, EMPTY) ?: EMPTY
     }
 
-    fun getUId() = sharedPreferences?.getString(UID, EMPTY) ?: EMPTY
+    fun getUId() = sharedPreferences?.getString(UID, null)
 
-    fun putUId(uId: String) {
+    fun putUId(uId: String?) {
         sharedPreferences?.run {
             edit().putString(UID, uId)
         }?.commit()
