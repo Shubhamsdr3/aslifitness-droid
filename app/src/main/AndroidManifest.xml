@@ -32,10 +32,6 @@
         android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
 
-        <meta-data
-            android:name="android.app.shortcuts"
-            android:resource="@xml/shortcuts" />
-
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.Fitracker"
@@ -59,10 +55,6 @@
 
             </intent-filter>
 
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
-
         </activity>
 
         <activity
@@ -82,10 +74,6 @@
                     android:pathPrefix="/fitnessHome" />
 
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
 
         </activity>
 
@@ -115,10 +103,6 @@
                     android:pathPrefix="/addWorkout" />
 
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
 
         </activity>
 
@@ -167,6 +151,7 @@
                 <action android:name="aslifitness.actions.intent.ADD_ROUTINE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:scheme="app"
@@ -207,9 +192,6 @@
 
             </intent-filter>
 
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
         </activity>
 
         <activity
@@ -223,10 +205,6 @@
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
