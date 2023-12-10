@@ -3,6 +3,7 @@ package com.aslifitness.fitrackers.notification
 import android.util.Log
 import com.aslifitness.fitrackers.FitApp
 import com.aslifitness.fitrackers.firebase.FirestoreUtil
+import com.aslifitness.fitrackers.sharedprefs.UserStore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.CoroutineScope
@@ -49,7 +50,9 @@ class FBNotificationService: FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(TAG,"FCM token..: $token")
-        sendRegistrationToServer(token)
+        if (!UserStore.getUId().isNullOrEmpty()) {
+            sendRegistrationToServer(token)
+        }
     }
 
     private fun sendRegistrationToServer(token: String) {
